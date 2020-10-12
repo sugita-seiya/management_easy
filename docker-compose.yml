@@ -1,0 +1,35 @@
+version: "3.8"
+volumes:
+  php-fpm-socket:
+  db-store:
+  vendor-store: # add
+  node_modules-store: # add
+services:
+  app:
+    build: ./infra/docker/php
+    volumes:
+      - php-fpm-socket:/var/run/php-fpm
+      - ./backend:/work/backend
+      - vendor-store:/work/backend/vendor # add
+
+  web:
+    build: ./infra/docker/nginx
+    ports:
+      - 80:80
+    volumes:
+      - php-fpm-socket:/var/run/php-fpm
+      - ./backend:/work/backend
+      - node_modules-store:/work/backend/node_modules # add
+
+  db:
+    build: ./infra/docker/mysql
+    ports:
+      - 33060:3306
+    volumes:
+      - db-store:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=laravel_local
+      - MYSQL_USER=phper
+      - MYSQL_PASSWORD=secret
+      - MYSQL_ROOT_PASSWORD=secret
+      - TZ=Asia/Tokyo

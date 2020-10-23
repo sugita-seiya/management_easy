@@ -12,5 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/contacts');
 });
+
+Route::get('/contacts', 'ContactController@index')->name('contact.list');
+Route::get('/contact/new', 'ContactController@create')->name('contact.new');

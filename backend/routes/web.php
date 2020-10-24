@@ -15,5 +15,5 @@ Route::get('/', function () {
     return redirect('/contacts');
 });
 
-Route::get('/contacts', 'ContactController@index')->name('contact.list');
+Route::get('/contacts', 'ContactController@index')->name('contact.index');
 Route::get('/contact/new', 'ContactController@create')->name('contact.new');

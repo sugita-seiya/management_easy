@@ -20,7 +20,13 @@ class CreateContactsTable extends Migration
             $table->integer('day')->nullable(false);
             $table->string('subject')->nullable(false);
             $table->text('body')->nullable(false);
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+
+            $table->foreign('user_id')  //追加user_idに外部キー制約をつけますよ。usersテーブルのidカラムを参照してそのカラムがなくなったらカスケード的に処理します。
+            ->references('id')
+            ->on('users')
+            ->onDelete('cascade');
         });
     }
 

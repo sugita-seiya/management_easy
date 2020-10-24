@@ -14,9 +14,8 @@ class ContactController extends Controller
      */
     public function index()
     {
-        #$contacts = Contacts::all();
-        #return view('index',['contacts'=> $contacts]);
-        return view('contacts.index');
+        $contacts = Contact::all();
+        return view('contacts.index',['contacts'=> $contacts]);
     }
 
     /**
@@ -26,6 +25,7 @@ class ContactController extends Controller
      */
     public function create()
     {
+        
         return view('contacts.new');
     }
 

@@ -1,9 +1,19 @@
 <?php
-
+#---------------------------------------------------------------------------
+#連絡機能のコントローラー作成
+#index   →連絡一覧
+#create  →連絡書き込みページ
+#store   →連絡書き込み登録
+#show    →
+#edit    →
+#update  →
+#destroy →
+#---------------------------------------------------------------------------
 namespace App\Http\Controllers;
-
-use App\Contact;
+use App\Contact;               #モデルクラスの宣言
+use DateTime;                  #DataTimeクラスの宣言
 use Illuminate\Http\Request;
+
 
 class ContactController extends Controller
 {
@@ -12,6 +22,7 @@ class ContactController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         $contacts = Contact::all();
@@ -25,8 +36,13 @@ class ContactController extends Controller
      */
     public function create()
     {
-        
-        return view('contacts.new');
+        $year     = date("Y");
+        $month    = date("m");
+        $day      = date("d");
+        $week     = array( "日", "月", "火", "水", "木", "金", "土" );
+        $datetime = new DateTime("now");
+        $week     =$week[$datetime->format("w")];
+        return view('contacts.new',['year'=>$year , 'month'=>$month, 'day'=>$day, 'week'=>$week]);
     }
 
     /**
@@ -37,7 +53,15 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $contact          = new Contact;
+        $contact->year    =request('year');
+        $contact->month   =request('month');
+        $contact->day     =request('day');
+        $contact->subject =request('subject');
+        $contact->body    =request('body');
+        $contact->user_id = 1;
+        $contact->save();
+        return redirect()->route('contact.index');
     }
 
     /**

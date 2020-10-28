@@ -1,27 +1,33 @@
 @extends('layout')
 
 @section('content')
-<table class="table table-bordered my-5">
-  <tbody>
-    <tr>
-      <td class="" >日付</td>
-      <td>2020.10.24</td>
-    </tr>
-    <tr>
-      <td class="">件名</td>
-      <td>遅刻</td>
-    </tr>
-    <tr>
-      <td class="">本文</td>
-      <td>すいません。１０分遅刻します。</td>
-    </tr>
-  </tbody>
-</table>
-<div class="">
-  <button type="button" class="btn btn-light">戻る</button>
-  <button type="button" class="btn btn-warning">登録</button>
-</div>
-
-
-
+{{ Form::open(['route' => 'contact.store']) }}
+  <table class="table table-bordered my-5">
+    <tbody>
+      <tr>
+        <td class="pr-5">日付</td>
+        <td>{{$year}}年{{$month}}月{{$day}}日({{$week}})</td>
+        {{Form::hidden('year',$year)}}
+        {{Form::hidden('month',$month)}}
+        {{Form::hidden('day',$day)}}
+      </tr>
+      <tr>
+        <td class="pr-5">件名</td>
+        <td>{{ Form::text('subject', null) }}</td>
+      </tr>
+      <tr>
+        <td class="pr-5">本文</td>
+        <td>
+        {{Form::textarea('body', null, ['rows' => 10,'cols' => 70])}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="text-center">
+    <a href={{ route('contact.index') }}>
+      <button type="button" class="btn btn-light">戻る</button>
+    </a>
+    {{ Form::submit('投稿', ['class' => 'btn btn-warning']) }}
+  </div>
+{{ Form::close() }}
 @endsection

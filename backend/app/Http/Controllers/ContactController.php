@@ -10,9 +10,13 @@
 #destroy →
 #---------------------------------------------------------------------------
 namespace App\Http\Controllers;
-use App\Contact;               #モデルクラスの宣言
-use DateTime;                  #DataTimeクラスの宣言
 use Illuminate\Http\Request;
+use App\Contact;                        #モデルクラスの宣言
+use DateTime;                           #DataTimeクラスの宣言
+use Illuminate\Support\Facades\Auth;    #ユーザークラスの宣言
+
+
+
 
 
 class ContactController extends Controller
@@ -25,8 +29,9 @@ class ContactController extends Controller
 
     public function index()
     {
+        $user     = Auth::user();
         $contacts = Contact::all();
-        return view('contacts.index',['contacts'=> $contacts]);
+        return view('contacts.index',['contacts'=> $contacts, 'user'=>$user]);
     }
 
     /**
@@ -53,13 +58,15 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
+        $user             = \Auth::user();
         $contact          = new Contact;
+
         $contact->year    =request('year');
         $contact->month   =request('month');
         $contact->day     =request('day');
         $contact->subject =request('subject');
         $contact->body    =request('body');
-        $contact->user_id = 1;
+        $contact->user_id = $user->id;
         $contact->save();
         return redirect()->route('contact.index');
     }

@@ -16,7 +16,11 @@
         <tr>
           <td>{{$contact->created_at}}</td>
           <td><a href="">{{$contact->subject}}</a></td>
-          <td>セイヤ</td>
+          @if (Auth::check())
+            <td>{{$user->f_name.$user->r_name}}</td>
+          @else
+            <td>--</td>
+          @endif
         </tr>
       @endforeach
     </tbody>

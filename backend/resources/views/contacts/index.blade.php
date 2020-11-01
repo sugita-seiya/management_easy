@@ -3,9 +3,9 @@
 @section('content')
 <h5 class="my-3 text-center">本日の連絡一覧</h5>
 <div class="">
-  <table class="table table-hover" style="font-size : 12px;">
+  <table class="contact-index_table table table-hover">
     <thead>
-      <tr style="background: #e9e1de;">
+      <tr class="content-index_label">
         <th>時間</th>
         <th>件名</th>
         <th>投稿者</th>

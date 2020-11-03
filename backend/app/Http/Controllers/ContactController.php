@@ -59,6 +59,14 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
+        #入力欄に値がセットされているかバリデーションチェック
+        $validatedData = $request->validate([
+            'year'    => ['required'],
+            'month'   => ['required'],
+            'day'     => ['required'],
+            'subject' => ['required'],
+            'body'    => ['required'],
+        ]);
         $user             = \Auth::user();
         $contact          = new Contact;
         $contact->year    =request('year');

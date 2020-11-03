@@ -16,12 +16,10 @@
         @if($contact->month.$contact->day == $today)
           <tr>
             <td>{{$contact->created_at}}</td>
-            <td><a href="">{{$contact->subject}}</a></td>
-            @if (Auth::check())
-              <td>{{$user->f_name.$user->r_name}}</td>
-            @else
-              <td>--</td>
-            @endif
+            <td>
+              <a href="">{{$contact->subject}}</a>
+            </td>
+            <td>{{$contact->user->f_name.$contact->user->r_name}}</td>
           </tr>
         @endif
       @endforeach

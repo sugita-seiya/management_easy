@@ -13,15 +13,17 @@
     </thead>
     <tbody>
       @foreach($contacts as $contact)
-        <tr>
-          <td>{{$contact->created_at}}</td>
-          <td><a href="">{{$contact->subject}}</a></td>
-          @if (Auth::check())
-            <td>{{$user->f_name.$user->r_name}}</td>
-          @else
-            <td>--</td>
-          @endif
-        </tr>
+        @if($contact->month.$contact->day == $today)
+          <tr>
+            <td>{{$contact->created_at}}</td>
+            <td><a href="">{{$contact->subject}}</a></td>
+            @if (Auth::check())
+              <td>{{$user->f_name.$user->r_name}}</td>
+            @else
+              <td>--</td>
+            @endif
+          </tr>
+        @endif
       @endforeach
     </tbody>
   </table>

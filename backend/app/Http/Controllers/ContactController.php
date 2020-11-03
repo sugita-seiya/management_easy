@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 use App\Contact;                        #モデルクラスの宣言
 use DateTime;                           #DataTimeクラスの宣言
 use Illuminate\Support\Facades\Auth;    #ユーザークラスの宣言
-
+// use Illuminate\Support\Facades\DB;
 
 
 
@@ -31,7 +31,8 @@ class ContactController extends Controller
     {
         $user     = Auth::user();
         $contacts = Contact::all();
-        return view('contacts.index',['contacts'=> $contacts, 'user'=>$user]);
+        $today    = date("nj");
+        return view('contacts.index',['contacts'=> $contacts, 'user'=>$user,'today'=>$today]);
     }
 
     /**
@@ -60,13 +61,12 @@ class ContactController extends Controller
     {
         $user             = \Auth::user();
         $contact          = new Contact;
-
         $contact->year    =request('year');
         $contact->month   =request('month');
         $contact->day     =request('day');
         $contact->subject =request('subject');
         $contact->body    =request('body');
-        $contact->user_id = $user->id;
+        $contact->user_id =$user->id;
         $contact->save();
         return redirect()->route('contact.index');
     }

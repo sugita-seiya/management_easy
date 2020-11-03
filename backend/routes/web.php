@@ -15,6 +15,9 @@ Route::get('/', function () {
     return redirect('/contacts');
 });
 
-Route::get('/contacts', 'ContactController@index')     ->name('contact.index');
-Route::get('/contact/new', 'ContactController@create') ->name('contact.new');
-Route::post('/contact', 'ContactController@store')     ->name('contact.store');
+Route::get('/contacts', 'ContactController@index')     ->name('contact.index')->middleware('auth');
+Route::get('/contact/new', 'ContactController@create') ->name('contact.new')->middleware('auth');;
+Route::post('/contact', 'ContactController@store')     ->name('contact.store')->middleware('auth');;
+Auth::routes();
+
+// Route::get('/home', 'HomeController@index')           ->name('home');

@@ -12,20 +12,27 @@
 */
 
 Route::get('/', function () {
-    return redirect('/contacts');
+    return redirect('/contact');
 });
 
 Auth::routes();
+
 #ログインしないと全ページアクセス出来ない
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/contacts', 'ContactController@index')      ->name('contact.index');
-    Route::get('/contact/new', 'ContactController@create')  ->name('contact.new');
-    Route::post('/contact', 'ContactController@store')      ->name('contact.store');
-    Route::get('/contact/{id}', 'ContactController@show')   ->name('contact.show');
-    Route::get('/contact/edit/{id}', 'ContactController@edit')   ->name('contact.edit');
-    Route::post('/contact/update/{id}', 'ContactController@update')->name('contact.update');
-    Route::delete('/contact/{id}', 'ContactController@destroy')->name('contact.destroy');
+    Route::resource('contact', 'ContactController');
 });
+
+#ログインしないと全ページアクセス出来ない
+// Route::group(['middleware' => ['auth']], function () {
+//     Route::get('/contacts', 'ContactController@index')      ->name('contact.index');
+//     Route::get('/contact/new', 'ContactController@create')  ->name('contact.new');
+//     Route::post('/contact', 'ContactController@store')      ->name('contact.store');
+//     Route::get('/contact/{id}', 'ContactController@show')   ->name('contact.show');
+//     Route::get('/contact/edit/{id}', 'ContactController@edit')   ->name('contact.edit');
+//     Route::post('/contact/update/{id}', 'ContactController@update')->name('contact.update');
+//     Route::delete('/contact/{id}', 'ContactController@destroy')->name('contact.destroy');
+// });
+
 
 
 

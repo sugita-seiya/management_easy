@@ -2,6 +2,7 @@
 
 @section('content')
 {{ Form::model('$contact_id',['route' =>['contact.update',$contact_id->id]]) }}
+  @method('PUT')
   <table class="table my-5">
     <tbody class="table-responsive">
       <tr class="table-bordered">
@@ -22,7 +23,7 @@
       <tr>
         <th class="pr-5"></th>
         <td class="text-center">
-          <a href={{ route('contact.show',['id'=>$contact_id->id]) }}>
+          <a href={{ route('contact.show',['contact'=>$contact_id->id]) }}>
             <button type="button" class="btn btn-secondary pr-4 pl-4">戻る</button>
           </a>
           {{ Form::submit('更新', ['class' => 'btn text-white pr-4 pl-4','style' =>'background: #ef7709;']) }}

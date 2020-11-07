@@ -35,7 +35,7 @@
             <a href={{ route('contact.index') }}>
               <button type="button" class="btn btn-secondary pr-4 pl-4">戻る</button>
             </a>
-            <a href={{ route('contact.edit',['id'=>$contact_id->id]) }}>
+            <a href={{ route('contact.edit',['contact'=>$contact_id->id]) }}>
               <button type="button" class="btn text-white pr-4 pl-4" style ='background: #ef7709;'>編集</button>
             </a>
           </div>

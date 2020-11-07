@@ -7,12 +7,6 @@ use Carbon\Carbon;               #日時操作ライブラリの宣言
 
 class Contact extends Model
 {
-    // リレーションの設定。投稿者は複数の投稿を持つ。
-    // public function categorys()
-    // {
-    //     return $this->belongsTo('App\Category');
-    // }
-
     // リレーションの設定。投稿は一つの投稿者に従属する。
     public function user()
     {
@@ -29,6 +23,7 @@ class Contact extends Model
     {
         return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('m月d日');
     }
+
 
 
 

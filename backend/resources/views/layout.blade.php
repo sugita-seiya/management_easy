@@ -23,7 +23,7 @@
         </div>
       </div>
       <a class='nav-link text-white' href={{route('contact.index')}}>ご連絡一覧</a>
-      <a class='nav-link text-white' href={{route('contact.new')}}>連絡書き込み</a>
+      <a class='nav-link text-white' href={{route('contact.create')}}>連絡書き込み</a>
 
       <!-- ここからログインユーザーの表示 -->
       <!-- layouts/app.blade.phpからコピー -->

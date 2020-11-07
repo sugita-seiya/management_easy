@@ -26,12 +26,6 @@ class ContactController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct()
-    {
-        $week     = array( "日", "月", "火", "水", "木", "金", "土" );
-        $datetime = new DateTime("now");
-        $week     =$week[$datetime->format("w")];
-    }
 
     public function index()
     {
@@ -114,8 +108,9 @@ class ContactController extends Controller
      * @param  \App\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function edit(Contact $contact,$id)
+    public function edit($id)
     {
+        
         $contact_id = Contact::find($id);
         $contact = Contact::all();
         $week     = array( "日", "月", "火", "水", "木", "金", "土" );
@@ -131,13 +126,13 @@ class ContactController extends Controller
      * @param  \App\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Contact $contact,$id)
+    public function update(Request $request,$id)
     {
         $contact_id = Contact::find($id);
         $contact_id->subject = request('subject');
         $contact_id->body = request('body');
         $contact_id->save();
-        return redirect()->route('contact.show',['id'=>$contact_id->id]);
+        return redirect()->route('contact.show',['contact'=>$contact_id->id]);
     }
 
     /**
@@ -146,10 +141,10 @@ class ContactController extends Controller
      * @param  \App\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Contact $contact,$id)
+    public function destroy($id)
     {
         $contact_id = Contact::find($id);
         $contact_id->delete();
-        return redirect('/contacts');
+        return redirect('contact');
     }
 }

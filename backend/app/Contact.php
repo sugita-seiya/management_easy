@@ -7,11 +7,13 @@ use Carbon\Carbon;               #日時操作ライブラリの宣言
 
 class Contact extends Model
 {
-    // public function category()
+    // リレーションの設定。投稿者は複数の投稿を持つ。
+    // public function categorys()
     // {
     //     return $this->belongsTo('App\Category');
     // }
 
+    // リレーションの設定。投稿は一つの投稿者に従属する。
     public function user()
     {
         return $this->belongsTo('App\User');

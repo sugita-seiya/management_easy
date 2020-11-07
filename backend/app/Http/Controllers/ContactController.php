@@ -105,7 +105,7 @@ class ContactController extends Controller
         } else {
             $login_user_id = "";
         }
-        return view('contacts.show',['contact_id'=>$contact_id,'login_user_id'=>$login_user_id,'week'=>$week ]);
+        return view('contacts.show',['contact_id'=>$contact_id,'login_user_id'=>$login_user_id,'week'=>$week,'user'=>$user]);
     }
 
     /**

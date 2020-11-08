@@ -14,9 +14,6 @@ use Illuminate\Http\Request;
 use App\Contact;                        #モデルクラスの宣言
 use DateTime;                           #DataTimeクラスの宣言
 use Illuminate\Support\Facades\Auth;    #ユーザークラスの宣言
-// use Illuminate\Support\Facades\DB;
-
-
 
 
 class ContactController extends Controller
@@ -29,10 +26,12 @@ class ContactController extends Controller
 
     public function index()
     {
-        $user     = Auth::user();
-        $contacts = Contact::all();
-        $today    = date("nj");
-        return view('contacts.index',['contacts'=> $contacts, 'user'=>$user,'today'=>$today]);
+        $contact    = new Contact;
+        $today_date = $contact->date();
+        $user       = Auth::user();
+        $contacts   = Contact::all();
+        $today      = date("Ynj");
+        return view('contacts.index',['contacts'=> $contacts, 'user'=>$user,'today'=>$today,'today_date'=>$today_date]);
     }
 
     /**
@@ -42,13 +41,9 @@ class ContactController extends Controller
      */
     public function create()
     {
-        $year     = date("Y");
-        $month    = date("m");
-        $day      = date("d");
-        $week     = array( "日", "月", "火", "水", "木", "金", "土" );
-        $datetime = new DateTime("now");
-        $week     =$week[$datetime->format("w")];
-        return view('contacts.new',['year'=>$year , 'month'=>$month, 'day'=>$day, 'week'=>$week]);
+        $contact    = new Contact;
+        $today_date = $contact->date();
+        return view('contacts.new',['today_date'=>$today_date]);
     }
 
     /**
@@ -90,16 +85,15 @@ class ContactController extends Controller
         $user= \Auth::user();
         $contact_id = Contact::find($id);
 
-        $week     = array( "日", "月", "火", "水", "木", "金", "土" );
-        $datetime = new DateTime("now");
-        $week     =$week[$datetime->format("w")];
+        $contact    = new Contact;
+        $today_date = $contact->date();
 
         if ($user) {
             $login_user_id = $user->id;
         } else {
             $login_user_id = "";
         }
-        return view('contacts.show',['contact_id'=>$contact_id,'login_user_id'=>$login_user_id,'week'=>$week,'user'=>$user]);
+        return view('contacts.show',['contact_id'=>$contact_id,'login_user_id'=>$login_user_id,'today_date'=>$today_date,'user'=>$user]);
     }
 
     /**
@@ -110,13 +104,11 @@ class ContactController extends Controller
      */
     public function edit($id)
     {
-        
         $contact_id = Contact::find($id);
-        $contact = Contact::all();
-        $week     = array( "日", "月", "火", "水", "木", "金", "土" );
-        $datetime = new DateTime("now");
-        $week     =$week[$datetime->format("w")];
-        return view('contacts.edit',['contact_id' => $contact_id, 'contact'=> $contact,'week'=>$week ]);
+        $contact    = Contact::all();
+        $contact    = new Contact;
+        $today_date = $contact->date();
+        return view('contacts.edit',['contact_id' => $contact_id, 'contact'=> $contact,'today_date'=>$today_date]);
     }
 
     /**
@@ -128,9 +120,9 @@ class ContactController extends Controller
      */
     public function update(Request $request,$id)
     {
-        $contact_id = Contact::find($id);
+        $contact_id          = Contact::find($id);
         $contact_id->subject = request('subject');
-        $contact_id->body = request('body');
+        $contact_id->body    = request('body');
         $contact_id->save();
         return redirect()->route('contact.show',['contact'=>$contact_id->id]);
     }

@@ -1,11 +1,11 @@
 @extends('layout')
 
 @section('content')
-  <table class="table">
+  <table class="table my-5">
     <tbody class="table-responsive">
       <tr class="table-bordered">
         <th class="contact-new_label pr-5">日付</th>
-        <td>{{$contact_id->updated_at}}({{$week}})</td>
+        <td>{{$contact_id->updated_at}}({{$today_date[3]}})</td>
       </tr>
       <tr class="table-bordered">
         <th class="contact-new_label pr-5">投稿者</th>
@@ -26,19 +26,20 @@
       <tr class="border-0">
         <th class="pr-5"></th>
         <td class="text-right">
+
           @if($user->id == $contact_id->user_id)
             {{ Form::open(['method' => 'delete', 'route' => ['contact.destroy', $contact_id->id]]) }}
               {{ Form::submit('[× 削除する]', ['class' => 'btn clear-decoration','style' =>'color: #ef7709;']) }}
             {{ Form::close() }}
+            <div class="text-center">
+              <a href={{ route('contact.index') }}>
+                <button type="button" class="btn btn-secondary pr-4 pl-4">戻る</button>
+              </a>
+              <a href={{ route('contact.edit',['contact'=>$contact_id->id]) }}>
+                <button type="button" class="btn text-white pr-4 pl-4" style ='background: #ef7709;'>編集</button>
+              </a>
+            </div>
           @endif
-          <div class="text-center">
-            <a href={{ route('contact.index') }}>
-              <button type="button" class="btn btn-secondary pr-4 pl-4">戻る</button>
-            </a>
-            <a href={{ route('contact.edit',['contact'=>$contact_id->id]) }}>
-              <button type="button" class="btn text-white pr-4 pl-4" style ='background: #ef7709;'>編集</button>
-            </a>
-          </div>
         </td>
       </tr>
     </tbody>

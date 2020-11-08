@@ -2,8 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;               #日時操作ライブラリの宣言
+use Illuminate\Database\Eloquent\Model; #モデルクラスの宣言
+use Carbon\Carbon;                      #日時操作ライブラリの宣言
+use DateTime;                           #DataTimeクラスの宣言
 
 class Contact extends Model
 {
@@ -13,31 +14,28 @@ class Contact extends Model
         return $this->belongsTo('App\User');
     }
 
-    #created_atを任意のフォーマットで取得
+    #created_atを任意のフォーマットで取得(投稿時間出力用)
     public function getCreatedAtAttribute($date) {
         return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('H時i分');
     }
 
-    #updated_atを任意のフォーマットで取得
+    #updated_atを任意のフォーマットで取得(投稿日付出力用)
     public function getUpdatedAtAttribute($date)
     {
         return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('m月d日');
     }
 
-
-
-
-    #DBから日付をcreated_atを取得して当日日付のみ時間を戻り値にする
-    // public function getCreatedAtAttribute($date) {
-    //     $today_date = Carbon::now()->toDateString();
-    //     $db_date    = Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d');
-
-
-    //     if($date == $today_date){
-    //         return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('H:i');
-    //     }else{
-    //         return null;
-    //     }
-    // }
+    #本日システム日付の取得(YYMMDD(曜日))
+    public function date()
+    {
+        $year     = date("Y");
+        $month    = date("m");
+        $day      = date("d");
+        $datetime = new DateTime("now");
+        $day_week = array( "日", "月", "火", "水", "木", "金", "土" );
+        $week     = $day_week[$datetime->format("w")];
+        $array    = [$year,$month,$day,$week];
+        return $array;
+    }
 }
 

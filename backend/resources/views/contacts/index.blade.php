@@ -17,7 +17,7 @@
           <tr>
             <td>{{$contact->created_at}}</td>
             <td>
-              <a href="">{{$contact->subject}}</a>
+              <a href={{ route('contact.show',['contact'=>$contact->id]) }}>{{$contact->subject}}</a>
             </td>
             <td>{{$contact->user->f_name.$contact->user->r_name}}</td>
           </tr>

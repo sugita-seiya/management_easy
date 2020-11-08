@@ -1,33 +1,32 @@
 @extends('layout')
 
 @section('content')
-{{ Form::open(['route' => 'contact.store']) }}
+{{ Form::model('$contact_id',['route' =>['contact.update',$contact_id->id]]) }}
+  @method('PUT')
   <table class="table my-5">
     <tbody class="table-responsive">
       <tr class="table-bordered">
         <th class="contact-new_label pr-5">日付</th>
-        <td>{{$year}}年{{$month}}月{{$day}}日({{$week}})</td>
-        {{Form::hidden('year',$year)}}
-        {{Form::hidden('month',$month)}}
-        {{Form::hidden('day',$day)}}
+        <td>{{$contact_id->year}}年{{$contact_id->month}}月{{$contact_id->day}}({{$week}})</td>
       </tr>
       <tr class="table-bordered">
         <th class="contact-new_label pr-5">件名</th>
-        <td>{{ Form::text('subject', null) }}</td>
+        <td>{{ Form::text('subject', $contact_id->subject) }}</td>
       </tr>
       <tr class="table-bordered">
         <th class="contact-new_label pr-5">本文</th>
         <td >
-        {{Form::textarea('body', null, ['rows' => 10,'cols' => 70])}}
+        {{Form::textarea('body', $contact_id->body, ['rows' => 10,'cols' => 70])}}
         </td>
       </tr>
+
       <tr>
         <th class="pr-5"></th>
         <td class="text-center">
-          <a href={{ route('contact.index') }}>
+          <a href={{ route('contact.show',['contact'=>$contact_id->id]) }}>
             <button type="button" class="btn btn-secondary pr-4 pl-4">戻る</button>
           </a>
-          {{ Form::submit('投稿', ['class' => 'btn text-white pr-4 pl-4','style' =>'background: #ef7709;']) }}
+          {{ Form::submit('更新', ['class' => 'btn text-white pr-4 pl-4','style' =>'background: #ef7709;']) }}
         </td>
       </tr>
     </tbody>

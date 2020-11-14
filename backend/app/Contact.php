@@ -28,9 +28,9 @@ class Contact extends Model
     #本日システム日付の取得(YYMMDD(曜日))
     public function date()
     {
-        $year     = date("Y");
-        $month    = date("m");
-        $day      = date("d");
+        $year     = date("Y");              #現在の年を出力する
+        $month    = date("m");              #現在の月を出力する
+        $day      = date("d");              #現在の日付を出力する
         $datetime = new DateTime("now");
         $day_week = array( "日", "月", "火", "水", "木", "金", "土" );
         $week     = $day_week[$datetime->format("w")];

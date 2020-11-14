@@ -8,6 +8,9 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use DateTime;                                  #DataTimeクラスの宣言
+use App\Work;                                  #Workクラスの宣言
+use Illuminate\Support\Facades\Auth;           #Authクラスの宣言
 
 class RegisterController extends Controller
 {
@@ -65,11 +68,59 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $year             = date("Y");              #現在の年を出力する
+        $month            = date("m");              #現在の月を出力する
+        $week             = array( "日", "月", "火", "水", "木", "金", "土" );
+        $thisMonthLastDay = date('d', strtotime('last day of this month'));     #当月の最後の日付が出力
+
+        $user = User::create([
             'f_name' => $data['f_name'],
             'r_name' => $data['r_name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        for ($i = 1; $i <= $thisMonthLastDay; $i++){
+            $day = $i;                                            #日付が出力される
+            $date = date('w', strtotime($year.$month.$day));      #システム日付の曜日番号が出力(0〜6)
+            $day_week=$week[$date];                               #日〜土の値が出力される
+
+            if($day_week == "土" or $day_week == "日"){
+                $work_section_id = 2;
+            }else{
+                $work_section_id = 1;
+            }
+
+
+            if ($user) {
+                $user->id;
+            }
+
+            Work::create([
+                'year' => $year,
+                'month' => $month,
+                'day' => $day,
+                'workstart' => '9:00',
+                'workend' => '18:00',
+                'breaktime' => '1:00',
+                'total_worktime' => '8:00',
+                'remark' => 'なし',
+                'approval_flg' => '1',
+                'work_section_id' => $work_section_id,
+                'user_id' => $user->id,
+            ]);
+        }
+        return $user;
+
+
+
+
+
+        // return User::create([
+        //     'f_name' => $data['f_name'],
+        //     'r_name' => $data['r_name'],
+        //     'email' => $data['email'],
+        //     'password' => Hash::make($data['password']),
+        // ]);
     }
 }

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Work;
 use Illuminate\Http\Request;
+use App\Contact;                        #モデルクラスの宣言
+use Illuminate\Support\Facades\Auth;    #ユーザークラスの宣言
+use DB;
 
 class WorkController extends Controller
 {
@@ -14,7 +17,19 @@ class WorkController extends Controller
      */
     public function index()
     {
-        //
+        $login_user_id = Auth::id();
+        $contact    = new Contact;
+        $today_date = $contact->date();
+        $year = $today_date[0];
+        $month = $today_date[1];
+        $day = $today_date[2];
+        $work_date = DB::table('works') ->select('year', 'month', 'day')
+                                        ->where('user_id', '=', $login_user_id)
+                                        ->orWhereYear('year','=', $year)
+                                        ->orWhereMonth('month','=', $month)
+                                        ->orWhereDay('day','=', $day)
+                                        ->get();
+        // DB::table('users')->where('votes', '>', 100)->dd();
     }
 
     /**
@@ -57,7 +72,10 @@ class WorkController extends Controller
      */
     public function edit(Work $work)
     {
-        //
+        $contact    = new Contact;
+        $today_date = $contact->date();
+        
+        return view('works.new',['today_date'=>$today_date]);
     }
 
     /**

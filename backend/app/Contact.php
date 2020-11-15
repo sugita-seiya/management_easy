@@ -34,7 +34,8 @@ class Contact extends Model
         $datetime = new DateTime("now");
         $day_week = array( "日", "月", "火", "水", "木", "金", "土" );
         $week     = $day_week[$datetime->format("w")];
-        $array    = [$year,$month,$day,$week];
+        $time     = date("H時i分");
+        $array    = [$year,$month,$day,$week,$time];
         return $array;
     }
 }

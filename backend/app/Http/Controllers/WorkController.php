@@ -106,10 +106,21 @@ class WorkController extends Controller
             })
             ->get();
 
+
+        if (count($work) == 0){
+            $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
+            return view('errer',['errer_messege'=>$errer_messege]);
+        }else{
+            $work = $work[0];
+        }
+
+
+        // dd($work);
+
         #システム日付をインスタンス化
         $contact    = new Contact;
         $today_date = $contact->date();
-        return view('works.edit',['today_date'=>$today_date,'work'=>$work[0]]);
+        return view('works.edit',['today_date'=>$today_date,'work'=>$work]);
     }
 
     /**

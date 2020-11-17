@@ -16,7 +16,6 @@ use DateTime;                           #DataTimeクラスの宣言
 use Illuminate\Support\Facades\Auth;    #ユーザークラスの宣言
 use App\Section;
 
-
 class ContactController extends Controller
 {
     /**
@@ -85,7 +84,6 @@ class ContactController extends Controller
     {
         $user= \Auth::user();
         $contact_id = Contact::find($id);
-
         $contact    = new Contact;
         $today_date = $contact->date();
 
@@ -121,11 +119,11 @@ class ContactController extends Controller
      */
     public function update(Request $request,$id)
     {
-        $contact_id          = Contact::find($id);
-        $contact_id->subject = request('subject');
-        $contact_id->body    = request('body');
-        $contact_id->save();
-        return redirect()->route('contact.show',['contact'=>$contact_id->id]);
+        $contact          = Contact::find($id);
+        $contact->subject = request('subject');
+        $contact->body    = request('body');
+        $contact->save();
+        return redirect()->route('contact.show',['contact'=>$contact->id]);
     }
 
     /**

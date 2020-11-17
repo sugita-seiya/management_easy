@@ -29,7 +29,15 @@ class WorkController extends Controller
                                         ->orWhereMonth('month','=', $month)
                                         ->orWhereDay('day','=', $day)
                                         ->get();
-        // DB::table('users')->where('votes', '>', 100)->dd();
+
+                                        // $query->where(function ($query) {
+                                        //     $query->whereNull('A')
+                                        //         ->orWhere('A', '0');
+                                        // })
+                                        // ->where(function ($query) {
+                                        //     $query->whereNull('B')
+                                        //         ->orWhere('B', '0');
+                                        // })
     }
 
     /**
@@ -72,10 +80,36 @@ class WorkController extends Controller
      */
     public function edit(Work $work)
     {
+        #DBからシステム日付のレコード取得
+        $login_user_id = Auth::id();
+        $work = Work::where('user_id', $login_user_id)
+            ->where(function ($query) {
+                $contact    = new Contact;
+                $today_date = $contact->date();
+                $year = $today_date[0];
+                $query
+                    ->Where('year','=', $year);
+            })
+            ->where(function ($query) {
+                $contact    = new Contact;
+                $today_date = $contact->date();
+                $month = $today_date[1];
+                $query
+                    ->Where('month','=', $month);
+            })
+            ->where(function ($query) {
+                $contact    = new Contact;
+                $today_date = $contact->date();
+                $day = $today_date[2];
+                $query
+                    ->Where('day','=', $day);
+            })
+            ->get();
+
+        #システム日付をインスタンス化
         $contact    = new Contact;
         $today_date = $contact->date();
-        
-        return view('works.new',['today_date'=>$today_date]);
+        return view('works.edit',['today_date'=>$today_date,'work'=>$work[0]]);
     }
 
     /**
@@ -85,9 +119,17 @@ class WorkController extends Controller
      * @param  \App\Work  $work
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Work $work)
+    public function update(Request $request, $id)
     {
-        //
+        $work = Work::find($id);
+        if($request->workstart != null){
+            $work->workstart = request('workstart');
+            $work->save();
+        }else{
+            $work->workend = request('workend');
+            $work->save();
+        }
+        return redirect()->route('work.edit',['work'=>$work->id]);
     }
 
     /**

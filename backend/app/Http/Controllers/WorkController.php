@@ -114,9 +114,6 @@ class WorkController extends Controller
             $work = $work[0];
         }
 
-
-        // dd($work);
-
         #システム日付をインスタンス化
         $contact    = new Contact;
         $today_date = $contact->date();

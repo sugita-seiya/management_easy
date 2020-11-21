@@ -15,20 +15,30 @@
                                 {{$today_date[4]}}
                             </h1>
                         </div>
-                        <div class="d-flex justify-content-center">
-                            <div class="work-form mb-3 mr-2">
+                        <div class="d-flex justify-content-center attendance">
+                            <div class="mb-3 mr-2">
                                 {{ Form::model('$work',['route' =>['work.update',$work]]) }}
                                     @method('PUT')
-                                    {{Form::hidden('workstart',$today_date[4] )}}
-                                    {{ Form::submit('出勤', ['class' => 'btn text-white pr-4 pl-4','style' =>'background: #ef7709;']) }}
+                                    {{ Form::hidden('workstart',$today_date[4] )}}
+                                    {{ Form::submit('出勤', ['class' => 'work-start btn text-white pr-4 pl-4','id'=>'workstart-btn']) }}
                                 {{ Form::close() }}
                             </div>
-                            <div class="work-form mb-3">
+                                @if($work->workstart == '00:00:00')
+                                    <div hidden id="work-start_hours"></div>
+                                @else
+                                    <div hidden id="work-start_hours">{{$work->workstart}}</div>
+                                @endif
+                            <div class="mb-3">
                                 {{ Form::model('$work',['route' =>['work.update',$work]]) }}
                                     @method('PUT')
-                                    {{Form::hidden('workend', $today_date[4])}}
-                                    {{ Form::submit('退勤', ['class' => 'btn text-white pr-4 pl-4 btn-secondary']) }}
+                                    {{ Form::hidden('workend', $today_date[4])}}
+                                    {{ Form::submit('退勤', ['class' => 'btn text-white pr-4 pl-4 btn-secondary','id'=>'workend-btn']) }}
                                 {{ Form::close() }}
+                                @if($work->workend == '00:00:00')
+                                    <div hidden id="work-end_hours"></div>
+                                @else
+                                    <div hidden id="work-end_hours">{{$work->workend}}</div>
+                                @endif
                             </div>
                         </div>
                     </div>

@@ -6,7 +6,7 @@
       <tbody class="table-responsive">
         <tr class="table-bordered">
           <th class="contact-new_label pr-5">日付</th>
-          <td>{{$today_date[0]}}年{{$today_date[1]}}日{{$today_date[2]}}日({{$today_date[3]}})</td>
+          <td>{{$today_date[0]}}年{{$today_date[1]}}月{{$today_date[2]}}日({{$today_date[3]}})</td>
             {{Form::hidden('year',$today_date[0])}}
             {{Form::hidden('month',$today_date[1])}}
             {{Form::hidden('day',$today_date[2])}}

@@ -10,13 +10,19 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    //リレーションの設定。ユーザーは一つの設定を保持する。
+    public function work_system()
+    {
+        return $this->belongsTo('App\Work_system');
+    }
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'f_name','r_name', 'email', 'password',
+        'f_name','r_name', 'email', 'password','work_system_id',
     ];
 
     /**

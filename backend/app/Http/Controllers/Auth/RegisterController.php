@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use DateTime;                                  #DataTimeクラスの宣言
 use App\Work;                                  #Workクラスの宣言
 use Illuminate\Support\Facades\Auth;           #Authクラスの宣言
+use App\Work_system;                           #Work_systemクラスの宣言
 
 class RegisterController extends Controller
 {
@@ -73,10 +74,17 @@ class RegisterController extends Controller
         $week             = array( "日", "月", "火", "水", "木", "金", "土" );
         $thisMonthLastDay = date('d', strtotime('last day of this month'));     #当月の最後の日付が出力
 
+        $work_system = Work_system::create([
+            'fixed_workstart' => '00:00:00',
+            'fixed_workend' => '00:00:00',
+            'fixed_breaktime' => '01:00:00',
+        ]);
+
         $user = User::create([
             'f_name' => $data['f_name'],
             'r_name' => $data['r_name'],
             'email' => $data['email'],
+            'work_system_id' => $work_system->id,
             'password' => Hash::make($data['password']),
         ]);
 
@@ -91,7 +99,6 @@ class RegisterController extends Controller
                 $work_section_id = 1;
             }
 
-
             if ($user) {
                 $user->id;
             }
@@ -100,8 +107,8 @@ class RegisterController extends Controller
                 'year' => $year,
                 'month' => $month,
                 'day' => $day,
-                'workstart' => '00:00:00',
-                'workend' => '00:00:00',
+                'workstart' => '09:00:00',
+                'workend' => '18:00:00',
                 'breaktime' => '1:00',
                 'total_worktime' => '8:00',
                 'remark' => 'なし',
@@ -111,11 +118,6 @@ class RegisterController extends Controller
             ]);
         }
         return $user;
-
-
-
-
-
         // return User::create([
         //     'f_name' => $data['f_name'],
         //     'r_name' => $data['r_name'],

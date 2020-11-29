@@ -7,13 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Work extends Model
 {
-    // リレーションの設定。投稿は一つの投稿者に従属する。
+    #----------------------------------------------------------------
+    #  リレーションの設定
+    #----------------------------------------------------------------
+    //ユーザーは一つの勤怠を保持する。
     public function user()
     {
         return $this->hasMany('App\User');
     }
-
-    #ユーザー新規登録時に初期データをcreateする時の割り当て許可設定
+    // 勤怠は一つの出勤区分を保持する。
+    public function work_section()
+    {
+        return $this->belongsTo('App\Work_section');
+    }
+    #----------------------------------------------------------------
+    #  ユーザー新規登録時DB登録時の割当許可設定
+    #----------------------------------------------------------------
     protected $fillable = [
         'year',
         'month',
@@ -27,4 +36,5 @@ class Work extends Model
         'work_section_id',
         'user_id',
     ];
+
 }

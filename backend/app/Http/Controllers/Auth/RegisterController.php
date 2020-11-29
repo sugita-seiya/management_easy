@@ -93,10 +93,12 @@ class RegisterController extends Controller
             $date = date('w', strtotime($year.$month.$day));      #システム日付の曜日番号が出力(0〜6)
             $day_week=$week[$date];                               #日〜土の値が出力される
 
-            if($day_week == "土" or $day_week == "日"){
-                $work_section_id = 2;
+            if($day_week == "土"){
+                $work_section_id = 3;                             #法定外休日
+            }elseif($day_week == "日") {
+                $work_section_id = 2;                             #法定休日
             }else{
-                $work_section_id = 1;
+                $work_section_id = 1;                             #出勤
             }
 
             if ($user) {
@@ -107,10 +109,10 @@ class RegisterController extends Controller
                 'year' => $year,
                 'month' => $month,
                 'day' => $day,
-                'workstart' => '09:00:00',
-                'workend' => '18:00:00',
-                'breaktime' => '1:00',
-                'total_worktime' => '8:00',
+                'workstart' => '00:00:00',
+                'workend' => '00:00:00',
+                'breaktime' => '00:00:00',
+                'total_worktime' => '00:00:00',
                 'remark' => 'なし',
                 'approval_flg' => '1',
                 'work_section_id' => $work_section_id,

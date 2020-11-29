@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return redirect('/contact');
+    return redirect('/work');
 });
 
 Auth::routes();
@@ -21,5 +21,6 @@ Auth::routes();
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('contact', 'ContactController');
     Route::resource('work', 'WorkController')->only(['index','edit','update']);
+    Route::resource('worksystem', 'WorksystemController')->only(['index','edit','update']);
 });
 // Route::get('/home', 'HomeController@index')           ->name('home');

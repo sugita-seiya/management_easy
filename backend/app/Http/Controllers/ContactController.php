@@ -62,7 +62,7 @@ class ContactController extends Controller
             'subject' => ['required'],
             'body'    => ['required'],
         ]);
-        $user             = \Auth::user();
+        $user             = Auth::user();
         $contact          = new Contact;
         $contact->year    =request('year');
         $contact->month   =request('month');
@@ -82,7 +82,7 @@ class ContactController extends Controller
      */
     public function show($id)
     {
-        $user= \Auth::user();
+        $user= Auth::user();
         $contact_id = Contact::find($id);
         $contact    = new Contact;
         $today_date = $contact->date();

@@ -13,9 +13,8 @@ class Work_sectionsTableSeeder extends Seeder
     {
         DB::table('work_sections')->insert([
             ['section_name' => '出勤',],
-            ['section_name' => '公休',],
-            ['section_name' => '有給',],
-            ['section_name' => '欠勤',],
+            ['section_name' => '法定休日',],
+            ['section_name' => '法定外休日',],
         ]);
     }
 }

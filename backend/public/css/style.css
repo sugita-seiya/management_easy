@@ -63,3 +63,17 @@ html{
 .attendance .color-gray{
   background-color: #6c757d;
 }
+
+/*
+---------------------------------------------
+勤怠一覧画面
+---------------------------------------------
+*/
+table .work-index_title{
+  background: #e9e1de;
+}
+
+.table .work-sunday{
+  color:#d42f61;
+  background-color:#fbeef2;
+}

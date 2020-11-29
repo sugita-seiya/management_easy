@@ -19,12 +19,12 @@
       <div class="dropdown">
         <button type="button" class="nav-link btn dropdown-toggle text-white" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">勤怠管理</button>
         <div class="dropdown-menu ">
-          <a class="dropdown-item" href="#">勤怠</a>
-          <a class="dropdown-item"  href="#">ご連絡</a>
+          <a class="dropdown-item"  href={{ route('contact.index')}}>ご連絡</a>
         </div>
       </div>
-      <a class='nav-link text-white' href={{route('contact.index')}}>打刻</a>
-      <a class='nav-link text-white' href={{route('contact.create')}}>勤怠一覧</a>
+      <a class='nav-link text-white' href={{ route('work.edit',['work'=>$work->id]) }}>打刻</a>
+      <a class='nav-link text-white' href={{ route('work.index') }}>勤怠一覧</a>
+      <!-- <a class='nav-link text-white' href={{ route('worksystem.index') }}>システム設定</a> -->
 
       <!-- ここからログインユーザーの表示 -->
       <!-- layouts/app.blade.phpからコピー -->
@@ -71,5 +71,6 @@
     <!-- BootstrapのJS読み込み -->
     <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> -->
     <script src="{{ asset('/js/work-edit.js') }}"></script>
+    <script src="{{ asset('/js/work-index.js') }}"></script>
   </body>
 </html>

@@ -19,4 +19,13 @@ class Work_system extends Model
         'fixed_workend',
         'fixed_breaktime',
     ];
+
+    public function work_time_format($workstart,$workend,$breaktime)
+    {
+        $workstart = date('G時i分',strtotime($workstart));
+        $workend   = date('G時i分',strtotime($workend));
+        $breaktime = date('G時間',strtotime($breaktime));
+        $worktime_array = [$workstart,$workend,$breaktime];
+        return $worktime_array;
+    }
 }

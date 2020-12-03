@@ -1,24 +1,33 @@
 @extends('layouts.works')
 
 @section('content')
-<h5 class="my-3 text-center">システム設定</h5>
-<table class="table table-bordered ">
-  <thead>
-    <tr class="work-index_title">
-      <th scope="col">日付</th>
-      <th scope="col">勤怠区分</th>
-      <th scope="col">出勤時刻</th>
 
+<h5 class="my-3 text-center">システム設定</h5>
+<table class="table work-system">
+  @foreach($user as $user)
+    <tr class="table-bordered">
+      <th scope="row"  class="work-index_title">出勤時間</th>
+      <td>{{ date('G時i分',strtotime($user->work_system->fixed_workstart)) }}</tb>
     </tr>
-  </thead>
-  <tbody>
-    @foreach($user as $user_id)
-      <tr id="targetTable">
-        <td>{{$user_id->work_system->fixed_workstart}}</th>
-        <td id="work-section">{{$user_id->work_system->fixed_workstart}}</td>
-        <td>{{$user_id->work_system->fixed_workstart}}</td>
-      </tr>
-    @endforeach
-  </tbody>
+    <tr class="table-bordered">
+      <th scope="row"  class="work-index_title">退勤時間</th>
+      <td>{{ date('G時i分',strtotime($user->work_system->fixed_workend)) }}</tb>
+    </tr>
+    <tr class="table-bordered">
+      <th scope="row"  class="work-index_title ">休憩時間</th>
+      <td>{{ date('G時間',strtotime($user->work_system->fixed_breaktime)) }}</tb>
+    </tr>
+  @endforeach
+
+  <tr>
+    <th class="pr-5"></th>
+    <td class="text-left">
+      <a href={{ route('worksystem.edit',['worksystem'=>$user->work_system_id]) }}>
+        <button type="button" class="btn text-white pr-4 pl-4 work-system_time">
+          編集
+        </button>
+      </a>
+    </td>
+  </tr>
 </table>
 @endsection

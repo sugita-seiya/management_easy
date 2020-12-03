@@ -77,3 +77,12 @@ table .work-index_title{
   color:#d42f61;
   background-color:#fbeef2;
 }
+
+/*
+---------------------------------------------
+システム設定画面
+---------------------------------------------
+*/
+.work-system .work-system_time{
+  background-color: #ef7709;
+}

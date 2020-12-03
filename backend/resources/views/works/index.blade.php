@@ -17,13 +17,13 @@
   <tbody>
     @foreach($user_works as $work)
       <tr id="targetTable">
-        <td>{{$work->day}}</th>
+        <td>{{$work->day}}</tb>
         <td id="work-section">{{$work->work_section->section_name}}</td>
         <td>{{$work->workstart}}</td>
         <td>{{$work->workend}}</td>
         <td>{{$work->breaktime}}</td>
         <td>{{$work->total_worktime}}</td>
-        <td>{{$work->remark}}</td>
+        <td >{{$work->remark}}</td>
       </tr>
     @endforeach
   </tbody>

@@ -22,9 +22,8 @@
           <a class="dropdown-item"  href={{ route('contact.index')}}>ご連絡</a>
         </div>
       </div>
-      <a class='nav-link text-white' href={{ route('work.edit',['work'=>$work->id]) }}>打刻</a>
       <a class='nav-link text-white' href={{ route('work.index') }}>勤怠一覧</a>
-      <!-- <a class='nav-link text-white' href={{ route('worksystem.index') }}>システム設定</a> -->
+      <a class='nav-link text-white' href={{ route('worksystem.index') }}>システム設定</a>
 
       <!-- ここからログインユーザーの表示 -->
       <!-- layouts/app.blade.phpからコピー -->

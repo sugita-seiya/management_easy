@@ -1,5 +1,5 @@
 @extends('layouts.works')
-
+@include('layouts.header')
 @section('content')
 <h5 class="my-3 text-center">{{$date[0]}}年{{$date[1]}}月</h5>
 <table class="table table-bordered ">

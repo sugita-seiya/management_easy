@@ -1,7 +1,6 @@
 @extends('layouts.works')
-
+@include('layouts.header')
 @section('content')
-
 <h5 class="my-3 text-center">システム設定</h5>
 <table class="table work-system">
   @foreach($user as $user)

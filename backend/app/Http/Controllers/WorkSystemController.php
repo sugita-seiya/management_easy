@@ -18,18 +18,18 @@ class WorkSystemController extends Controller
     public function index()
     {
         #ユーザーに紐づいているシステム設定を取得
-        // $login_user_id = Auth::id();
-        // $user  = User::with('work_system')
-        // ->select('*')
-        // ->where('id', '=', $login_user_id)
-        // ->get();
+        $login_user_id = Auth::id();
+        $user          = User::with('work_system')
+            ->select('*')
+            ->where('id', '=', $login_user_id)
+            ->get();
 
-        // if ($user == null) {
-        //     $errer_messege = "取得に失敗しました。管理者にご連絡ください。";
-        //     return view('errer', ['errer_messege' => $errer_messege]);
-        // }
+        if ($user == null) {
+            $errer_messege = "取得に失敗しました。管理者にご連絡ください。";
+            return view('errer', ['errer_messege' => $errer_messege]);
+        }
 
-        // return view('worksystems.index', ['user' => $user]);
+        return view('worksystems.index', ['user' => $user]);
     }
 
     /**
@@ -70,9 +70,22 @@ class WorkSystemController extends Controller
      * @param  \App\Work_system  $work_system
      * @return \Illuminate\Http\Response
      */
-    public function edit(Work_system $work_system)
+    public function edit($id)
     {
-        //
+        // $worksystem = new Work_system;
+        $worksystem_id = Work_system::find($id);
+        $workstart  = $worksystem_id->fixed_workstart;
+        $workend    = $worksystem_id->fixed_workend;
+        $breaktime  = $worksystem_id->fixed_breaktime;
+
+        #勤怠時間のフォーマット変更(HH:MM:SS->HH時MM分)
+        $worksystem = new Work_system;
+        $worktimes = $worksystem->work_time_format($workstart,$workend,$breaktime);
+
+        return view('worksystems.edit',[
+            'worksystem_id' => $worksystem_id,
+            'worktimes'  => $worktimes
+        ]);
     }
 
     /**
@@ -82,9 +95,14 @@ class WorkSystemController extends Controller
      * @param  \App\Work_system  $work_system
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Work_system $work_system)
+    public function update(Request $request,$id)
     {
-        //
+        $worksystem = Work_system::find($id);
+        $worksystem->fixed_workstart = request('fixed_workstart');
+        $worksystem->fixed_workend   = request('fixed_workend');
+        $worksystem->fixed_breaktime = request('fixed_breaktime');
+        $worksystem->save();
+        return redirect()->route('worksystem.index');
     }
 
     /**

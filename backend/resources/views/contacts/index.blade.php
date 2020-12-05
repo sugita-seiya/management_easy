@@ -1,5 +1,6 @@
-@extends('layout')
-
+@extends('layouts.layout')
+@include('layouts.header')
+@include('layouts.header_contactbar')
 @section('content')
   <h5 class="my-3 text-center">本日の連絡一覧</h5>
   <h5 class="my-3 text-center">{{$today_date[0]}}年{{$today_date[1]}}日{{$today_date[2]}}日({{$today_date[3]}})</h5>

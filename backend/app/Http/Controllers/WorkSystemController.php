@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Work_system;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;    #ユーザークラス(Auth)の宣言
-use App\User;                           #ユーザーモデルの宣言
-use App\Work;
+use App\User;                           #ユーザークラスの宣言
 
 class WorkSystemController extends Controller
 {
@@ -26,7 +25,7 @@ class WorkSystemController extends Controller
 
         if ($user == null) {
             $errer_messege = "取得に失敗しました。管理者にご連絡ください。";
-            return view('errer', ['errer_messege' => $errer_messege]);
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
 
         return view('worksystems.index', ['user' => $user]);

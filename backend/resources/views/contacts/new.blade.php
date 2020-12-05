@@ -1,5 +1,6 @@
-@extends('layout')
-
+@extends('layouts.layout')
+@include('layouts.header')
+@include('layouts.header_contactbar')
 @section('content')
   {{ Form::open(['route' => 'contact.store']) }}
     <table class="table my-5">
@@ -23,11 +24,11 @@
         </tr>
         <tr>
           <th class="pr-5"></th>
-          <td class="text-center">
+          <td class="text-center contact-form_btn">
             <a href={{ route('contact.index') }}>
               <button type="button" class="btn btn-secondary pr-4 pl-4">戻る</button>
             </a>
-            {{ Form::submit('投稿', ['class' => 'btn text-white pr-4 pl-4','style' =>'background: #ef7709;']) }}
+            {{ Form::submit('投稿', ['class' => 'btn text-white pr-4 pl-4 contact-new_submit']) }}
           </td>
         </tr>
       </tbody>

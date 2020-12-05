@@ -29,7 +29,7 @@ class WorkController extends Controller
         // 勤怠レコード取れなかった場合、例外処理
         if ($user_works == null) {
             $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
-            return view('errer', ['errer_messege' => $errer_messege]);
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
 
         return view('works.index', ['user_works' => $user_works,'date' => $date]);
@@ -104,7 +104,7 @@ class WorkController extends Controller
         #システム日付取得チェック
         if (count($work) == 0) {
             $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
-            return view('errer', ['errer_messege' => $errer_messege]);
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
         } else {
             $work = $work[0];
         }
@@ -117,7 +117,7 @@ class WorkController extends Controller
         #システム設定時間取得チェック
         if (count($user) == 0) {
             $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
-            return view('errer', ['errer_messege' => $errer_messege]);
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
 
         #システム日付を取得するために連絡事項クラスをインスタンス化
@@ -169,7 +169,7 @@ class WorkController extends Controller
             $work->save();
         }else{
             $errer_messege = "登録に失敗しました。管理者にご連絡ください。";
-            return view('errer', ['errer_messege' => $errer_messege]);
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
         return redirect()->route('work.edit', ['work' => $work->id]);
     }

@@ -1,5 +1,6 @@
-@extends('layouts.works')
+@extends('layouts.layout')
 @include('layouts.header')
+@include('layouts.header_workbar')
 @section('content')
 <h5 class="my-3 text-center">システム設定</h5>
 {{ Form::model('$worksystem_id',['route' =>['worksystem.update',$worksystem_id]]) }}
@@ -51,7 +52,7 @@
       @if ($worktimes[2] == '2時間')
         {{ Form::select('fixed_breaktime',[
           $worksystem_id->fixed_breaktime => $worktimes[2],
-          '2:00'  => '1時間',
+          '1:00'  => '1時間',
         ], null, ['class' => 'pt-2 pb-2 pr-2 pl-2'])}}
       @endif
       </tb>

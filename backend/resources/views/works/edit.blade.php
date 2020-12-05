@@ -1,6 +1,6 @@
-@extends('layouts.works')
+@extends('layouts.layout')
 @include('layouts.header')
-@section('title',route('work.edit',['work'=>$work->id]))
+@include('layouts.header_workbar')
 @section('content')
     <div class="container">
         <div class="row justify-content-center">

@@ -1,5 +1,6 @@
-@extends('layout')
-
+@extends('layouts.layout')
+@include('layouts.header')
+@include('layouts.header_contactbar')
 @section('content')
 {{ Form::model('$contact_id',['route' =>['contact.update',$contact_id->id]]) }}
   @method('PUT')

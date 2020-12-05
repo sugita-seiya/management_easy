@@ -17,6 +17,11 @@ class WorkSystemController extends Controller
      */
     public function index()
     {
+//         $work = new Work;
+//         $work = $work->work_edit();
+
+// $work =  $work[0]->id;
+
         #ユーザーに紐づいているシステム設定を取得
         $login_user_id = Auth::id();
         $user          = User::with('work_system')
@@ -26,7 +31,7 @@ class WorkSystemController extends Controller
 
         if ($user == null) {
             $errer_messege = "取得に失敗しました。管理者にご連絡ください。";
-            return view('errer', ['errer_messege' => $errer_messege]);
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
 
         return view('worksystems.index', ['user' => $user]);

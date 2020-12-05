@@ -9,7 +9,6 @@ window.addEventListener('load', function () {
     if(work_section == "法定休日"){
       work_section_propaty.classList.add('work-sunday');
     }
-
   }
 
   // let table = document.getElementById('targetTable');

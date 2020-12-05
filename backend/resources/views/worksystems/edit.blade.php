@@ -1,5 +1,6 @@
-@extends('layouts.works')
+@extends('layouts.layout')
 @include('layouts.header')
+@include('layouts.header_workbar')
 @section('content')
 <h5 class="my-3 text-center">システム設定</h5>
 {{ Form::model('$worksystem_id',['route' =>['worksystem.update',$worksystem_id]]) }}

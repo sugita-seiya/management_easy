@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;    #ユーザークラス(Auth)の宣言
 
 class User extends Authenticatable
 {
@@ -61,10 +62,11 @@ class User extends Authenticatable
     ];
 
     # ----------------------------------------------------------------
-    #  ユーザーに紐づく勤怠を全て取得
+    #  ユーザーidを取得
     #----------------------------------------------------------------
-    // public function getworks()
+    // public function user_id()
     // {
-    //     return $this->hasMany('App\Contact');
+    //     $login_user_id = Auth::id();
+    //     return $login_user_id;
     // }
 }

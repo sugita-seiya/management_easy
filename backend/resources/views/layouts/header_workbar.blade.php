@@ -6,7 +6,7 @@
     </div>
   </div>
   <a class='nav-link text-white' href= @yield('title') >打刻</a>
-  
+
   <a class='nav-link text-white' href={{ route('work.index') }}>勤怠一覧</a>
   <a class='nav-link text-white' href={{ route('worksystem.index') }}>システム設定</a>
 @endsection

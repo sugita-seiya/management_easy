@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Work_system;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;    #ユーザークラス(Auth)の宣言
-use App\User;                           #ユーザーモデルの宣言
-use App\Work;
+use App\User;                           #ユーザークラスの宣言
 
 class WorkSystemController extends Controller
 {
@@ -17,11 +16,6 @@ class WorkSystemController extends Controller
      */
     public function index()
     {
-//         $work = new Work;
-//         $work = $work->work_edit();
-
-// $work =  $work[0]->id;
-
         #ユーザーに紐づいているシステム設定を取得
         $login_user_id = Auth::id();
         $user          = User::with('work_system')

@@ -52,7 +52,7 @@
       @if ($worktimes[2] == '2時間')
         {{ Form::select('fixed_breaktime',[
           $worksystem_id->fixed_breaktime => $worktimes[2],
-          '2:00'  => '1時間',
+          '1:00'  => '1時間',
         ], null, ['class' => 'pt-2 pb-2 pr-2 pl-2'])}}
       @endif
       </tb>

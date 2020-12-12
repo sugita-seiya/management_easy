@@ -7,6 +7,7 @@
     <nav class='navbar navbar-expand-md mb-5'>
       @yield('workbar')
       @yield('contactbar')
+      @yield('authoritybar')
 
       <!-- ここからログインユーザーの表示 -->
       <ul class="navbar-nav ml-auto">

@@ -13,20 +13,22 @@
         </tr>
       </thead>
       <tbody>
-        @foreach($approving_user as $user)
-          @if($user == null)
-            <tr scope="row">
-              <td colspan="2">申請している社員はいません。</td>
-            </tr>
-          @else
+        @if($approving_user == null)
+          <tr scope="row">
+            <td colspan="2" class="text-center">申請している社員はいません。</td>
+          </tr>
+        @else
+          @foreach($approving_user as $user)
             <tr>
               <td scope="row">
-                <a href={{ route('work_approvel.index',['id'=>$user->id]) }}>{{$user->f_name.$user->r_name}}</a>
+                <a href={{ route('work_approvel.index',['id'=>$user->id]) }}>
+                  {{$user->f_name.$user->r_name}}
+                </a>
               </td>
               <td scope="row">未承認</td>
             </tr>
-          @endif
-        @endforeach
+            @endforeach
+        @endif
       </tbody>
     </table>
   </div>

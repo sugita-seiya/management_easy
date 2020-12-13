@@ -7,7 +7,7 @@ use App\Contact;                        #連絡事項クラスの宣言
 use App\User;                           #ユーザーモデルの宣言
 use Illuminate\Support\Facades\Auth;    #ユーザークラス(Auth)の宣言
 use DateTime;                           #DataTimeクラスの宣言
-use Carbon\Carbon;                      #日時操作ライブラリの宣言
+use DB;                                 #DBクラスの宣言
 
 class WorkController extends Controller
 {
@@ -18,21 +18,49 @@ class WorkController extends Controller
      */
     public function index()
     {
-        $contact = new Contact;
-        $date = $contact->layout_data();
+        #当月の勤怠一覧を取得
+        $contact       = new Contact;
+        $today_date    = $contact->date();
+        $year          = $today_date[0];
+        $month         = $today_date[1];
         $login_user_id = Auth::id();
-        $user_works  = Work::with('work_section')
-            ->select('*')
-            ->where('user_id', '=', $login_user_id)
-            ->get();
+        $user_works    = Work::with('work_section')
+                            ->select('*')
+                            ->where('user_id', '=', $login_user_id)
+                            ->where('year', $year)
+                            ->where('month', $month)
+                            ->get();
 
-        // 勤怠レコード取れなかった場合、例外処理
-        if ($user_works == null) {
-            $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
+        #勤怠テーブルの承認フラグを取得
+        $approval_flg  = DB::table('works')
+                            ->select('approval_flg')
+                            ->where('user_id', '=', $login_user_id)
+                            ->where('year', $year)
+                            ->where('month', $month)
+                            ->groupBy('approval_flg')
+                            ->get();
+
+        //レコード取得出来なかった場合の例外処理
+        if (count($approval_flg) == 0){
+            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
+        }else{
+            $approval_flg = $approval_flg[0]->approval_flg;
+        }
+
+        //レコード取得出来なかった場合の例外処理
+        if (count($user_works) == 0){
+            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
 
-        return view('works.index', ['user_works' => $user_works,'date' => $date]);
+        return view('works.index', [
+            'user_works'    => $user_works,
+            'year'          => $year,
+            'month'         => $month,
+            'login_user_id' => $login_user_id,
+            'approval_flg'  => $approval_flg
+        ]);
     }
 
     /**
@@ -172,6 +200,24 @@ class WorkController extends Controller
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
         return redirect()->route('work.edit', ['work' => $work->id]);
+    }
+
+    public function workrequest(Request $request)
+    {
+        $contact    = new Contact;
+        $today_date = $contact->date();
+        $year = $today_date[0];
+        $month = $today_date[1];
+
+        #DB更新
+        $execute_result = DB::table('works')
+                                ->where('user_id', request('login_user_id'))
+                                ->where('year', $year)
+                                ->where('month', $month)
+                                ->update([
+                                    'approval_flg' => request('approval_flg')
+                                ]);
+        return redirect()->route('work.index');
     }
 
     /**

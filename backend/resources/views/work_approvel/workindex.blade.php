@@ -5,7 +5,7 @@
 
 @section('content')
   <h5 class="my-3 text-center">{{$user_list->f_name.$user_list->r_name}}の勤怠一覧</h5>
-  <table class="table table-bordered ">
+  <table class="table">
   <thead>
     <tr class="work-index_title">
       <th scope="col">日付</th>
@@ -19,7 +19,7 @@
   </thead>
   <tbody>
     @foreach($work_list as $work)
-      <tr id="targetTable">
+      <tr class="table-bordered">
         <td>{{$work->day}}</tb>
         <td id="work-section">{{$work->work_section->section_name}}</td>
         <td>{{$work->workstart}}</td>

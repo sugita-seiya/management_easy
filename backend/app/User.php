@@ -73,9 +73,10 @@ class User extends Authenticatable
         return $this->belongsTo('App\Authority');
     }
 
-    # ---------------------------------------------------------------
-    #  ユーザーを取得 (work.works_approvelメソッドで使用)
-    #----------------------------------------------------------------
+    #----------------------------------------------------------------------------
+    #  勤怠を申請したユーザーレコードを取得(Work_approvelController.indexで使用)
+    #  処理順 (Work_approvelController->Work.php->User.php->Work_approvelController
+    #----------------------------------------------------------------------------
     public function user_all($user_id)
     {
         $user = DB::table('users')

@@ -56,35 +56,48 @@ class Work extends Model
                         ->Where('year', '=', $year)
                         ->Where('month', '=', $month)
                         ->get();
-
         return $work;
     }
 
     #----------------------------------------------------------------------------
-    #  勤怠を申請したユーザーレコードを取得(Work_approvelController.indexで使用)
+    #  当月の勤怠を申請and承認したユーザーレコードを取得(Work_approvelController.indexで使用)
     #  処理順 (Work_approvelController->Work.php->User.php->Work_approvelController
     #----------------------------------------------------------------------------
     public function works_approvel()
     {
-        #workテーブルから承認中ユーザーを取得
+        $contact    = new Contact;
+        $today_date = $contact->date();
+        $year       = $today_date[0];
+        $month      = $today_date[1];
+
+        #勤怠を申請and承認したユーザーIDを取得
         $userid_notflg = DB::table('works')
                             ->select('user_id')
                             ->where('approval_flg', 2)
+                            ->Where('year', '=', $year)
+                            ->Where('month', '=', $month)
                             ->groupBy('user_id')
                             ->get();
 
         if (count($userid_notflg) == 0) {
             $userid_notflg = "日付取得に失敗しました。管理者にご連絡ください。";
         } else {
-            // $work = $work[0];
             $userid_notflg  = $userid_notflg[0]->user_id;
         }
 
+        #勤怠を申請and承認したユーザーレコードを取得
         $user = new User;
         $in_approval_user = $user->user_all($userid_notflg);
         return $in_approval_user;
     }
 
+    #----------------------------------------------------------------
+    #  勤怠の申請and承認データ(approval_flg= 2,3)を取得
+    #----------------------------------------------------------------
+    public function approvel_flg_get()
+    {
+        //
+    }
     #----------------------------------------------------------------
     #  管理者が承認したらworkテーブルのapproval_flgを承認済に設定
     #----------------------------------------------------------------

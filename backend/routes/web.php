@@ -21,6 +21,8 @@ Auth::routes();
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('contact', 'ContactController');
     Route::resource('work', 'WorkController')->only(['index','edit','update']);
+    Route::post('work', 'WorkController@workrequest')->name('work.request');
+
     Route::resource('worksystem', 'WorksystemController')->only(['index','edit','update']);
     Route::get('approvel', 'Work_approvelController@index')->name('user_approvel.index');
     Route::get('approvel/{id}', 'Work_approvelController@wrokindex')->name('work_approvel.index');

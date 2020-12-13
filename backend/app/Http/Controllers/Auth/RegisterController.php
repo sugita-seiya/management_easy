@@ -54,9 +54,9 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'f_name' => ['required', 'string', 'max:255'],
-            'r_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'f_name'   => ['required', 'string', 'max:255'],
+            'r_name'   => ['required', 'string', 'max:255'],
+            'email'    => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -76,29 +76,35 @@ class RegisterController extends Controller
 
         $work_system = Work_system::create([
             'fixed_workstart' => '00:00:00',
-            'fixed_workend' => '00:00:00',
+            'fixed_workend'   => '00:00:00',
             'fixed_breaktime' => '01:00:00',
         ]);
 
         $user = User::create([
-            'f_name' => $data['f_name'],
-            'r_name' => $data['r_name'],
-            'email' => $data['email'],
+            'f_name'         => $data['f_name'],
+            'r_name'         => $data['r_name'],
+            'email'          => $data['email'],
             'work_system_id' => $work_system->id,
-            'password' => Hash::make($data['password']),
+            'password'       => Hash::make($data['password']),
+            'authorty_id'    => '2',
         ]);
 
         for ($i = 1; $i <= $thisMonthLastDay; $i++){
-            $day = $i;                                            #日付が出力される
-            $date = date('w', strtotime($year.$month.$day));      #システム日付の曜日番号が出力(0〜6)
-            $day_week=$week[$date];                               #日〜土の値が出力される
+            $day     = $i;
 
+            #一桁なら二桁にする。(一桁の場合曜日が取得出来ないため)
+            if(strlen($day) == 1){
+                $day = '0'.$day;
+            }
+
+            $date    = date('w', strtotime($year.$month.$day));      #システム日付の曜日番号が出力(0〜6)
+            $day_week= $week[$date];                                 #日〜土の値が出力される
             if($day_week == "土"){
-                $work_section_id = 3;                             #法定外休日
+                $work_section_id = 3;                                #法定外休日
             }elseif($day_week == "日") {
-                $work_section_id = 2;                             #法定休日
+                $work_section_id = 2;                                #法定休日
             }else{
-                $work_section_id = 1;                             #出勤
+                $work_section_id = 1;                                #出勤
             }
 
             if ($user) {
@@ -106,25 +112,19 @@ class RegisterController extends Controller
             }
 
             Work::create([
-                'year' => $year,
-                'month' => $month,
-                'day' => $day,
-                'workstart' => '00:00:00',
-                'workend' => '00:00:00',
-                'breaktime' => '00:00:00',
-                'total_worktime' => '00:00:00',
-                'remark' => 'なし',
-                'approval_flg' => '1',
+                'year'            => $year,
+                'month'           => $month,
+                'day'             => $day,
+                'workstart'       => '00:00:00',
+                'workend'         => '00:00:00',
+                'breaktime'       => '00:00:00',
+                'total_worktime'  => '00:00:00',
+                'remark'          => 'なし',
+                'approval_flg'    => '1',
                 'work_section_id' => $work_section_id,
-                'user_id' => $user->id,
+                'user_id'         => $user->id,
             ]);
         }
         return $user;
-        // return User::create([
-        //     'f_name' => $data['f_name'],
-        //     'r_name' => $data['r_name'],
-        //     'email' => $data['email'],
-        //     'password' => Hash::make($data['password']),
-        // ]);
     }
 }

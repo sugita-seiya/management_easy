@@ -91,3 +91,12 @@ table .work-index_title{
 .work-system .work-system_time{
   background-color: #ef7709;
 }
+
+/*
+---------------------------------------------
+勤怠承認画面
+---------------------------------------------
+*/
+.work-list .submit-approval{
+  background-color: #ef7709;
+}

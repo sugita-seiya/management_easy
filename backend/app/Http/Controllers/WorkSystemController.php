@@ -83,7 +83,7 @@ class WorkSystemController extends Controller
 
         return view('worksystems.edit',[
             'worksystem_id' => $worksystem_id,
-            'worktimes'  => $worktimes
+            'worktimes'     => $worktimes
         ]);
     }
 

@@ -11,7 +11,7 @@
 #---------------------------------------------------------------------------
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use App\Contact;                        #モデルクラスの宣言
+use App\Contact;                        #連絡事項クラスの宣言
 use DateTime;                           #DataTimeクラスの宣言
 use Illuminate\Support\Facades\Auth;    #ユーザークラスの宣言
 use App\Section;

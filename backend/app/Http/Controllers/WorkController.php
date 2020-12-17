@@ -54,12 +54,27 @@ class WorkController extends Controller
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
 
+        #ログインユーザーの当日の勤怠ID取得(共通テンプレートで変数を使うため)
+        $work    = new Work;
+        $work_id = $work->work_id_get();
+
+        #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
+        $user                  = new User;
+        $user_information      = $user->authortyid_get();
+        $login_user_authortyid = $user_information[0];
+        $admin_user            = $user_information[1];       #管理者用
+        $general_user          = $user_information[2];       #一般社員用
+
         return view('works.index', [
-            'user_works'    => $user_works,
-            'year'          => $year,
-            'month'         => $month,
-            'login_user_id' => $login_user_id,
-            'approval_flg'  => $approval_flg
+            'user_works'            => $user_works,
+            'year'                  => $year,
+            'month'                 => $month,
+            'login_user_id'         => $login_user_id,
+            'approval_flg'          => $approval_flg,
+            'work'                  => $work_id,
+            'login_user_authortyid' => $login_user_authortyid,
+            'admin_user'            => $admin_user,
+            'general_user'          => $general_user
         ]);
     }
 
@@ -138,24 +153,34 @@ class WorkController extends Controller
         }
 
         #システム設定時間の取得
-        $user = User::with('work_system')
-            ->select('*')
-            ->get();
+        $user_record = User::with('work_system')
+                        ->select('*')
+                        ->get();
 
         #システム設定時間取得チェック
-        if (count($user) == 0) {
+        if (count($user_record) == 0) {
             $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
-
         #システム日付を取得するために連絡事項クラスをインスタンス化
         $contact    = new Contact;
         $today_date = $contact->date();
+
+        #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
+        $user                  = new User;
+        $user_information      = $user->authortyid_get();
+        $login_user_authortyid = $user_information[0];
+        $admin_user            = $user_information[1];       #管理者用
+        $general_user          = $user_information[2];       #一般社員用
+
         return view('works.edit',
         [
-            'today_date' => $today_date,
-            'work' => $work,
-            'user' => $user
+            'today_date'            => $today_date,
+            'work'                  => $work,
+            'user_record'           => $user_record,
+            'login_user_authortyid' => $login_user_authortyid,
+            'admin_user'            => $admin_user,
+            'general_user'          => $general_user
         ]);
     }
 

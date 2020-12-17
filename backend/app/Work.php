@@ -92,13 +92,6 @@ class Work extends Model
     }
 
     #----------------------------------------------------------------
-    #  勤怠の申請and承認データ(approval_flg= 2,3)を取得
-    #----------------------------------------------------------------
-    public function approvel_flg_get()
-    {
-        //
-    }
-    #----------------------------------------------------------------
     #  管理者が承認したらworkテーブルのapproval_flgを承認済に設定
     #----------------------------------------------------------------
     public function approvel_update($user_id,$approval_flg)
@@ -117,5 +110,30 @@ class Work extends Model
                                 'approval_flg' => $approval_flg
                             ]);
         return $execute_result;
+    }
+
+    #----------------------------------------------------------------
+    #  ログインユーザーの当日の勤怠ID取得
+    #----------------------------------------------------------------
+    public function work_id_get()
+    {
+        // #DBからシステム日付のレコード取得
+        $login_user_id = Auth::id();
+        $contact       = new Contact;
+        $today_date    = $contact->date();
+        $year          = $today_date[0];
+        $month         = $today_date[1];
+        $day           = $today_date[2];
+
+        $work = DB::table('works')
+                    ->select('*')
+                    ->Where('year', '=', $year)
+                    ->Where('month', '=', $month)
+                    ->Where('day', '=', $day)
+                    ->Where('user_id', '=', $login_user_id)
+                    ->get();
+
+        $work_id  = $work[0]->id;
+        return $work_id;
     }
 }

@@ -4,7 +4,7 @@
 @section('content')
   <h5 class="my-3 text-center">システム設定</h5>
   <table class="table work-system">
-    @foreach($user as $user)
+    @foreach($loginuser_record as $user)
       <tr class="table-bordered">
         <th scope="row"  class="work-index_title">出勤時間</th>
         <td>{{ date('G時i分',strtotime($user->work_system->fixed_workstart)) }}</tb>

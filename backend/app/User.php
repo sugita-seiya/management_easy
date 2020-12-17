@@ -84,14 +84,25 @@ class User extends Authenticatable
                     ->get();
         return $user;
     }
-    // # ---------------------------------------------------------------
-    // #  勤怠を送信したユーザーレコード取得()
-    // #----------------------------------------------------------------
-    // public function user_record($user_id)
-    // {
-    //     $user = DB::table('users')
-    //                 ->where('id', $user_id)
-    //                 ->get();
-    //     return $user;
-    // }
+
+    #----------------------------------------------------------------
+    #  ログインしているユーザーの権限情報を取得(管理者:1,一般社員:2)
+    #----------------------------------------------------------------
+    public function authortyid_get()
+    {
+        // #DBからシステム日付のレコード取得
+        $login_user_id          = Auth::id();
+
+        $dbget_authortyid       = DB::table('users')
+                                    ->select('authorty_id')
+                                    ->Where('id', '=', $login_user_id)
+                                    ->get();
+
+        $login_user_authortyid  = $dbget_authortyid[0]->authorty_id;
+        $admin_user             = 1;                              #管理者用
+        $general_user           = 2;                              #一般社員用
+        $authortyid_information = [$login_user_authortyid,$admin_user,$general_user];
+
+        return $authortyid_information;
+    }
 }

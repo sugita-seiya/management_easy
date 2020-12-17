@@ -6,6 +6,7 @@ use App\Work_system;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;    #ユーザークラス(Auth)の宣言
 use App\User;                           #ユーザークラスの宣言
+use App\Work;                           #勤怠クラスの宣言
 
 class WorkSystemController extends Controller
 {
@@ -17,18 +18,35 @@ class WorkSystemController extends Controller
     public function index()
     {
         #ユーザーに紐づいているシステム設定を取得
-        $login_user_id = Auth::id();
-        $user          = User::with('work_system')
-            ->select('*')
-            ->where('id', '=', $login_user_id)
-            ->get();
+        $login_user_id      = Auth::id();
+        $loginuser_record = User::with('work_system')
+                                ->select('*')
+                                ->where('id', '=', $login_user_id)
+                                ->get();
 
-        if ($user == null) {
+        if ($loginuser_record == null) {
             $errer_messege = "取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
 
-        return view('worksystems.index', ['user' => $user]);
+        #ログインユーザーの当日の勤怠ID取得(共通テンプレートで勤怠idが使える様にするため)
+        $work    = new Work;
+        $work_id = $work->work_id_get();
+
+        #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
+        $user                  = new User;
+        $user_information      = $user->authortyid_get();
+        $login_user_authortyid = $user_information[0];
+        $admin_user            = $user_information[1];       #管理者用
+        $general_user          = $user_information[2];       #一般社員用
+
+        return view('worksystems.index', [
+            'loginuser_record'      => $loginuser_record,
+            'work'                  => $work_id,
+            'login_user_authortyid' => $login_user_authortyid,
+            'admin_user'            => $admin_user,
+            'general_user'          => $general_user
+        ]);
     }
 
     /**

@@ -20,7 +20,7 @@
                             <div class="mb-3 mr-2">
                                 {{ Form::model('$work',['route' =>['work.update',$work]]) }}
                                     @method('PUT')
-                                    {{ Form::hidden('workstart',$user[0]->work_system->fixed_workstart )}}
+                                    {{ Form::hidden('workstart',$user_record[0]->work_system->fixed_workstart )}}
                                     {{ Form::submit('出勤', ['class' => 'work-start btn text-white pr-4 pl-4','id'=>'workstart-btn']) }}
                                 {{ Form::close() }}
                             </div>
@@ -32,7 +32,7 @@
                             <div class="mb-3">
                                 {{ Form::model('$work',['route' =>['work.update',$work]]) }}
                                     @method('PUT')
-                                    {{ Form::hidden('workend', $user[0]->work_system->fixed_workend)}}
+                                    {{ Form::hidden('workend', $user_record[0]->work_system->fixed_workend)}}
                                     {{ Form::submit('退勤', ['class' => 'btn text-white pr-4 pl-4 btn-secondary','id'=>'workend-btn']) }}
                                 {{ Form::close() }}
                                 @if($work->workend == '00:00:00')

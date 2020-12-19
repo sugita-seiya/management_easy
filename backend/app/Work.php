@@ -136,4 +136,39 @@ class Work extends Model
         $work_id  = $work[0]->id;
         return $work_id;
     }
+
+    #----------------------------------------------------------------
+    #  勤怠を押下時にslackへ勤怠連絡をする
+    #----------------------------------------------------------------
+    public function send_slack()
+    {
+        // curl -X POST --data-urlencode "payload={\"channel\": \"test\",\"username\": \"seiya\",\"icon_emoji\": \":snail:\",\"text\": \"こんにちは\"}" https://hooks.slack.com/services/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;
+        $url = "https://hooks.slack.com/services/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";
+        $message = [
+            "channel"    => "#test",
+            "username"   => "出勤連絡",
+            "icon_emoji" => ":snail:",
+            "text"       => "出勤しました。",
+        ];
+
+        #セッション初期化
+        $ch = curl_init();
+        $options = [
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_POST           => true,
+            CURLOPT_POSTFIELDS     => http_build_query([
+                'payload' => json_encode($message)
+            ])
+        ];
+
+        #転送用の複数のオプションを設定
+        curl_setopt_array($ch, $options);
+        #送信実行
+        $send_result = curl_exec($ch);
+        #セッション終了
+        curl_close($ch);
+        return $send_result;
+    }
 }

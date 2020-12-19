@@ -92,7 +92,6 @@ class User extends Authenticatable
     {
         // #DBからシステム日付のレコード取得
         $login_user_id          = Auth::id();
-
         $dbget_authortyid       = DB::table('users')
                                     ->select('authorty_id')
                                     ->Where('id', '=', $login_user_id)

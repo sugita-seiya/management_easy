@@ -11,6 +11,12 @@ use DB;                                 #DBクラスの宣言
 
 class WorkController extends Controller
 {
+    public function __construct()
+    {
+        $this->channel = env('SLACK_CHANNEL');
+        $this->url     = env('SLACK_WEBHOOK_URL');
+        $this->icon    = env('FACEICON');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -194,10 +200,20 @@ class WorkController extends Controller
     public function update(Request $request, $id)
     {
         $work = Work::find($id);
-        if ($request->workstart != null) {
+        if ($request->workstart != null) {                     #出勤時
             $work->workstart = request('workstart');
             $work->save();
-        } elseif($request->workend != null) {
+
+
+            #勤怠連絡自動送信
+            // $work_new = new Work;
+            // $send_result = $work_new->send_slack();
+            // if($send_result != 'ok'){
+            //     $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
+            //     return view('layouts.errer', ['errer_messege' => $errer_messege]);
+            // }
+        } elseif($request->workend != null) {                    #退勤時
+            dd('false');
             #システム設定時間の取得
             $user = User::with('work_system')
                 ->select('*')
@@ -210,17 +226,19 @@ class WorkController extends Controller
 
 
             #働いた時間の計算(時間 = 終了時間-開始時間-休憩時間)
-            $total_time = $fixed_work_end->diff($fixed_work_start);
-            $total_time = $total_time->h.':00';
-            $total_time = new DateTime($total_time);
+            $total_time     = $fixed_work_end->diff($fixed_work_start);
+            $total_time     = $total_time->h.':00';
+            $total_time     = new DateTime($total_time);
             $total_worktime = $total_time->diff($breaktime);
             $total_worktime = $total_worktime->h.':00';
 
             #DB更新
             $work->total_worktime = $total_worktime;
-            $work->workend = request('workend');
+            $work->workend        = request('workend');
             $work->save();
+
         }else{
+            dd('else');
             $errer_messege = "登録に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }

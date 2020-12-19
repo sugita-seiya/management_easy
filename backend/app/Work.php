@@ -140,14 +140,14 @@ class Work extends Model
     #----------------------------------------------------------------
     #  勤怠を押下時にslackへ勤怠連絡をする
     #----------------------------------------------------------------
-    public function send_slack()
+    public function send_slack($slack_url,$slack_channel,$slack_icon)
     {
         // curl -X POST --data-urlencode "payload={\"channel\": \"test\",\"username\": \"seiya\",\"icon_emoji\": \":snail:\",\"text\": \"こんにちは\"}" https://hooks.slack.com/services/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;
-        $url = "https://hooks.slack.com/services/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";
+        $url = $slack_url;
         $message = [
-            "channel"    => "#test",
+            "channel"    => $slack_channel,
             "username"   => "出勤連絡",
-            "icon_emoji" => ":snail:",
+            "icon_emoji" => $slack_icon,
             "text"       => "出勤しました。",
         ];
 

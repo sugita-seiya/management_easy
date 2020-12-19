@@ -13,8 +13,8 @@ class WorkController extends Controller
 {
     public function __construct()
     {
-        $this->channel = env('SLACK_CHANNEL');
         $this->url     = env('SLACK_WEBHOOK_URL');
+        $this->channel = env('SLACK_CHANNEL');
         $this->icon    = env('FACEICON');
     }
     /**
@@ -124,7 +124,7 @@ class WorkController extends Controller
      */
     public function edit(Work $work)
     {
-        #DBからシステム日付のレコード取得
+        #DBから当日日付の勤怠レコード取得
         $login_user_id = Auth::id();
         $work = Work::where('user_id', $login_user_id)
             ->where(function ($query) {
@@ -150,7 +150,7 @@ class WorkController extends Controller
             })
             ->get();
 
-        #システム日付取得チェック
+        #取得チェック
         if (count($work) == 0) {
             $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -158,12 +158,13 @@ class WorkController extends Controller
             $work = $work[0];
         }
 
-        #システム設定時間の取得
+        #ログインユーザーのシステム設定時間の取得
         $user_record = User::with('work_system')
                         ->select('*')
+                        ->where('id', $login_user_id)
                         ->get();
 
-        #システム設定時間取得チェック
+        #取得チェック
         if (count($user_record) == 0) {
             $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -206,14 +207,13 @@ class WorkController extends Controller
 
 
             #勤怠連絡自動送信
-            // $work_new = new Work;
-            // $send_result = $work_new->send_slack();
-            // if($send_result != 'ok'){
-            //     $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
-            //     return view('layouts.errer', ['errer_messege' => $errer_messege]);
-            // }
+            $work_new      = new Work;
+            $send_result   = $work_new->send_slack($this->url,$this->channel,$this->icon);
+            if($send_result != 'ok'){
+                $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
+                return view('layouts.errer', ['errer_messege' => $errer_messege]);
+            }
         } elseif($request->workend != null) {                    #退勤時
-            dd('false');
             #システム設定時間の取得
             $user = User::with('work_system')
                 ->select('*')
@@ -238,7 +238,6 @@ class WorkController extends Controller
             $work->save();
 
         }else{
-            dd('else');
             $errer_messege = "登録に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }

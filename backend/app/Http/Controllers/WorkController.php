@@ -11,6 +11,12 @@ use DB;                                 #DBクラスの宣言
 
 class WorkController extends Controller
 {
+    public function __construct()
+    {
+        $this->url     = env('SLACK_WEBHOOK_URL');
+        $this->channel = env('SLACK_CHANNEL');
+        $this->icon    = env('FACEICON');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -118,7 +124,7 @@ class WorkController extends Controller
      */
     public function edit(Work $work)
     {
-        #DBからシステム日付のレコード取得
+        #DBから当日日付の勤怠レコード取得
         $login_user_id = Auth::id();
         $work = Work::where('user_id', $login_user_id)
             ->where(function ($query) {
@@ -144,7 +150,7 @@ class WorkController extends Controller
             })
             ->get();
 
-        #システム日付取得チェック
+        #取得チェック
         if (count($work) == 0) {
             $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -152,12 +158,13 @@ class WorkController extends Controller
             $work = $work[0];
         }
 
-        #システム設定時間の取得
+        #ログインユーザーのシステム設定時間の取得
         $user_record = User::with('work_system')
                         ->select('*')
+                        ->where('id', $login_user_id)
                         ->get();
 
-        #システム設定時間取得チェック
+        #取得チェック
         if (count($user_record) == 0) {
             $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -194,10 +201,25 @@ class WorkController extends Controller
     public function update(Request $request, $id)
     {
         $work = Work::find($id);
-        if ($request->workstart != null) {
+        if ($request->workstart != null) {                     #出勤時
             $work->workstart = request('workstart');
             $work->save();
-        } elseif($request->workend != null) {
+
+
+            #勤怠連絡自動送信
+            $work_new        = new Work;
+            $user            = new User;
+            $login_user_id   = Auth::id();
+            $login_user_name = $user->UserName_Get($login_user_id);     #ログインユーザー名取得
+            $login_fname     = $login_user_name->f_name;
+            $login_rname     = $login_user_name->r_name;
+            $send_result     = $work_new->send_slack($this->url,$this->channel,$this->icon,$login_fname,$login_rname);
+            #送信結果取得
+            if($send_result != 'ok'){
+                $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
+                return view('layouts.errer', ['errer_messege' => $errer_messege]);
+            }
+        } elseif($request->workend != null) {                    #退勤時
             #システム設定時間の取得
             $user = User::with('work_system')
                 ->select('*')
@@ -210,16 +232,17 @@ class WorkController extends Controller
 
 
             #働いた時間の計算(時間 = 終了時間-開始時間-休憩時間)
-            $total_time = $fixed_work_end->diff($fixed_work_start);
-            $total_time = $total_time->h.':00';
-            $total_time = new DateTime($total_time);
+            $total_time     = $fixed_work_end->diff($fixed_work_start);
+            $total_time     = $total_time->h.':00';
+            $total_time     = new DateTime($total_time);
             $total_worktime = $total_time->diff($breaktime);
             $total_worktime = $total_worktime->h.':00';
 
             #DB更新
             $work->total_worktime = $total_worktime;
-            $work->workend = request('workend');
+            $work->workend        = request('workend');
             $work->save();
+
         }else{
             $errer_messege = "登録に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);

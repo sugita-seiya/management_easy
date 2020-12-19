@@ -92,7 +92,6 @@ class User extends Authenticatable
     {
         // #DBからシステム日付のレコード取得
         $login_user_id          = Auth::id();
-
         $dbget_authortyid       = DB::table('users')
                                     ->select('authorty_id')
                                     ->Where('id', '=', $login_user_id)
@@ -104,5 +103,25 @@ class User extends Authenticatable
         $authortyid_information = [$login_user_authortyid,$admin_user,$general_user];
 
         return $authortyid_information;
+    }
+
+    #----------------------------------------------------------------------------
+    #  ログインユーザーの名前を取得
+    #----------------------------------------------------------------------------
+    public function UserName_Get($user_id)
+    {
+        $user_name = DB::table('users')
+                    ->select('f_name','r_name')
+                    ->where('id', $user_id)
+                    ->get();
+        #取得チェック
+        if (count($user_name) == 0) {
+            $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
+        }else{
+            $user_name = $user_name[0];
+        }
+
+        return $user_name;
     }
 }

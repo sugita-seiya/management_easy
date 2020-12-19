@@ -207,8 +207,14 @@ class WorkController extends Controller
 
 
             #勤怠連絡自動送信
-            $work_new      = new Work;
-            $send_result   = $work_new->send_slack($this->url,$this->channel,$this->icon);
+            $work_new        = new Work;
+            $user            = new User;
+            $login_user_id   = Auth::id();
+            $login_user_name = $user->UserName_Get($login_user_id);     #ログインユーザー名取得
+            $login_fname     = $login_user_name->f_name;
+            $login_rname     = $login_user_name->r_name;
+            $send_result     = $work_new->send_slack($this->url,$this->channel,$this->icon,$login_fname,$login_rname);
+            #送信結果取得
             if($send_result != 'ok'){
                 $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
                 return view('layouts.errer', ['errer_messege' => $errer_messege]);

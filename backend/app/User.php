@@ -104,4 +104,24 @@ class User extends Authenticatable
 
         return $authortyid_information;
     }
+
+    #----------------------------------------------------------------------------
+    #  ログインユーザーの名前を取得
+    #----------------------------------------------------------------------------
+    public function UserName_Get($user_id)
+    {
+        $user_name = DB::table('users')
+                    ->select('f_name','r_name')
+                    ->where('id', $user_id)
+                    ->get();
+        #取得チェック
+        if (count($user_name) == 0) {
+            $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
+        }else{
+            $user_name = $user_name[0];
+        }
+
+        return $user_name;
+    }
 }

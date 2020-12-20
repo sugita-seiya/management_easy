@@ -5,6 +5,9 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+
+// Route::post('login/guest', 'Auth\LoginController@guestLogin')->name('login.guest');
+
 #ログインしないと全ページアクセス出来ない
 Route::group(['middleware' => ['auth']], function () {
     #一般社員ページ

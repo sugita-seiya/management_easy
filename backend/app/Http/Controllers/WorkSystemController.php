@@ -96,7 +96,7 @@ class WorkSystemController extends Controller
 
         #勤怠時間のフォーマット変更(HH:MM:SS->HH時MM分)
         $worksystem = new Work_system;
-        $worktimes = $worksystem->work_time_format($workstart,$workend,$breaktime);
+        $worktimes  = $worksystem->work_time_format($workstart,$workend,$breaktime);
 
         #ログインユーザーの当日の勤怠ID取得(共通テンプレートで勤怠idが使える様にするため)
         $work    = new Work;

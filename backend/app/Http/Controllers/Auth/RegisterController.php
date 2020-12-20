@@ -8,11 +8,8 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use DateTime;                                  #DataTimeクラスの宣言
 use App\Work;                                  #Workクラスの宣言
-use Illuminate\Support\Facades\Auth;           #Authクラスの宣言
 use App\Work_system;                           #Work_systemクラスの宣言
-use DB;
 
 class RegisterController extends Controller
 {
@@ -76,8 +73,8 @@ class RegisterController extends Controller
         $thisMonthLastDay = date('d', strtotime('last day of this month'));     #当月の最後の日付が出力
 
         $work_system = Work_system::create([
-            'fixed_workstart' => '00:00:00',
-            'fixed_workend'   => '00:00:00',
+            'fixed_workstart' => '09:00:00',
+            'fixed_workend'   => '18:00:00',
             'fixed_breaktime' => '01:00:00',
         ]);
 
@@ -112,34 +109,19 @@ class RegisterController extends Controller
                 $user->id;
             }
 
-
-            DB::table('works')->insert([
+            Work::create([
                 'year'            => $year,
                 'month'           => $month,
                 'day'             => $day,
-                'workstart'       => '',
-                'workend'         => '',
-                'breaktime'       => '',
-                'total_worktime'  => '',
+                'workstart'       => '00:00:00',
+                'workend'         => '00:00:00',
+                'breaktime'       => '00:00:00',
+                'total_worktime'  => '00:00:00',
                 'remark'          => 'なし',
                 'approval_flg'    => '1',
                 'work_section_id' => $work_section_id,
                 'user_id'         => $user->id,
             ]);
-
-            // Work::create([
-            //     'year'            => $year,
-            //     'month'           => $month,
-            //     'day'             => $day,
-            //     'workstart'       => '00:00:00',
-            //     'workend'         => '00:00:00',
-            //     'breaktime'       => '00:00:00',
-            //     'total_worktime'  => '00:00:00',
-            //     'remark'          => 'なし',
-            //     'approval_flg'    => '1',
-            //     'work_section_id' => $work_section_id,
-            //     'user_id'         => $user->id,
-            // ]);
         }
         return $user;
     }

@@ -20,12 +20,28 @@
   <tbody>
     @foreach($work_list as $work)
       <tr class="table-bordered">
-        <td>{{$work->day}}</tb>
+      <td>{{$work->day}}</tb>
         <td id="work-section">{{$work->work_section->section_name}}</td>
-        <td>{{$work->workstart}}</td>
-        <td>{{$work->workend}}</td>
-        <td>{{$work->breaktime}}</td>
-        <td>{{$work->total_worktime}}</td>
+        @if($work->workstart == '00:00:00')
+          <td></td>
+        @else
+          <td>{{ date('G時i分',strtotime($work->workstart)) }}</td>
+        @endif
+        @if($work->workend == '00:00:00')
+          <td></td>
+        @else
+          <td>{{ date('G時i分',strtotime($work->workend)) }}</td>
+        @endif
+        @if($work->breaktime == '00:00:00')
+          <td></td>
+        @else
+          <td>{{ date('G時間',strtotime($work->breaktime))}}</td>
+        @endif
+        @if($work->total_worktime == '00:00:00')
+          <td></td>
+        @else
+          <td>{{ date('G時間',strtotime($work->total_worktime)) }}</td>
+        @endif
         <td >{{$work->remark}}</td>
       </tr>
     @endforeach

@@ -30,6 +30,7 @@ class WorkController extends Controller
         $year          = $today_date[0];
         $month         = $today_date[1];
         $login_user_id = Auth::id();
+        #ログインユーザーの勤怠を全て取得
         $user_works    = Work::with('work_section')
                             ->select('*')
                             ->where('user_id', '=', $login_user_id)
@@ -45,6 +46,10 @@ class WorkController extends Controller
                             ->where('month', $month)
                             ->groupBy('approval_flg')
                             ->get();
+
+        // foreach($user_works as $work){
+        //     dd(date('H時i',strtotime($work->workstart)));
+        // }
 
         //レコード取得出来なかった場合の例外処理
         if (count($approval_flg) == 0){

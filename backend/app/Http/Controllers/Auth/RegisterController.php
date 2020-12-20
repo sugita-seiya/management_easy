@@ -12,6 +12,7 @@ use DateTime;                                  #DataTimeクラスの宣言
 use App\Work;                                  #Workクラスの宣言
 use Illuminate\Support\Facades\Auth;           #Authクラスの宣言
 use App\Work_system;                           #Work_systemクラスの宣言
+use DB;
 
 class RegisterController extends Controller
 {
@@ -111,19 +112,34 @@ class RegisterController extends Controller
                 $user->id;
             }
 
-            Work::create([
+
+            DB::table('works')->insert([
                 'year'            => $year,
                 'month'           => $month,
                 'day'             => $day,
-                'workstart'       => '00:00:00',
-                'workend'         => '00:00:00',
-                'breaktime'       => '00:00:00',
-                'total_worktime'  => '00:00:00',
+                'workstart'       => '',
+                'workend'         => '',
+                'breaktime'       => '',
+                'total_worktime'  => '',
                 'remark'          => 'なし',
                 'approval_flg'    => '1',
                 'work_section_id' => $work_section_id,
                 'user_id'         => $user->id,
             ]);
+
+            // Work::create([
+            //     'year'            => $year,
+            //     'month'           => $month,
+            //     'day'             => $day,
+            //     'workstart'       => '00:00:00',
+            //     'workend'         => '00:00:00',
+            //     'breaktime'       => '00:00:00',
+            //     'total_worktime'  => '00:00:00',
+            //     'remark'          => 'なし',
+            //     'approval_flg'    => '1',
+            //     'work_section_id' => $work_section_id,
+            //     'user_id'         => $user->id,
+            // ]);
         }
         return $user;
     }

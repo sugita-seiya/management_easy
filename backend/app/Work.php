@@ -92,6 +92,25 @@ class Work extends Model
     }
 
     #----------------------------------------------------------------
+    #  #勤怠テーブルの承認フラグを取得
+    #----------------------------------------------------------------
+    public function Login_User_Approvelflg_Get()
+    {
+        $contact    = new Contact;
+        $today_date = $contact->date();
+        $year       = $today_date[0];
+        $month      = $today_date[1];
+        $login_user_id = Auth::id();
+        $approval_flg  = DB::table('works')
+                            ->select('approval_flg')
+                            ->where('user_id', '=', $login_user_id)
+                            ->where('year', $year)
+                            ->where('month', $month)
+                            ->groupBy('approval_flg')
+                            ->get();
+        return $approval_flg;
+    }
+    #----------------------------------------------------------------
     #  管理者が承認したらworkテーブルのapproval_flgを承認済に設定
     #----------------------------------------------------------------
     public function approvel_update($user_id,$approval_flg)
@@ -140,14 +159,16 @@ class Work extends Model
     #----------------------------------------------------------------
     #  勤怠を押下時にslackへ勤怠連絡をする
     #----------------------------------------------------------------
-    public function send_slack($slack_url,$slack_channel,$slack_icon,$login_fname,$login_rname)
+    public function send_slack($slack_url,$slack_channel,$slack_icon,$login_fname,$login_rname,$slack_boby)
     {
+
+
         $url     = $slack_url;
         $message = [
-            "channel"    => $slack_channel,
-            "username"   => "出勤連絡",
-            "icon_emoji" => $slack_icon,
-            "text"       => $login_fname.$login_rname.'出勤しました',
+            "channel"    => $slack_channel,                       #チャンネル名
+            "username"   => $login_fname.$login_rname,            #投稿者名
+            "icon_emoji" => $slack_icon,                          #アイコン
+            "text"       => $slack_boby,                          #本文
         ];
 
         #セッション初期化

@@ -28,7 +28,8 @@ class LoginController extends Controller
      */
 
     #ログイン時のページ遷移先指定
-    protected $redirectTo = RouteServiceProvider::HOME;
+    // protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -37,8 +38,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
-        
+        $this->middleware('guest')->except('/');
     }
 
     #ログアウト時のページ遷移先

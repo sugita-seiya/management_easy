@@ -30,6 +30,7 @@ class WorkController extends Controller
         $year          = $today_date[0];
         $month         = $today_date[1];
         $login_user_id = Auth::id();
+
         #ログインユーザーの勤怠を全て取得
         $user_works    = Work::with('work_section')
                             ->select('*')
@@ -118,31 +119,22 @@ class WorkController extends Controller
      */
     public function edit(Work $work)
     {
-        #DBから当日日付の勤怠レコード取得
+        #システム日付を取得するために連絡事項クラスをインスタンス化
+        $contact       = new Contact;
+        $today_date    = $contact->date();
+        $year          = $today_date[0];
+        $month         = $today_date[1];
+        $day           = $today_date[2];
         $login_user_id = Auth::id();
-        $work = Work::where('user_id', $login_user_id)
-            ->where(function ($query) {
-                $contact    = new Contact;
-                $today_date = $contact->date();
-                $year = $today_date[0];
-                $query
-                    ->Where('year', '=', $year);
-            })
-            ->where(function ($query) {
-                $contact    = new Contact;
-                $today_date = $contact->date();
-                $month = $today_date[1];
-                $query
-                    ->Where('month', '=', $month);
-            })
-            ->where(function ($query) {
-                $contact    = new Contact;
-                $today_date = $contact->date();
-                $day = $today_date[2];
-                $query
-                    ->Where('day', '=', $day);
-            })
-            ->get();
+
+        #DBから当日日付の勤怠レコード取得
+        $work          = DB::table('works')
+                            ->where('user_id', $login_user_id)
+                            ->where('year', $year)
+                            ->where('month', $month)
+                            ->where('day', $day)
+                            ->get();
+
         #取得チェック
         if (count($work) == 0) {
             $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
@@ -163,8 +155,8 @@ class WorkController extends Controller
         }
 
         #システム日付を取得するために連絡事項クラスをインスタンス化
-        $contact    = new Contact;
-        $today_date = $contact->date();
+        // $contact    = new Contact;
+        // $today_date = $contact->date();
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                  = new User;
@@ -188,7 +180,7 @@ class WorkController extends Controller
         return view('works.edit',
         [
             'today_date'            => $today_date,
-            'work'                  => $work,
+            'work'                  => $work->id,
             'user_record'           => $user_record,
             'login_user_authortyid' => $login_user_authortyid,
             'admin_user'            => $admin_user,

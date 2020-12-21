@@ -51,6 +51,10 @@
             <div class="d-flex justify-content-center attendance">
               <button type="button" class="btn btn-secondary pr-4 pl-4">勤怠承認されました(今月分)</button>
             </div>
+          @elseif($approval_flg =='4')
+            <div class="d-flex justify-content-center attendance">
+              <button type="button" class="btn btn-secondary pr-4 pl-4">勤怠を修正してください(今月分)</button>
+            </div>
           @endif
         </div>
       </div>

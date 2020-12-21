@@ -39,8 +39,8 @@ class WorkController extends Controller
                             ->get();
         #レコード取得出来なかった場合の例外処理
         if (count($user_works) == 0){
-          $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
-          return view('layouts.errer', ['errer_messege' => $errer_messege]);
+            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
 
         #勤怠テーブルの承認フラグを取得
@@ -178,8 +178,8 @@ class WorkController extends Controller
         $approval_flg      = $work_new->Login_User_Approvelflg_Get();
         #レコード取得出来なかった場合の例外処理
         if (count($approval_flg) == 0){
-          $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
-          return view('layouts.errer', ['errer_messege' => $errer_messege]);
+            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }else{
             $approval_flg = $approval_flg[0]->approval_flg;
         }
@@ -251,8 +251,8 @@ class WorkController extends Controller
             $works_save           = $work->save();
 
             if($works_save != true){
-              $errer_messege = "日付の更新に失敗しました。管理者にご連絡ください。";
-              return view('layouts.errer', ['errer_messege' => $errer_messege]);
+                $errer_messege = "日付の更新に失敗しました。管理者にご連絡ください。";
+                return view('layouts.errer', ['errer_messege' => $errer_messege]);
             }
 
         }else{
@@ -271,12 +271,12 @@ class WorkController extends Controller
 
         #DB更新
         $execute_result = DB::table('works')
-                          ->where('user_id', request('login_user_id'))
-                          ->where('year', $year)
-                          ->where('month', $month)
-                          ->update([
-                              'approval_flg' => request('approval_flg')
-                          ]);
+                            ->where('user_id', request('login_user_id'))
+                            ->where('year', $year)
+                            ->where('month', $month)
+                            ->update([
+                                'approval_flg' => request('approval_flg')
+                            ]);
         return redirect()->route('work.index');
     }
 

@@ -133,7 +133,6 @@ class WorkSystemController extends Controller
         $worksystem = Work_system::find($id);
         $worksystem->fixed_workstart = request('fixed_workstart');
         $worksystem->fixed_workend   = request('fixed_workend');
-        $worksystem->fixed_breaktime = request('fixed_breaktime');
         $worksystem->save();
         return redirect()->route('worksystem.index');
     }

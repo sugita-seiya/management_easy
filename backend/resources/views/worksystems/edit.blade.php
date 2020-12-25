@@ -46,22 +46,7 @@
     </tr>
     <tr class="table-bordered">
       <th scope="row"  class="work-index_title">休憩時間</th>
-      <td>
-      @if ($worktimes[2] == '1時間')
-        {{ Form::select('fixed_breaktime',[
-          $worksystem_id->fixed_breaktime => $worktimes[2],
-          '2:00'  => '2時間',
-          ], null, ['class' => 'pt-2 pb-2 pr-2 pl-2'])
-        }}
-      @endif
-      @if ($worktimes[2] == '2時間')
-        {{ Form::select('fixed_breaktime',[
-          $worksystem_id->fixed_breaktime => $worktimes[2],
-          '1:00'  => '1時間',
-          ], null, ['class' => 'pt-2 pb-2 pr-2 pl-2'])
-        }}
-      @endif
-      </tb>
+      <td> {{ $worktimes[2] }} </tb>
     </tr>
 
   <tr>

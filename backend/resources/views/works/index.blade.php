@@ -16,6 +16,7 @@
       <th scope="col">休憩時間</th>
       <th scope="col">合計勤務時間</th>
       <th scope="col">備考</th>
+      <th scope="col">編集</th>
     </tr>
   </thead>
   <tbody>
@@ -43,7 +44,12 @@
         @else
           <td>{{ date('G時間',strtotime($work->total_worktime)) }}</td>
         @endif
-        <td >{{$work->remark}}</td>
+        <td>{{$work->remark}}</td>
+        <td>
+          <a href={{ route('work.show',['work'=>$work->id]) }}>
+            編集
+          </a>
+        </td>
       </tr>
     @endforeach
 

@@ -161,8 +161,6 @@ class Work extends Model
     #----------------------------------------------------------------
     public function send_slack($slack_url,$slack_channel,$slack_icon,$login_fname,$login_rname,$slack_boby)
     {
-
-
         $url     = $slack_url;
         $message = [
             "channel"    => $slack_channel,                       #チャンネル名
@@ -190,5 +188,27 @@ class Work extends Model
         #セッション終了
         curl_close($ch);
         return $send_result;
+    }
+
+    #----------------------------------------------------------------
+    #  勤怠時間を任意のフォーマットに変更
+    #  HH:MM:SS->HH時MM分
+    #  HH:MM:SS->HH時間
+    #----------------------------------------------------------------
+    public function work_time_format($workstart,$workend,$breaktime,$total_worktime)
+    {
+        $workstart_format      = date('G時i分',strtotime($workstart));
+        $workend_format        = date('G時i分',strtotime($workend));
+        $breaktime_format      = date('G時間',strtotime($breaktime));
+        $total_worktime_format = date('G時間',strtotime($total_worktime));
+        // dd($workstart_format,$workend_format,$breaktime_format,$total_worktime_format);
+        $worktimes_format_edit = [
+            'workstart'      => $workstart_format,
+            'workend'        => $workend_format,
+            'breaktime'      => $breaktime_format,
+            'total_worktime' => $total_worktime_format,
+        ];
+        // dd($worktime_format_edit['workstart']);
+        return $worktimes_format_edit;
     }
 }

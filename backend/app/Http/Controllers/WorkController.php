@@ -95,9 +95,16 @@ class WorkController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$id)
     {
-        //
+        $store_work_record                  = Work::find($id);
+        $store_work_record->workstart       = request('workstart');
+        $store_work_record->workend         = request('workend');
+        $store_work_record->total_worktime  = request('total_worktime');
+        $store_work_record->work_section_id = request('work_section_id');
+        $store_work_record->remark          = request('remark');
+        $store_work_record->save();
+        return redirect()->route('work.index');
     }
 
     /**
@@ -108,7 +115,57 @@ class WorkController extends Controller
      */
     public function show(Work $work)
     {
-        //
+        #勤怠テーブルのID
+        $work_record_id   = $work->id;
+        $date_work_record = Work::with('work_section')
+                                ->select('*')
+                                ->where('id', '=', $work_record_id)
+                                ->get();
+
+        #レコード取得出来なかった場合の例外処理
+        if (count($date_work_record) == 0){
+            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
+        }else{
+            $date_work_record = $date_work_record[0];
+        }
+
+        #勤怠時間を任意のフォーマットに変更
+        $workstart             = $date_work_record->workstart;
+        $workend               = $date_work_record->workend;
+        $breaktime             = $date_work_record->breaktime;
+        $total_worktime        = $date_work_record->total_worktime;
+        $work_new              = new Work;
+        $worktimes_format_edit = $work_new->work_time_format($workstart,$workend,$breaktime,$total_worktime);
+
+        #ログインユーザー情報取得
+        $login_user        = Auth::user();
+        if ($login_user) {
+            $login_user_id = $login_user->id;
+        } else {
+            $login_user_id = "";
+        }
+
+        #ログインユーザーの当日の勤怠ID取得(共通テンプレートで変数を使うため)
+        $work    = new Work;
+        $work_id = $work->work_id_get();
+
+        #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
+        $user                  = new User;
+        $user_information      = $user->authortyid_get();
+        $login_user_authortyid = $user_information[0];
+        $admin_user            = $user_information[1];       #管理者用
+        $general_user          = $user_information[2];       #一般社員用
+
+        return view('works.show',[
+            'date_work_record'      => $date_work_record,
+            'worktimes_format_edit' => $worktimes_format_edit,
+            'login_user_id'         => $login_user_id,
+            'work'                  => $work_id,
+            'login_user_authortyid' => $login_user_authortyid,
+            'admin_user'            => $admin_user,
+            'general_user'          => $general_user
+        ]);
     }
 
     /**
@@ -153,10 +210,6 @@ class WorkController extends Controller
             $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
-
-        #システム日付を取得するために連絡事項クラスをインスタンス化
-        // $contact    = new Contact;
-        // $today_date = $contact->date();
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                  = new User;
@@ -254,12 +307,13 @@ class WorkController extends Controller
         return redirect()->route('work.edit', ['work' => $work->id]);
     }
 
+    #承認ボタン押下時に管理者に勤怠送信
     public function workrequest(Request $request)
     {
-        $contact    = new Contact;
-        $today_date = $contact->date();
-        $year       = $today_date[0];
-        $month      = $today_date[1];
+        $contact        = new Contact;
+        $today_date     = $contact->date();
+        $year           = $today_date[0];
+        $month          = $today_date[1];
 
         #DB更新
         $execute_result = DB::table('works')

@@ -12,7 +12,8 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Contact;                        #連絡事項クラスの宣言
-use Illuminate\Support\Facades\Auth;    #ユーザークラスの宣言
+use Illuminate\Support\Facades\Auth;    #ログインユーザーの宣言
+use App\User;                        #ユーザークラスの宣言
 
 class ContactController extends Controller
 {
@@ -24,17 +25,27 @@ class ContactController extends Controller
 
     public function index()
     {
+        #連絡事項を全て取得
         $contact    = new Contact;
         $today_date = $contact->date();
         $user       = Auth::user();
         $contacts   = Contact::all();
         $today      = date("Ynj");
 
+        #ログインユーザーの当日の勤怠ID取得(共通テンプレートで変数を使うため)
+        // $work    = new Work;
+        // $work_id = $work->work_id_get();
+
+        #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
+        $user                   = new User;
+        $authortyid_information = $user->authortyid_get();
+
         return view('contacts.index',[
-            'contacts'  => $contacts,
-            'user'      => $user,
-            'today'     => $today,
-            'today_date'=> $today_date
+            'contacts'              => $contacts,
+            'user'                  => $user,
+            'today'                 => $today,
+            'today_date'            => $today_date,
+            'authortyid_information'=> $authortyid_information
         ]);
     }
 
@@ -86,22 +97,15 @@ class ContactController extends Controller
      */
     public function show($id)
     {
-        $user       = Auth::user();
-        $contact_id = Contact::find($id);
-        $contact    = new Contact;
-        $today_date = $contact->date();
-
-        if ($user) {
-            $login_user_id = $user->id;
-        } else {
-            $login_user_id = "";
-        }
+        $login_user_id = Auth::id();
+        $contact_id    = Contact::find($id);
+        $contact       = new Contact;
+        $today_date    = $contact->date();
 
         return view('contacts.show',[
             'contact_id'    => $contact_id,
-            'login_user_id' => $login_user_id,
             'today_date'    => $today_date,
-            'user'          => $user
+            'login_user_id' => $login_user_id
         ]);
     }
 
@@ -117,7 +121,6 @@ class ContactController extends Controller
         $contact    = Contact::all();
         $contact    = new Contact;
         $today_date = $contact->date();
-        dd($contact_id->id,$contact_id);
         return view('contacts.edit',['contact_id' => $contact_id, 'contact'=> $contact,'today_date'=>$today_date]);
     }
 

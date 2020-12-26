@@ -18,7 +18,7 @@ class WorkSystemController extends Controller
     public function index()
     {
         #ユーザーに紐づいているシステム設定を取得
-        $login_user_id      = Auth::id();
+        $login_user_id    = Auth::id();
         $loginuser_record = User::with('work_system')
                                 ->select('*')
                                 ->where('id', '=', $login_user_id)
@@ -34,18 +34,13 @@ class WorkSystemController extends Controller
         $work_id = $work->work_id_get();
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
-        $user                  = new User;
-        $user_information      = $user->authortyid_get();
-        $login_user_authortyid = $user_information[0];
-        $admin_user            = $user_information[1];       #管理者用
-        $general_user          = $user_information[2];       #一般社員用
+        $user                   = new User;
+        $authortyid_information = $user->authortyid_get();
 
         return view('worksystems.index', [
             'loginuser_record'      => $loginuser_record,
             'work'                  => $work_id,
-            'login_user_authortyid' => $login_user_authortyid,
-            'admin_user'            => $admin_user,
-            'general_user'          => $general_user
+            'authortyid_information'=> $authortyid_information
         ]);
     }
 
@@ -104,20 +99,15 @@ class WorkSystemController extends Controller
         $work_id       = $work->work_id_get();
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
-        $user                  = new User;
-        $user_information      = $user->authortyid_get();
-        $login_user_authortyid = $user_information[0];
-        $admin_user            = $user_information[1];       #管理者用
-        $general_user          = $user_information[2];       #一般社員用
+        $user                   = new User;
+        $authortyid_information = $user->authortyid_get();
         // dd($login_user_authortyid,$admin_user);
 
         return view('worksystems.edit',[
             'worksystem_id'         => $worksystem_id,
             'worktimes'             => $worktimes,
             'work'                  => $work_id,
-            'login_user_authortyid' => $login_user_authortyid,
-            'admin_user'            => $admin_user,
-            'general_user'          => $general_user
+            'authortyid_information'=> $authortyid_information
         ]);
     }
 

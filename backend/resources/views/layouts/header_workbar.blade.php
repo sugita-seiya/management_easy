@@ -3,10 +3,8 @@
     <button type="button" class="nav-link btn dropdown-toggle text-white" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">勤怠管理</button>
     <div class="dropdown-menu ">
       <a class="dropdown-item"  href={{ route('contact.index')}}>ご連絡</a>
-      @if($login_user_authortyid == $admin_user)
+      @if($authortyid_information['login_user_authortyid'] == $authortyid_information['admin_user'])
         <a class="dropdown-item" href={{ route('user_approvel.index') }}>管理者用</a>
-      @elseif($login_user_authortyid == $general_user)
-      @else
       @endif
     </div>
   </div>

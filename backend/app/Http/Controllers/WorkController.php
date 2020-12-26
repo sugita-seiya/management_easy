@@ -60,11 +60,8 @@ class WorkController extends Controller
         $work_id = $work->work_id_get();
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
-        $user                  = new User;
-        $user_information      = $user->authortyid_get();
-        $login_user_authortyid = $user_information[0];
-        $admin_user            = $user_information[1];       #管理者用
-        $general_user          = $user_information[2];       #一般社員用
+        $user                   = new User;
+        $authortyid_information = $user->authortyid_get();
 
         return view('works.index', [
             'user_works'            => $user_works,
@@ -73,9 +70,7 @@ class WorkController extends Controller
             'login_user_id'         => $login_user_id,
             'approval_flg'          => $approval_flg,
             'work'                  => $work_id,
-            'login_user_authortyid' => $login_user_authortyid,
-            'admin_user'            => $admin_user,
-            'general_user'          => $general_user
+            'authortyid_information'=> $authortyid_information
         ]);
     }
 
@@ -97,6 +92,7 @@ class WorkController extends Controller
      */
     public function store(Request $request,$id)
     {
+
         $store_work_record                  = Work::find($id);
         $store_work_record->workstart       = request('workstart');
         $store_work_record->workend         = request('workend');
@@ -151,20 +147,15 @@ class WorkController extends Controller
         $work_id = $work->work_id_get();
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
-        $user                  = new User;
-        $user_information      = $user->authortyid_get();
-        $login_user_authortyid = $user_information[0];
-        $admin_user            = $user_information[1];       #管理者用
-        $general_user          = $user_information[2];       #一般社員用
+        $user                   = new User;
+        $authortyid_information = $user->authortyid_get();
 
         return view('works.show',[
             'date_work_record'      => $date_work_record,
             'worktimes_format_edit' => $worktimes_format_edit,
             'login_user_id'         => $login_user_id,
             'work'                  => $work_id,
-            'login_user_authortyid' => $login_user_authortyid,
-            'admin_user'            => $admin_user,
-            'general_user'          => $general_user
+            'authortyid_information'=> $authortyid_information
         ]);
     }
 
@@ -212,11 +203,8 @@ class WorkController extends Controller
         }
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
-        $user                  = new User;
-        $user_information      = $user->authortyid_get();
-        $login_user_authortyid = $user_information[0];
-        $admin_user            = $user_information[1];       #管理者用
-        $general_user          = $user_information[2];       #一般社員用
+        $user                   = new User;
+        $authortyid_information = $user->authortyid_get();
 
         #勤怠テーブルの承認フラグを取得
         $work_new          = new Work;
@@ -233,11 +221,10 @@ class WorkController extends Controller
         return view('works.edit',
         [
             'today_date'            => $today_date,
+            'work_record'           => $work,
             'work'                  => $work->id,
             'user_record'           => $user_record,
-            'login_user_authortyid' => $login_user_authortyid,
-            'admin_user'            => $admin_user,
-            'general_user'          => $general_user,
+            'authortyid_information'=> $authortyid_information,
             'approval_flg'          => $approval_flg
         ]);
     }

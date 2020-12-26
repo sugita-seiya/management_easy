@@ -25,7 +25,7 @@
       <tr class="border-0">
         <th class="pr-5"></th>
         <td class="text-right show-from">
-          @if($user->id == $contact_id->user_id)
+          @if($login_user_id == $contact_id->user_id)
             {{ Form::open(['method' => 'delete', 'route' => ['contact.destroy', $contact_id->id]]) }}
               {{ Form::submit('[× 削除する]', ['class' => 'btn clear-decoration contact-delete']) }}
             {{ Form::close() }}

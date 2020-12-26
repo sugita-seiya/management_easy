@@ -38,7 +38,14 @@
   <tr class="table-bordered">
     <th scope="row"  class="work-index_title ">出勤時刻</th>
     <td>
-      @if($worktimes_format_edit['workstart'] == '9時00分')
+      @if($worktimes_format_edit['workstart'] == '0時00分')
+        @if($worktimes_format_edit['workstart'] == '0時00分')
+          出勤していません。
+        @else
+          出勤中
+        @endif
+        {{ Form::hidden('workstart','0:00')}}
+      @elseif($worktimes_format_edit['workstart'] == '9時00分')
         {{ Form::select('workstart', [
             $date_work_record->workstart =>$worktimes_format_edit['workstart'],
             '10:00' => '10時00分',
@@ -56,7 +63,14 @@
   <tr class="table-bordered">
     <th scope="row"  class="work-index_title ">退勤時刻</th>
     <td>
-      @if($worktimes_format_edit['workend'] == '18時00分')
+      @if($worktimes_format_edit['workend'] == '0時00分')
+        @if($worktimes_format_edit['workstart'] == '0時00分')
+          出勤していません。
+        @else
+          出勤中
+        @endif
+        {{ Form::hidden('workend','0:00')}}
+      @elseif($worktimes_format_edit['workend'] == '18時00分')
         {{ Form::select('workend', [
             $date_work_record->workend =>$worktimes_format_edit['workend'],
             '19:00' => '19時00分',
@@ -74,13 +88,24 @@
   <tr class="table-bordered">
     <th scope="row"  class="work-index_title ">休憩時刻</th>
     <td>
-      {{ $worktimes_format_edit['breaktime'] }}
+      @if($worktimes_format_edit['workstart'] == '0時00分')
+        出勤していません。
+      @else
+        1時間
+      @endif
     </tb>
   </tr>
   <tr class="table-bordered">
     <th scope="row"  class="work-index_title ">合計勤務時刻</th>
     <td>
-    @if($worktimes_format_edit['total_worktime'] == '8時間')
+    @if($worktimes_format_edit['total_worktime'] == '0時間')
+      @if($worktimes_format_edit['workstart'] == '0時00分')
+        出勤していません。
+      @else
+        出勤中
+      @endif
+      {{ Form::hidden('total_worktime','0:00')}}
+    @elseif($worktimes_format_edit['total_worktime'] == '8時間')
       {{ Form::select('total_worktime', [
           $date_work_record->total_worktime =>$worktimes_format_edit['total_worktime'],
           '9:00' => '9時間',

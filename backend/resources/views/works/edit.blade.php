@@ -25,10 +25,10 @@
                   {{ Form::submit('出勤', ['class' => 'work-start btn text-white pr-4 pl-4','id'=>'workstart-btn']) }}
                 {{ Form::close() }}
               </div>
-              @if($work->workstart == '00:00:00')
+              @if($work_record->workstart == '00:00:00')
                 <div hidden id="work-start_hours"></div>
               @else
-                <div hidden id="work-start_hours">{{$work->workstart}}</div>
+                <div hidden id="work-start_hours">{{$work_record->workstart}}</div>
               @endif
               <div class="mb-3">
                 {{ Form::model('$work',['route' =>['work.update',$work]]) }}
@@ -36,10 +36,10 @@
                   {{ Form::hidden('workend', $user_record[0]->work_system->fixed_workend)}}
                   {{ Form::submit('退勤', ['class' => 'btn text-white pr-4 pl-4 btn-secondary','id'=>'workend-btn']) }}
                 {{ Form::close() }}
-                @if($work->workend == '00:00:00')
+                @if($work_record->workend == '00:00:00')
                   <div hidden id="work-end_hours"></div>
                 @else
-                  <div hidden id="work-end_hours">{{$work->workend}}</div>
+                  <div hidden id="work-end_hours">{{$work_record->workend}}</div>
                 @endif
               </div>
             </div>

@@ -135,12 +135,7 @@ class WorkController extends Controller
         $worktimes_format_edit = $work_new->work_time_format($workstart,$workend,$breaktime,$total_worktime);
 
         #ログインユーザー情報取得
-        $login_user        = Auth::user();
-        if ($login_user) {
-            $login_user_id = $login_user->id;
-        } else {
-            $login_user_id = "";
-        }
+        $login_user_id         = Auth::id();
 
         #ログインユーザーの当日の勤怠ID取得(共通テンプレートで変数を使うため)
         $work    = new Work;
@@ -149,7 +144,7 @@ class WorkController extends Controller
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
         $authortyid_information = $user->authortyid_get();
-
+        // dd($date_work_record->user_id);
         return view('works.show',[
             'date_work_record'      => $date_work_record,
             'worktimes_format_edit' => $worktimes_format_edit,
@@ -176,7 +171,7 @@ class WorkController extends Controller
         $login_user_id = Auth::id();
 
         #DBから当日日付の勤怠レコード取得
-        $work          = DB::table('works')
+        $today_work_record          = DB::table('works')
                             ->where('user_id', $login_user_id)
                             ->where('year', $year)
                             ->where('month', $month)
@@ -184,11 +179,11 @@ class WorkController extends Controller
                             ->get();
 
         #取得チェック
-        if (count($work) == 0) {
+        if (count($today_work_record) == 0) {
             $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         } else {
-            $work = $work[0];
+            $today_work_record = $today_work_record[0];
         }
 
         #ログインユーザーのシステム設定時間の取得
@@ -223,6 +218,7 @@ class WorkController extends Controller
             'today_date'            => $today_date,
             'work_record'           => $work,
             'work'                  => $work->id,
+            'login_user_id'         => $login_user_id,
             'user_record'           => $user_record,
             'authortyid_information'=> $authortyid_information,
             'approval_flg'          => $approval_flg

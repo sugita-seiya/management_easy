@@ -32,10 +32,6 @@ class ContactController extends Controller
         $contacts   = Contact::all();
         $today      = date("Ynj");
 
-        #ログインユーザーの当日の勤怠ID取得(共通テンプレートで変数を使うため)
-        // $work    = new Work;
-        // $work_id = $work->work_id_get();
-
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
         $authortyid_information = $user->authortyid_get();
@@ -58,7 +54,15 @@ class ContactController extends Controller
     {
         $contact    = new Contact;
         $today_date = $contact->date();
-        return view('contacts.new',['today_date'=>$today_date]);
+
+        #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
+        $user                   = new User;
+        $authortyid_information = $user->authortyid_get();
+
+        return view('contacts.new',[
+            'today_date'=>$today_date,
+            'authortyid_information'=> $authortyid_information
+        ]);
     }
 
     /**
@@ -79,12 +83,12 @@ class ContactController extends Controller
         ]);
         $user             = Auth::user();
         $contact          = new Contact;
-        $contact->year    =request('year');
-        $contact->month   =request('month');
-        $contact->day     =request('day');
-        $contact->subject =request('subject');
-        $contact->body    =request('body');
-        $contact->user_id =$user->id;
+        $contact->year    = request('year');
+        $contact->month   = request('month');
+        $contact->day     = request('day');
+        $contact->subject = request('subject');
+        $contact->body    = request('body');
+        $contact->user_id = $user->id;
         $contact->save();
         return redirect()->route('contact.index');
     }
@@ -97,15 +101,20 @@ class ContactController extends Controller
      */
     public function show($id)
     {
-        $login_user_id = Auth::id();
-        $contact_id    = Contact::find($id);
-        $contact       = new Contact;
-        $today_date    = $contact->date();
+        $login_user_id  = Auth::id();
+        $contact_record = Contact::find($id);
+        $contact        = new Contact;
+        $today_date     = $contact->date();
+
+        #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
+        $user                   = new User;
+        $authortyid_information = $user->authortyid_get();
 
         return view('contacts.show',[
-            'contact_id'    => $contact_id,
-            'today_date'    => $today_date,
-            'login_user_id' => $login_user_id
+            'contact_record'        => $contact_record,
+            'today_date'            => $today_date,
+            'login_user_id'         => $login_user_id,
+            'authortyid_information'=> $authortyid_information
         ]);
     }
 
@@ -117,11 +126,24 @@ class ContactController extends Controller
      */
     public function edit($id)
     {
-        $contact_id = Contact::find($id);
-        $contact    = Contact::all();
-        $contact    = new Contact;
-        $today_date = $contact->date();
-        return view('contacts.edit',['contact_id' => $contact_id, 'contact'=> $contact,'today_date'=>$today_date]);
+        $login_user_id  = Auth::id();
+        $contact_record = Contact::find($id);
+        $contact        = Contact::all();
+        $contact        = new Contact;
+        $today_date     = $contact->date();
+
+
+        #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
+        $user                   = new User;
+        $authortyid_information = $user->authortyid_get();
+
+        return view('contacts.edit',[
+            'contact_record'         => $contact_record,
+            'contact'                => $contact,
+            'today_date'             => $today_date,
+            'login_user_id'          => $login_user_id,
+            'authortyid_information' => $authortyid_information
+        ]);
     }
 
     /**

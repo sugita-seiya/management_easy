@@ -17,32 +17,34 @@
             </h1>
           </div>
           @if($approval_flg =='1')
-            <div class="d-flex justify-content-center attendance">
-              <div class="mb-3 mr-2">
-                {{ Form::model('$work',['route' =>['work.update',$work]]) }}
-                  @method('PUT')
-                  {{ Form::hidden('workstart',$user_record[0]->work_system->fixed_workstart )}}
-                  {{ Form::submit('出勤', ['class' => 'work-start btn text-white pr-4 pl-4','id'=>'workstart-btn']) }}
-                {{ Form::close() }}
-              </div>
-              @if($work_record->workstart == '00:00:00')
-                <div hidden id="work-start_hours"></div>
-              @else
-                <div hidden id="work-start_hours">{{$work_record->workstart}}</div>
-              @endif
-              <div class="mb-3">
-                {{ Form::model('$work',['route' =>['work.update',$work]]) }}
-                  @method('PUT')
-                  {{ Form::hidden('workend', $user_record[0]->work_system->fixed_workend)}}
-                  {{ Form::submit('退勤', ['class' => 'btn text-white pr-4 pl-4 btn-secondary','id'=>'workend-btn']) }}
-                {{ Form::close() }}
-                @if($work_record->workend == '00:00:00')
-                  <div hidden id="work-end_hours"></div>
+            @if($login_user_id === $work_record->user_id)
+              <div class="d-flex justify-content-center attendance">
+                <div class="mb-3 mr-2">
+                  {{ Form::model('$work',['route' =>['work.update',$work]]) }}
+                    @method('PUT')
+                    {{ Form::hidden('workstart',$user_record[0]->work_system->fixed_workstart )}}
+                    {{ Form::submit('出勤', ['class' => 'work-start btn text-white pr-4 pl-4','id'=>'workstart-btn']) }}
+                  {{ Form::close() }}
+                </div>
+                @if($work_record->workstart == '00:00:00')
+                  <div hidden id="work-start_hours"></div>
                 @else
-                  <div hidden id="work-end_hours">{{$work_record->workend}}</div>
+                  <div hidden id="work-start_hours">{{$work_record->workstart}}</div>
                 @endif
+                <div class="mb-3">
+                  {{ Form::model('$work',['route' =>['work.update',$work]]) }}
+                    @method('PUT')
+                    {{ Form::hidden('workend', $user_record[0]->work_system->fixed_workend)}}
+                    {{ Form::submit('退勤', ['class' => 'btn text-white pr-4 pl-4 btn-secondary','id'=>'workend-btn']) }}
+                  {{ Form::close() }}
+                  @if($work_record->workend == '00:00:00')
+                    <div hidden id="work-end_hours"></div>
+                  @else
+                    <div hidden id="work-end_hours">{{$work_record->workend}}</div>
+                  @endif
+                </div>
               </div>
-            </div>
+            @endif
           @elseif($approval_flg =='2')
             <div class="d-flex justify-content-center attendance">
               <button type="button" class="btn btn-secondary pr-4 pl-4">勤怠申請中</button>

@@ -61,7 +61,7 @@ class Work_approvelController extends Controller
 
     public function update(Request $request,$user_id)
     {
-        //権限者が承認したらworkテーブルのapprovel_flgを3に更新する
+        //管理者が承認or差し戻し時にworkテーブルのapprovel_flgを更新する
         $approval_flg   = request('approval_flg');
         $work           = new work;
         $execute_result = $work->approvel_update($user_id,$approval_flg);

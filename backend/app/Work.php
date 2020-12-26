@@ -92,6 +92,25 @@ class Work extends Model
     }
 
     #----------------------------------------------------------------
+    #  #勤怠テーブルの承認フラグを取得
+    #----------------------------------------------------------------
+    public function Login_User_Approvelflg_Get()
+    {
+        $contact    = new Contact;
+        $today_date = $contact->date();
+        $year       = $today_date[0];
+        $month      = $today_date[1];
+        $login_user_id = Auth::id();
+        $approval_flg  = DB::table('works')
+                            ->select('approval_flg')
+                            ->where('user_id', '=', $login_user_id)
+                            ->where('year', $year)
+                            ->where('month', $month)
+                            ->groupBy('approval_flg')
+                            ->get();
+        return $approval_flg;
+    }
+    #----------------------------------------------------------------
     #  管理者が承認したらworkテーブルのapproval_flgを承認済に設定
     #----------------------------------------------------------------
     public function approvel_update($user_id,$approval_flg)
@@ -140,14 +159,14 @@ class Work extends Model
     #----------------------------------------------------------------
     #  勤怠を押下時にslackへ勤怠連絡をする
     #----------------------------------------------------------------
-    public function send_slack($slack_url,$slack_channel,$slack_icon,$login_fname,$login_rname)
+    public function send_slack($slack_url,$slack_channel,$slack_icon,$login_fname,$login_rname,$slack_boby)
     {
         $url     = $slack_url;
         $message = [
-            "channel"    => $slack_channel,
-            "username"   => "出勤連絡",
-            "icon_emoji" => $slack_icon,
-            "text"       => $login_fname.$login_rname.'出勤しました',
+            "channel"    => $slack_channel,                       #チャンネル名
+            "username"   => $login_fname.$login_rname,            #投稿者名
+            "icon_emoji" => $slack_icon,                          #アイコン
+            "text"       => $slack_boby,                          #本文
         ];
 
         #セッション初期化
@@ -169,5 +188,27 @@ class Work extends Model
         #セッション終了
         curl_close($ch);
         return $send_result;
+    }
+
+    #----------------------------------------------------------------
+    #  勤怠時間を任意のフォーマットに変更
+    #  HH:MM:SS->HH時MM分
+    #  HH:MM:SS->HH時間
+    #----------------------------------------------------------------
+    public function work_time_format($workstart,$workend,$breaktime,$total_worktime)
+    {
+        $workstart_format      = date('G時i分',strtotime($workstart));
+        $workend_format        = date('G時i分',strtotime($workend));
+        $breaktime_format      = date('G時間',strtotime($breaktime));
+        $total_worktime_format = date('G時間',strtotime($total_worktime));
+        // dd($workstart_format,$workend_format,$breaktime_format,$total_worktime_format);
+        $worktimes_format_edit = [
+            'workstart'      => $workstart_format,
+            'workend'        => $workend_format,
+            'breaktime'      => $breaktime_format,
+            'total_worktime' => $total_worktime_format,
+        ];
+        // dd($worktime_format_edit['workstart']);
+        return $worktimes_format_edit;
     }
 }

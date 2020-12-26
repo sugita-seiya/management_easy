@@ -3,6 +3,9 @@
 @include('layouts.header_workbar')
 @section('content')
 <h5 class="my-3 text-center">{{$year}}年{{$month}}月</h5>
+@if($approval_flg == 4)
+  <h5 class="my-3 text-danger text-center">管理者から差し戻されました。</h5>
+@endif
 <table class="table">
   <thead>
     <tr class="work-index_title table-bordered">
@@ -13,6 +16,7 @@
       <th scope="col">休憩時間</th>
       <th scope="col">合計勤務時間</th>
       <th scope="col">備考</th>
+      <th scope="col">編集</th>
     </tr>
   </thead>
   <tbody>
@@ -20,15 +24,36 @@
       <tr class="table-bordered">
         <td>{{$work->day}}</tb>
         <td id="work-section">{{$work->work_section->section_name}}</td>
-        <td>{{$work->workstart}}</td>
-        <td>{{$work->workend}}</td>
-        <td>{{$work->breaktime}}</td>
-        <td>{{$work->total_worktime}}</td>
-        <td >{{$work->remark}}</td>
+        @if($work->workstart == '00:00:00')
+          <td></td>
+        @else
+          <td>{{ date('G時i分',strtotime($work->workstart)) }}</td>
+        @endif
+        @if($work->workend == '00:00:00')
+          <td></td>
+        @else
+          <td>{{ date('G時i分',strtotime($work->workend)) }}</td>
+        @endif
+        @if($work->breaktime == '00:00:00')
+          <td></td>
+        @else
+          <td>{{ date('G時間',strtotime($work->breaktime))}}</td>
+        @endif
+        @if($work->total_worktime == '00:00:00')
+          <td></td>
+        @else
+          <td>{{ date('G時間',strtotime($work->total_worktime)) }}</td>
+        @endif
+        <td>{{$work->remark}}</td>
+        <td>
+          <a href={{ route('work.show',['work'=>$work->id]) }}>
+            編集
+          </a>
+        </td>
       </tr>
     @endforeach
 
-    @if($approval_flg == 1)
+    @if($approval_flg == '1' or $approval_flg == '4')
       <tr class="text-center work-list">
         <td colspan="7">
           {{ Form::model(['route' =>['work.request']]) }}
@@ -38,13 +63,13 @@
           {{ Form::close() }}
         </td>
       </tr>
-    @elseif(  $approval_flg == 2)
+    @elseif($approval_flg == '2')
       <tr class="text-center work-list">
         <td colspan="7">
           <button type="button" class="btn btn-secondary pr-4 pl-4">申請中</button>
         </td>
       </tr>
-    @elseif($approval_flg == 3)
+    @elseif($approval_flg == '3')
       <tr class="text-center work-list">
         <td colspan="7">
           <button type="button" class="btn btn-secondary pr-4 pl-4">承認済</button>

@@ -12,9 +12,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Contact;                        #連絡事項クラスの宣言
-use DateTime;                           #DataTimeクラスの宣言
 use Illuminate\Support\Facades\Auth;    #ユーザークラスの宣言
-use App\Section;
 
 class ContactController extends Controller
 {
@@ -31,7 +29,13 @@ class ContactController extends Controller
         $user       = Auth::user();
         $contacts   = Contact::all();
         $today      = date("Ynj");
-        return view('contacts.index',['contacts'=> $contacts, 'user'=>$user,'today'=>$today,'today_date'=>$today_date]);
+
+        return view('contacts.index',[
+            'contacts'  => $contacts,
+            'user'      => $user,
+            'today'     => $today,
+            'today_date'=> $today_date
+        ]);
     }
 
     /**
@@ -82,7 +86,7 @@ class ContactController extends Controller
      */
     public function show($id)
     {
-        $user= Auth::user();
+        $user       = Auth::user();
         $contact_id = Contact::find($id);
         $contact    = new Contact;
         $today_date = $contact->date();
@@ -92,7 +96,13 @@ class ContactController extends Controller
         } else {
             $login_user_id = "";
         }
-        return view('contacts.show',['contact_id'=>$contact_id,'login_user_id'=>$login_user_id,'today_date'=>$today_date,'user'=>$user]);
+
+        return view('contacts.show',[
+            'contact_id'    => $contact_id,
+            'login_user_id' => $login_user_id,
+            'today_date'    => $today_date,
+            'user'          => $user
+        ]);
     }
 
     /**
@@ -107,6 +117,7 @@ class ContactController extends Controller
         $contact    = Contact::all();
         $contact    = new Contact;
         $today_date = $contact->date();
+        dd($contact_id->id,$contact_id);
         return view('contacts.edit',['contact_id' => $contact_id, 'contact'=> $contact,'today_date'=>$today_date]);
     }
 

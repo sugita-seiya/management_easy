@@ -17,7 +17,7 @@ class Contact extends Model
     #created_atを任意のフォーマットで取得(投稿時間出力用)
     public function getCreatedAtAttribute($date)
     {
-        return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('H時i分');
+        return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('G時i分');
     }
 
     #updated_atを任意のフォーマットで取得(投稿日付出力用)

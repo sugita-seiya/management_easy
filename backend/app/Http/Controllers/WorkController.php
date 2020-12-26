@@ -247,8 +247,8 @@ class WorkController extends Controller
             $login_user_name = $user->UserName_Get($login_user_id);     #ログインユーザー名取得
             $login_fname     = $login_user_name->f_name;
             $login_rname     = $login_user_name->r_name;
-            $slack_boby      = "出勤しました。";
-            $send_result     = $work_new->send_slack($this->url,$this->channel,$this->icon,$login_fname,$login_rname,$slack_boby);
+            $slack_body      = "出勤しました。";
+            $send_result     = $work_new->send_slack($this->url,$this->channel,$this->icon,$login_fname,$login_rname,$slack_body);
             #送信結果取得
             if($send_result != 'ok'){
                 $errer_messege = "slack自動送信に失敗しました。管理者にご連絡ください。";
@@ -257,8 +257,8 @@ class WorkController extends Controller
         } elseif($request->workend != null) {                    #退勤時
             #システム設定時間の取得
             $user = User::with('work_system')
-                ->select('*')
-                ->get();
+                        ->select('*')
+                        ->get();
 
             #取得した時間をdiffメソッドが使えるフォーマットに変換
             $fixed_work_end   = new DateTime($user[0]->work_system->fixed_workend);

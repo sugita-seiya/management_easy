@@ -13,10 +13,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Contact;                        #連絡事項クラスの宣言
 use Illuminate\Support\Facades\Auth;    #ログインユーザーの宣言
-use App\User;                        #ユーザークラスの宣言
+use App\User;                           #ユーザークラスの宣言
+use App\Work;                           #勤怠クラスの宣言
 
 class ContactController extends Controller
 {
+    public function __construct()
+    {
+        $this->url     = env('SLACK_WEBHOOK_URL');
+        $this->channel = env('SLACK_CHANNEL');
+        $this->icon    = env('FACEICON');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -90,6 +97,17 @@ class ContactController extends Controller
         $contact->body    = request('body');
         $contact->user_id = $user->id;
         $contact->save();
+
+
+        #勤怠連絡自動送信
+        $work_new        = new Work;
+        $user            = new User;
+        $login_user_id   = Auth::id();
+        $login_user_name = $user->UserName_Get($login_user_id);     #ログインユーザー名取得
+        $login_fname     = $login_user_name->f_name;
+        $login_rname     = $login_user_name->r_name;
+        $slack_body      = request('body');
+        $send_result     = $work_new->send_slack($this->url,$this->channel,$this->icon,$login_fname,$login_rname,$slack_body);
         return redirect()->route('contact.index');
     }
 

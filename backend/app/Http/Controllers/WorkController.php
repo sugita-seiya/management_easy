@@ -60,11 +60,8 @@ class WorkController extends Controller
         $work_id = $work->work_id_get();
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
-        $user                  = new User;
-        $user_information      = $user->authortyid_get();
-        $login_user_authortyid = $user_information[0];
-        $admin_user            = $user_information[1];       #管理者用
-        $general_user          = $user_information[2];       #一般社員用
+        $user                   = new User;
+        $authortyid_information = $user->authortyid_get();
 
         return view('works.index', [
             'user_works'            => $user_works,
@@ -73,9 +70,7 @@ class WorkController extends Controller
             'login_user_id'         => $login_user_id,
             'approval_flg'          => $approval_flg,
             'work'                  => $work_id,
-            'login_user_authortyid' => $login_user_authortyid,
-            'admin_user'            => $admin_user,
-            'general_user'          => $general_user
+            'authortyid_information'=> $authortyid_information
         ]);
     }
 
@@ -97,6 +92,7 @@ class WorkController extends Controller
      */
     public function store(Request $request,$id)
     {
+
         $store_work_record                  = Work::find($id);
         $store_work_record->workstart       = request('workstart');
         $store_work_record->workend         = request('workend');
@@ -139,32 +135,22 @@ class WorkController extends Controller
         $worktimes_format_edit = $work_new->work_time_format($workstart,$workend,$breaktime,$total_worktime);
 
         #ログインユーザー情報取得
-        $login_user        = Auth::user();
-        if ($login_user) {
-            $login_user_id = $login_user->id;
-        } else {
-            $login_user_id = "";
-        }
+        $login_user_id         = Auth::id();
 
         #ログインユーザーの当日の勤怠ID取得(共通テンプレートで変数を使うため)
         $work    = new Work;
         $work_id = $work->work_id_get();
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
-        $user                  = new User;
-        $user_information      = $user->authortyid_get();
-        $login_user_authortyid = $user_information[0];
-        $admin_user            = $user_information[1];       #管理者用
-        $general_user          = $user_information[2];       #一般社員用
-
+        $user                   = new User;
+        $authortyid_information = $user->authortyid_get();
+        // dd($date_work_record->user_id);
         return view('works.show',[
             'date_work_record'      => $date_work_record,
             'worktimes_format_edit' => $worktimes_format_edit,
             'login_user_id'         => $login_user_id,
             'work'                  => $work_id,
-            'login_user_authortyid' => $login_user_authortyid,
-            'admin_user'            => $admin_user,
-            'general_user'          => $general_user
+            'authortyid_information'=> $authortyid_information
         ]);
     }
 
@@ -185,7 +171,7 @@ class WorkController extends Controller
         $login_user_id = Auth::id();
 
         #DBから当日日付の勤怠レコード取得
-        $work          = DB::table('works')
+        $today_work_record          = DB::table('works')
                             ->where('user_id', $login_user_id)
                             ->where('year', $year)
                             ->where('month', $month)
@@ -193,11 +179,11 @@ class WorkController extends Controller
                             ->get();
 
         #取得チェック
-        if (count($work) == 0) {
+        if (count($today_work_record) == 0) {
             $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         } else {
-            $work = $work[0];
+            $today_work_record = $today_work_record[0];
         }
 
         #ログインユーザーのシステム設定時間の取得
@@ -212,11 +198,8 @@ class WorkController extends Controller
         }
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
-        $user                  = new User;
-        $user_information      = $user->authortyid_get();
-        $login_user_authortyid = $user_information[0];
-        $admin_user            = $user_information[1];       #管理者用
-        $general_user          = $user_information[2];       #一般社員用
+        $user                   = new User;
+        $authortyid_information = $user->authortyid_get();
 
         #勤怠テーブルの承認フラグを取得
         $work_new          = new Work;
@@ -233,11 +216,11 @@ class WorkController extends Controller
         return view('works.edit',
         [
             'today_date'            => $today_date,
+            'work_record'           => $work,
             'work'                  => $work->id,
+            'login_user_id'         => $login_user_id,
             'user_record'           => $user_record,
-            'login_user_authortyid' => $login_user_authortyid,
-            'admin_user'            => $admin_user,
-            'general_user'          => $general_user,
+            'authortyid_information'=> $authortyid_information,
             'approval_flg'          => $approval_flg
         ]);
     }
@@ -264,8 +247,8 @@ class WorkController extends Controller
             $login_user_name = $user->UserName_Get($login_user_id);     #ログインユーザー名取得
             $login_fname     = $login_user_name->f_name;
             $login_rname     = $login_user_name->r_name;
-            $slack_boby      = "出勤しました。";
-            $send_result     = $work_new->send_slack($this->url,$this->channel,$this->icon,$login_fname,$login_rname,$slack_boby);
+            $slack_body      = "出勤しました。";
+            $send_result     = $work_new->send_slack($this->url,$this->channel,$this->icon,$login_fname,$login_rname,$slack_body);
             #送信結果取得
             if($send_result != 'ok'){
                 $errer_messege = "slack自動送信に失敗しました。管理者にご連絡ください。";
@@ -274,8 +257,8 @@ class WorkController extends Controller
         } elseif($request->workend != null) {                    #退勤時
             #システム設定時間の取得
             $user = User::with('work_system')
-                ->select('*')
-                ->get();
+                        ->select('*')
+                        ->get();
 
             #取得した時間をdiffメソッドが使えるフォーマットに変換
             $fixed_work_end   = new DateTime($user[0]->work_system->fixed_workend);

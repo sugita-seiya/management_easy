@@ -134,7 +134,7 @@ class WorkController extends Controller
         $work_new              = new Work;
         $worktimes_format_edit = $work_new->work_time_format($workstart,$workend,$breaktime,$total_worktime);
 
-        #ログインユーザー情報取得
+        ##ログインID取得
         $login_user_id         = Auth::id();
 
         #ログインユーザーの当日の勤怠ID取得(共通テンプレートで変数を使うため)

@@ -18,15 +18,23 @@ class Work_approvelController extends Controller
         #勤怠を申請and承認したユーザーレコードを取得
         $work           = new work;
         $approving_user = $work->works_approvel();
-
         //レコード取得出来なかった場合、nullをセット
         if (count($approving_user) == 0) {
             $approving_user = null;
         }
 
-        #勤怠の申請and承認データ(approval_flg= 2,3)を取得
-
         return view('work_approvel.index', ['approving_user' => $approving_user]);
+    }
+    public function userindex()
+    {
+        #社員全員の名前を取得
+        $all_user_name = User::all();
+        //レコード取得出来なかった場合、nullをセット
+        if (count($all_user_name) == 0) {
+            $all_user_name = null;
+        }
+
+        return view('work_approvel.userindex', ['all_user_name' => $all_user_name]);
     }
 
     public function wrokindex($user_id)
@@ -34,8 +42,6 @@ class Work_approvelController extends Controller
         //勤怠申請したユーザーidを受け取り、当月の勤怠一覧を取得する
         $work      = new work;
         $work_list = $work->work_edit($user_id);
-
-        //レコード取得出来なかった場合の例外処理
         if (count($work_list) == 0) {
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -43,8 +49,7 @@ class Work_approvelController extends Controller
 
         //勤怠申請したユーザーレコードを取得する
         $user      = new User;
-        $user_list = $user->user_all($user_id);
-
+        $user_list = $user->User_All($user_id);
         if (count($user_list) == 0) {
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -64,7 +69,11 @@ class Work_approvelController extends Controller
         //管理者が承認or差し戻し時にworkテーブルのapprovel_flgを更新する
         $approval_flg   = request('approval_flg');
         $work           = new work;
-        $execute_result = $work->approvel_update($user_id,$approval_flg);
+        $results = $work->Approvel_Update($user_id,$approval_flg);
+        if ($results != true){
+            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
+        }
 
         return redirect()->route('user_approvel.index');
     }

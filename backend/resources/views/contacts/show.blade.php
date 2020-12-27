@@ -2,7 +2,7 @@
 @include('layouts.header')
 @include('layouts.header_contactbar')
 @section('content')
-  <table class="table my-5">
+  <table class="table my-5 table-hover">
     <tbody class="table-responsive">
       <tr class="table-bordered">
         <th class="contact-new_label pr-5">日付</th>

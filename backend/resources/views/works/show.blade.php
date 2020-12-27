@@ -2,7 +2,7 @@
 @include('layouts.header')
 @include('layouts.header_workbar')
 @section('content')
-<table class="table work-system">
+<table class="table work-system table-hover">
 {{ Form::model('$date_work_record ',['route' =>['work.store',$date_work_record->id ]]) }}
   <tr class="table-bordered">
     <th scope="row"  class="work-index_title">日付</th>

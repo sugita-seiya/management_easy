@@ -1,9 +1,9 @@
 <?php
 #---------------------------------------------------------------------------
-#連絡機能用のコントローラー
+#連絡事項コントローラー
 #index   →連絡一覧ページ
 #create  →連絡書き込みページ
-#store   →連絡書き込みページ
+#store   →連絡書き込みページ+slack送信機能
 #show    →連絡詳細ページ
 #edit    →連絡編集ページ
 #update  →連絡更新機能
@@ -35,9 +35,12 @@ class ContactController extends Controller
         #連絡事項を全て取得
         $contact    = new Contact;
         $today_date = $contact->date();
-        $user       = Auth::user();
-        $contacts   = Contact::all();
         $today      = date("Ynj");
+        $contacts   = Contact::all();
+        if (count($contacts) == 0){
+            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
+        }
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
@@ -45,7 +48,6 @@ class ContactController extends Controller
 
         return view('contacts.index',[
             'contacts'              => $contacts,
-            'user'                  => $user,
             'today'                 => $today,
             'today_date'            => $today_date,
             'authortyid_information'=> $authortyid_information
@@ -64,10 +66,10 @@ class ContactController extends Controller
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
-        $authortyid_information = $user->authortyid_get();
+        $authortyid_information = $user->Authortyid_Get();
 
         return view('contacts.new',[
-            'today_date'=>$today_date,
+            'today_date'            => $today_date,
             'authortyid_information'=> $authortyid_information
         ]);
     }
@@ -96,7 +98,11 @@ class ContactController extends Controller
         $contact->subject = request('subject');
         $contact->body    = request('body');
         $contact->user_id = $user->id;
-        $contact->save();
+        $results          = $contact->save();
+        if ($results != true){
+            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
+        }
 
 
         #勤怠連絡自動送信
@@ -108,6 +114,10 @@ class ContactController extends Controller
         $login_rname     = $login_user_name->r_name;
         $slack_body      = request('body');
         $send_result     = $work_new->send_slack($this->url,$this->channel,$this->icon,$login_fname,$login_rname,$slack_body);
+        if ($send_result != 'ok'){
+            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
+        }
         return redirect()->route('contact.index');
     }
 
@@ -119,8 +129,16 @@ class ContactController extends Controller
      */
     public function show($id)
     {
-        $login_user_id  = Auth::id();
         $contact_record = Contact::find($id);
+        #レコード取得出来なかった場合の例外処理
+        if ($contact_record == null){
+            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
+        }
+
+        #ログインID取得
+        $login_user_id  = Auth::id();
+        #日付取得
         $contact        = new Contact;
         $today_date     = $contact->date();
 
@@ -144,12 +162,18 @@ class ContactController extends Controller
      */
     public function edit($id)
     {
-        $login_user_id  = Auth::id();
         $contact_record = Contact::find($id);
-        $contact        = Contact::all();
-        $contact        = new Contact;
-        $today_date     = $contact->date();
+        #レコード取得出来なかった場合の例外処理
+        if ($contact_record == null){
+            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
+        }
 
+        #ログインID取得
+        $login_user_id          = Auth::id();
+        #日付取得
+        $contact                = new Contact;
+        $today_date             = $contact->date();
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
@@ -157,7 +181,6 @@ class ContactController extends Controller
 
         return view('contacts.edit',[
             'contact_record'         => $contact_record,
-            'contact'                => $contact,
             'today_date'             => $today_date,
             'login_user_id'          => $login_user_id,
             'authortyid_information' => $authortyid_information
@@ -174,9 +197,18 @@ class ContactController extends Controller
     public function update(Request $request,$id)
     {
         $contact          = Contact::find($id);
+        if ($contact == null){
+            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
+        }
         $contact->subject = request('subject');
         $contact->body    = request('body');
-        $contact->save();
+        $results          = $contact->save();
+        if ($results != true){
+            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
+        }
+
         return redirect()->route('contact.show',['contact'=>$contact->id]);
     }
 
@@ -189,7 +221,16 @@ class ContactController extends Controller
     public function destroy($id)
     {
         $contact_id = Contact::find($id);
-        $contact_id->delete();
+        if ($contact_id == null){
+            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
+        }
+        $results    = $contact_id->delete();
+        if ($results != true){
+            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
+        }
+
         return redirect('contact');
     }
 }

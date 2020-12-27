@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;    #ユーザークラス(Auth)の宣言
 use DB;                                 #DBクラスの宣言
+use Carbon\Carbon;                      #日時操作ライブラリの宣言
 
 class User extends Authenticatable
 {
@@ -74,10 +75,18 @@ class User extends Authenticatable
     }
 
     #----------------------------------------------------------------------------
+    # created_atを任意のフォーマットで取得
+    #----------------------------------------------------------------------------
+    public function getCreatedAtAttribute($date)
+    {
+        return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('Y年m月');
+    }
+
+    #----------------------------------------------------------------------------
     #  勤怠を申請したユーザーレコードを取得(Work_approvelController.indexで使用)
     #  処理順 (Work_approvelController->Work.php->User.php->Work_approvelController
     #----------------------------------------------------------------------------
-    public function user_all($user_id)
+    public function User_All($user_id)
     {
         $user = DB::table('users')
                     ->where('id', $user_id)
@@ -88,7 +97,7 @@ class User extends Authenticatable
     #----------------------------------------------------------------
     #  ログインしているユーザーの権限情報を取得(管理者:1,一般社員:2)
     #----------------------------------------------------------------
-    public function authortyid_get()
+    public function Authortyid_Get()
     {
         // #userテーブルからログインユーザーの権限情報を取得
         $login_user_id          = Auth::id();

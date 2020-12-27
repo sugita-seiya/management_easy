@@ -58,11 +58,14 @@ class WorkController extends Controller
         #ログインユーザーの当日の勤怠ID取得(共通テンプレートで変数を使うため)
         $work    = new Work;
         $work_id = $work->Work_Id_Get();
+        if ($work_id == null) {
+            $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
+        }
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
         $authortyid_information = $user->Authortyid_Get();
-        #レコード取得出来なかった場合の例外処理
         if (count($authortyid_information) == 0){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -150,8 +153,7 @@ class WorkController extends Controller
         #ログインユーザーの当日の勤怠ID取得(共通テンプレートで変数を使うため)
         $work    = new Work;
         $work_id = $work->Work_Id_Get();
-        #取得チェック
-        if (count($work_id) == 0) {
+        if ($work_id == null) {
             $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
@@ -159,7 +161,11 @@ class WorkController extends Controller
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
         $authortyid_information = $user->Authortyid_Get();
-        // dd($date_work_record->user_id);
+        if (count($authortyid_information) == 0){
+            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
+        }
+
         return view('works.show',[
             'date_work_record'      => $date_work_record,
             'worktimes_format_edit' => $worktimes_format_edit,
@@ -214,6 +220,10 @@ class WorkController extends Controller
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
         $authortyid_information = $user->Authortyid_Get();
+        if (count($authortyid_information) == 0){
+            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
+        }
 
         #勤怠テーブルの承認フラグを取得
         $work_new          = new Work;

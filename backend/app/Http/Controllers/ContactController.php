@@ -37,8 +37,6 @@ class ContactController extends Controller
         $today_date = $contact->date();
         $today      = date("Ynj");
         $contacts   = Contact::all();
-
-        #レコード取得出来なかった場合の例外処理
         if (count($contacts) == 0){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -68,7 +66,7 @@ class ContactController extends Controller
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
-        $authortyid_information = $user->authortyid_get();
+        $authortyid_information = $user->Authortyid_Get();
 
         return view('contacts.new',[
             'today_date'            => $today_date,
@@ -199,16 +197,13 @@ class ContactController extends Controller
     public function update(Request $request,$id)
     {
         $contact          = Contact::find($id);
-        #レコード取得出来なかった場合の例外処理
         if ($contact == null){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
-
         $contact->subject = request('subject');
         $contact->body    = request('body');
         $results          = $contact->save();
-        #例外処理
         if ($results != true){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -226,18 +221,16 @@ class ContactController extends Controller
     public function destroy($id)
     {
         $contact_id = Contact::find($id);
-        #レコード取得出来なかった場合の例外処理
         if ($contact_id == null){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
-
         $results    = $contact_id->delete();
-        #例外処理
         if ($results != true){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
+
         return redirect('contact');
     }
 }

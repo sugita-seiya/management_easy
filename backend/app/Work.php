@@ -144,15 +144,15 @@ class Work extends Model
         $month         = $today_date[1];
         $day           = $today_date[2];
 
-        $work = DB::table('works')
-                    ->select('*')
-                    ->Where('year', '=', $year)
-                    ->Where('month', '=', $month)
-                    ->Where('day', '=', $day)
-                    ->Where('user_id', '=', $login_user_id)
-                    ->get();
+        $work          = DB::table('works')
+                            ->select('*')
+                            ->Where('year', '=', $year)
+                            ->Where('month', '=', $month)
+                            ->Where('day', '=', $day)
+                            ->Where('user_id', '=', $login_user_id)
+                            ->get();
+        $work_id        = $work[0]->id;
 
-        $work_id  = $work[0]->id;
         return $work_id;
     }
 

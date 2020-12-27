@@ -86,7 +86,7 @@ class User extends Authenticatable
     #  勤怠を申請したユーザーレコードを取得(Work_approvelController.indexで使用)
     #  処理順 (Work_approvelController->Work.php->User.php->Work_approvelController
     #----------------------------------------------------------------------------
-    public function user_all($user_id)
+    public function User_All($user_id)
     {
         $user = DB::table('users')
                     ->where('id', $user_id)

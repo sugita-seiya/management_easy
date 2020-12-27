@@ -1,5 +1,13 @@
 <?php
-
+#---------------------------------------------------------------------------
+#勤怠コントローラー
+#index       →勤怠一覧一覧ページ
+#store       →勤怠レコードの更新機能
+#show        →#勤怠レコード詳細ページ
+#edit        →当日の勤怠出退勤ページ
+#update      →当日勤怠の更新+slack送信機能
+#workrequest →当月の勤怠を管理者に送信機能
+#---------------------------------------------------------------------------
 namespace App\Http\Controllers;
 use App\Work;
 use Illuminate\Http\Request;
@@ -98,17 +106,20 @@ class WorkController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,$id)
+    public function store($id)
     {
-
+        #勤怠レコードの更新
         $store_work_record                  = Work::find($id);
+        if ($store_work_record == null){
+            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
+        }
         $store_work_record->workstart       = request('workstart');
         $store_work_record->workend         = request('workend');
         $store_work_record->total_worktime  = request('total_worktime');
         $store_work_record->work_section_id = request('work_section_id');
         $store_work_record->remark          = request('remark');
         $results                            = $store_work_record->save();
-        #例外処理
         if ($results != true){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -127,11 +138,16 @@ class WorkController extends Controller
     {
         #勤怠テーブルのID
         $work_record_id   = $work->id;
+        if ($work_record_id == null){
+            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
+        }
+
+        #勤怠レコードの取得
         $date_work_record = Work::with('work_section')
                                 ->select('*')
                                 ->where('id', '=', $work_record_id)
                                 ->get();
-        #レコード取得出来なかった場合の例外処理
         if (count($date_work_record) == 0){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -198,7 +214,6 @@ class WorkController extends Controller
                                 ->where('month', $month)
                                 ->where('day', $day)
                                 ->get();
-        #取得チェック
         if (count($today_work_record) == 0) {
             $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -211,7 +226,6 @@ class WorkController extends Controller
                         ->select('*')
                         ->where('id', $login_user_id)
                         ->get();
-        #取得チェック
         if (count($user_record) == 0) {
             $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -228,7 +242,6 @@ class WorkController extends Controller
         #勤怠テーブルの承認フラグを取得
         $work_new          = new Work;
         $approval_flg      = $work_new->Login_User_Approvelflg_Get();
-        #レコード取得出来なかった場合の例外処理
         if (count($approval_flg) == 0){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -316,7 +329,6 @@ class WorkController extends Controller
         return redirect()->route('work.edit', ['work' => $work->id]);
     }
 
-    #承認ボタン押下時に管理者に勤怠送信
     public function workrequest(Request $request)
     {
         $contact        = new Contact;
@@ -332,7 +344,6 @@ class WorkController extends Controller
                             ->update([
                                 'approval_flg' => request('approval_flg')
                             ]);
-        #例外処理
         if ($results == 0){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);

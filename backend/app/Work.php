@@ -87,7 +87,7 @@ class Work extends Model
 
         #勤怠を申請and承認したユーザーレコードを取得
         $user = new User;
-        $in_approval_user = $user->user_all($userid_notflg);
+        $in_approval_user = $user->User_All($userid_notflg);
         return $in_approval_user;
     }
 
@@ -113,14 +113,14 @@ class Work extends Model
     #----------------------------------------------------------------
     #  管理者が承認したらworkテーブルのapproval_flgを承認済に設定
     #----------------------------------------------------------------
-    public function approvel_update($user_id,$approval_flg)
+    public function Approvel_Update($user_id,$approval_flg)
     {
         $contact    = new Contact;
         $today_date = $contact->date();
         $year = $today_date[0];
         $month = $today_date[1];
 
-        $execute_result = DB::table('works')
+        $results = DB::table('works')
                             ->where('approval_flg', 2)
                             ->where('user_id', $user_id)
                             ->where('year', $year)
@@ -128,7 +128,7 @@ class Work extends Model
                             ->update([
                                 'approval_flg' => $approval_flg
                             ]);
-        return $execute_result;
+        return $results;
     }
 
     #----------------------------------------------------------------

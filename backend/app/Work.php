@@ -134,7 +134,7 @@ class Work extends Model
     #----------------------------------------------------------------
     #  ログインユーザーの当日の勤怠ID取得
     #----------------------------------------------------------------
-    public function work_id_get()
+    public function Work_Id_Get()
     {
         // #DBからシステム日付のレコード取得
         $login_user_id = Auth::id();

@@ -61,7 +61,7 @@ class WorkController extends Controller
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
-        $authortyid_information = $user->authortyid_get();
+        $authortyid_information = $user->Authortyid_Get();
 
         return view('works.index', [
             'user_works'            => $user_works,
@@ -143,7 +143,7 @@ class WorkController extends Controller
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
-        $authortyid_information = $user->authortyid_get();
+        $authortyid_information = $user->Authortyid_Get();
         // dd($date_work_record->user_id);
         return view('works.show',[
             'date_work_record'      => $date_work_record,
@@ -199,7 +199,7 @@ class WorkController extends Controller
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
-        $authortyid_information = $user->authortyid_get();
+        $authortyid_information = $user->Authortyid_Get();
 
         #勤怠テーブルの承認フラグを取得
         $work_new          = new Work;
@@ -247,8 +247,8 @@ class WorkController extends Controller
             $login_user_name = $user->UserName_Get($login_user_id);     #ログインユーザー名取得
             $login_fname     = $login_user_name->f_name;
             $login_rname     = $login_user_name->r_name;
-            $slack_body      = "出勤しました。";
-            $send_result     = $work_new->send_slack($this->url,$this->channel,$this->icon,$login_fname,$login_rname,$slack_body);
+            $slack_boby      = "出勤しました。";
+            $send_result     = $work_new->send_slack($this->url,$this->channel,$this->icon,$login_fname,$login_rname,$slack_boby);
             #送信結果取得
             if($send_result != 'ok'){
                 $errer_messege = "slack自動送信に失敗しました。管理者にご連絡ください。";
@@ -257,8 +257,8 @@ class WorkController extends Controller
         } elseif($request->workend != null) {                    #退勤時
             #システム設定時間の取得
             $user = User::with('work_system')
-                        ->select('*')
-                        ->get();
+                ->select('*')
+                ->get();
 
             #取得した時間をdiffメソッドが使えるフォーマットに変換
             $fixed_work_end   = new DateTime($user[0]->work_system->fixed_workend);

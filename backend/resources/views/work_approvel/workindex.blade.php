@@ -5,7 +5,7 @@
 
 @section('content')
   <h5 class="my-3 text-center">{{$user_list->f_name.$user_list->r_name}}の勤怠一覧</h5>
-  <table class="table">
+  <table class="table table-hover">
   <thead>
     <tr class="work-index_title">
       <th scope="col">日付</th>

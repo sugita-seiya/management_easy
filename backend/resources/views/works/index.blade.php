@@ -6,7 +6,7 @@
 @if($approval_flg == 4)
   <h5 class="my-3 text-danger text-center">管理者から差し戻されました。</h5>
 @endif
-<table class="table">
+<table class="table table-hover">
   <thead>
     <tr class="work-index_title table-bordered">
       <th scope="col">日付</th>
@@ -57,9 +57,9 @@
       <tr class="text-center work-list">
         <td colspan="7">
           {{ Form::model(['route' =>['work.request']]) }}
-              {{ Form::hidden('approval_flg',2 )}}
-              {{ Form::hidden('login_user_id',$login_user_id)}}
-              {{ Form::submit('勤怠送信', ['class' => 'btn text-white pr-4 pl-4 submit-approval']) }}
+            {{ Form::hidden('approval_flg',2 )}}
+            {{ Form::hidden('login_user_id',$login_user_id)}}
+            {{ Form::submit('勤怠送信', ['class' => 'btn text-white pr-4 pl-4 submit-approval']) }}
           {{ Form::close() }}
         </td>
       </tr>

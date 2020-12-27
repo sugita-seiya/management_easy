@@ -6,6 +6,6 @@
       <a class="dropdown-item"  href={{ route('contact.index')}}>ご連絡</a>
     </div>
   </div>
-  <a class='nav-link text-white' href="#">全社員一覧</a>
+  <a class='nav-link text-white' href={{ route('user_all.index') }}>全社員一覧</a>
   <a class='nav-link text-white' href={{ route('user_approvel.index') }}>勤怠申請者</a>
 @endsection

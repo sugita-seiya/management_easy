@@ -31,11 +31,11 @@ class WorkSystemController extends Controller
 
         #ログインユーザーの当日の勤怠ID取得(共通テンプレートで勤怠idが使える様にするため)
         $work    = new Work;
-        $work_id = $work->work_id_get();
+        $work_id = $work->Work_Id_Get();
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
-        $authortyid_information = $user->authortyid_get();
+        $authortyid_information = $user->Authortyid_Get();
 
         return view('worksystems.index', [
             'loginuser_record'      => $loginuser_record,
@@ -96,12 +96,11 @@ class WorkSystemController extends Controller
 
         #ログインユーザーの当日の勤怠ID取得(共通テンプレートで勤怠idが使える様にするため)
         $work          = new Work;
-        $work_id       = $work->work_id_get();
+        $work_id       = $work->Work_Id_Get();
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
-        $authortyid_information = $user->authortyid_get();
-        // dd($login_user_authortyid,$admin_user);
+        $authortyid_information = $user->Authortyid_Get();
 
         return view('worksystems.edit',[
             'worksystem_id'         => $worksystem_id,

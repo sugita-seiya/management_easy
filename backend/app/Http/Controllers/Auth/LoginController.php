@@ -38,7 +38,8 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('/');    }
+        $this->middleware('guest')->except('/');
+    }
 
     #ログアウト時のページ遷移先
     protected function loggedOut(\Illuminate\Http\Request $request)

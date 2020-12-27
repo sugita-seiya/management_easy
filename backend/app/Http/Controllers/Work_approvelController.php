@@ -24,9 +24,18 @@ class Work_approvelController extends Controller
             $approving_user = null;
         }
 
-        #勤怠の申請and承認データ(approval_flg= 2,3)を取得
-
         return view('work_approvel.index', ['approving_user' => $approving_user]);
+    }
+    public function userindex()
+    {
+        #社員全員の名前を取得
+        $all_user_name = User::all();
+        //レコード取得出来なかった場合、nullをセット
+        if (count($all_user_name) == 0) {
+            $all_user_name = null;
+        }
+
+        return view('work_approvel.userindex', ['all_user_name' => $all_user_name]);
     }
 
     public function wrokindex($user_id)

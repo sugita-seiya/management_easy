@@ -4,7 +4,7 @@
 @section('content')
 {{ Form::model('$contact_record',['route' =>['contact.update',$contact_record->id]]) }}
   @method('PUT')
-  <table class="table my-5">
+  <table class="table my-5 table-hover">
     <tbody class="table-responsive">
       <tr class="table-bordered">
         <th class="contact-new_label pr-5">日付</th>

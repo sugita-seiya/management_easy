@@ -35,14 +35,8 @@ class ContactController extends Controller
         #連絡事項を全て取得
         $contact    = new Contact;
         $today_date = $contact->date();
+        $contacts   = Contact::all();
         $today      = date("Ynj");
-        try {
-            $contacts   = Contact::all();
-        } catch (\Exception $e) {
-            // dd($e->getMessage());
-            $errer_messege = "システムエラーが発生しました。管理者にご連絡ください。";
-            return view('layouts.errer', ['errer_messege'  => $errer_messege]);
-        }
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
@@ -50,7 +44,6 @@ class ContactController extends Controller
 
         return view('contacts.index',[
             'contacts'              => $contacts,
-            'user'                  => $user,
             'today'                 => $today,
             'today_date'            => $today_date,
             'authortyid_information'=> $authortyid_information
@@ -72,8 +65,8 @@ class ContactController extends Controller
         $authortyid_information = $user->authortyid_get();
 
         return view('contacts.new',[
-            'today_date'             => $today_date,
-            'authortyid_information' => $authortyid_information
+            'today_date'=>$today_date,
+            'authortyid_information'=> $authortyid_information
         ]);
     }
 
@@ -93,22 +86,16 @@ class ContactController extends Controller
             'subject' => ['required'],
             'body'    => ['required'],
         ]);
-
-        $user_id          = Auth::id();
+        $user             = Auth::user();
         $contact          = new Contact;
         $contact->year    = request('year');
         $contact->month   = request('month');
         $contact->day     = request('day');
         $contact->subject = request('subject');
         $contact->body    = request('body');
-        $contact->user_id = $user_id;
-        try {
-            $contact->save();
-        } catch (\Exception $e) {
-            // dd($e->getMessage());
-            $errer_messege = "システムエラーが発生しました。管理者にご連絡ください。";
-            return view('layouts.errer', ['errer_messege'  => $errer_messege]);
-        }
+        $contact->user_id = $user->id;
+        $contact->save();
+
 
         #勤怠連絡自動送信
         $work_new        = new Work;
@@ -119,12 +106,6 @@ class ContactController extends Controller
         $login_rname     = $login_user_name->r_name;
         $slack_body      = request('body');
         $send_result     = $work_new->send_slack($this->url,$this->channel,$this->icon,$login_fname,$login_rname,$slack_body);
-
-        #送信結果取得
-        if($send_result != 'ok'){
-            $errer_messege = "システムエラーが発生しました。管理者にご連絡ください。";
-            return view('layouts.errer', ['errer_messege' => $errer_messege]);
-        }
         return redirect()->route('contact.index');
     }
 
@@ -137,16 +118,9 @@ class ContactController extends Controller
     public function show($id)
     {
         $login_user_id  = Auth::id();
+        $contact_record = Contact::find($id);
         $contact        = new Contact;
         $today_date     = $contact->date();
-
-        try {
-            $contact_record = Contact::find($id);
-        } catch (\Exception $e) {
-            // dd($e->getMessage());
-            $errer_messege = "システムエラーが発生しました。管理者にご連絡ください。";
-            return view('layouts.errer', ['errer_messege'  => $errer_messege]);
-        }
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
@@ -168,17 +142,12 @@ class ContactController extends Controller
      */
     public function edit($id)
     {
-        try {
-            $contact_record = Contact::find($id);
-        } catch (\Exception $e) {
-            // dd($e->getMessage());
-            $errer_messege = "システムエラーが発生しました。管理者にご連絡ください。";
-            return view('layouts.errer', ['errer_messege'  => $errer_messege]);
-        }
-
         $login_user_id  = Auth::id();
+        $contact_record = Contact::find($id);
+        $contact        = Contact::all();
         $contact        = new Contact;
         $today_date     = $contact->date();
+
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
@@ -200,19 +169,12 @@ class ContactController extends Controller
      * @param  \App\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(Request $request,$id)
     {
-        try {
-            $contact          = Contact::find($id);
-            $contact->subject = request('subject');
-            $contact->body    = request('body');
-            $contact->save();
-        } catch (\Exception $e) {
-            // dd($e->getMessage());
-            $errer_messege = "システムエラーが発生しました。管理者にご連絡ください。";
-            return view('layouts.errer', ['errer_messege'  => $errer_messege]);
-        }
-
+        $contact          = Contact::find($id);
+        $contact->subject = request('subject');
+        $contact->body    = request('body');
+        $contact->save();
         return redirect()->route('contact.show',['contact'=>$contact->id]);
     }
 
@@ -224,15 +186,8 @@ class ContactController extends Controller
      */
     public function destroy($id)
     {
-        try {
-            $contact_id = Contact::find($id);
-            $contact_id->delete();
-        } catch (\Exception $e) {
-            // dd($e->getMessage());
-            $errer_messege = "システムエラーが発生しました。管理者にご連絡ください。";
-            return view('layouts.errer', ['errer_messege'  => $errer_messege]);
-        }
-
+        $contact_id = Contact::find($id);
+        $contact_id->delete();
         return redirect('contact');
     }
 }

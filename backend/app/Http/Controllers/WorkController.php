@@ -57,11 +57,16 @@ class WorkController extends Controller
 
         #ログインユーザーの当日の勤怠ID取得(共通テンプレートで変数を使うため)
         $work    = new Work;
-        $work_id = $work->work_id_get();
+        $work_id = $work->Work_Id_Get();
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
         $authortyid_information = $user->Authortyid_Get();
+        #レコード取得出来なかった場合の例外処理
+        if (count($authortyid_information) == 0){
+            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
+        }
 
         return view('works.index', [
             'user_works'            => $user_works,
@@ -99,7 +104,13 @@ class WorkController extends Controller
         $store_work_record->total_worktime  = request('total_worktime');
         $store_work_record->work_section_id = request('work_section_id');
         $store_work_record->remark          = request('remark');
-        $store_work_record->save();
+        $results                            = $store_work_record->save();
+        #例外処理
+        if ($results != true){
+            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
+        }
+
         return redirect()->route('work.index');
     }
 
@@ -117,7 +128,6 @@ class WorkController extends Controller
                                 ->select('*')
                                 ->where('id', '=', $work_record_id)
                                 ->get();
-
         #レコード取得出来なかった場合の例外処理
         if (count($date_work_record) == 0){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
@@ -139,7 +149,12 @@ class WorkController extends Controller
 
         #ログインユーザーの当日の勤怠ID取得(共通テンプレートで変数を使うため)
         $work    = new Work;
-        $work_id = $work->work_id_get();
+        $work_id = $work->Work_Id_Get();
+        #取得チェック
+        if (count($work_id) == 0) {
+            $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
+        }
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
@@ -171,13 +186,12 @@ class WorkController extends Controller
         $login_user_id = Auth::id();
 
         #DBから当日日付の勤怠レコード取得
-        $today_work_record          = DB::table('works')
-                            ->where('user_id', $login_user_id)
-                            ->where('year', $year)
-                            ->where('month', $month)
-                            ->where('day', $day)
-                            ->get();
-
+        $today_work_record = DB::table('works')
+                                ->where('user_id', $login_user_id)
+                                ->where('year', $year)
+                                ->where('month', $month)
+                                ->where('day', $day)
+                                ->get();
         #取得チェック
         if (count($today_work_record) == 0) {
             $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
@@ -237,8 +251,11 @@ class WorkController extends Controller
         $work = Work::find($id);
         if ($request->workstart != null) {                     #出勤時
             $work->workstart = request('workstart');
-            $work->save();
-
+            $results         = $work->save();
+            if ($results != true){
+                $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+                return view('layouts.errer', ['errer_messege' => $errer_messege]);
+            }
 
             #勤怠連絡自動送信
             $work_new        = new Work;
@@ -257,8 +274,8 @@ class WorkController extends Controller
         } elseif($request->workend != null) {                    #退勤時
             #システム設定時間の取得
             $user = User::with('work_system')
-                ->select('*')
-                ->get();
+                        ->select('*')
+                        ->get();
 
             #取得した時間をdiffメソッドが使えるフォーマットに変換
             $fixed_work_end   = new DateTime($user[0]->work_system->fixed_workend);
@@ -276,10 +293,9 @@ class WorkController extends Controller
             $work->breaktime      = $user[0]->work_system->fixed_breaktime;
             $work->workend        = request('workend');
             $work->total_worktime = $total_worktime;
-            $works_save           = $work->save();
-
-            if($works_save != true){
-                $errer_messege = "日付の更新に失敗しました。管理者にご連絡ください。";
+            $results              =  $work->save();
+            if ($results != true){
+                $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
                 return view('layouts.errer', ['errer_messege' => $errer_messege]);
             }
 
@@ -299,13 +315,19 @@ class WorkController extends Controller
         $month          = $today_date[1];
 
         #DB更新
-        $execute_result = DB::table('works')
+        $results        = DB::table('works')
                             ->where('user_id', request('login_user_id'))
                             ->where('year', $year)
                             ->where('month', $month)
                             ->update([
                                 'approval_flg' => request('approval_flg')
                             ]);
+        #例外処理
+        if ($results == 0){
+            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
+        }
+
         return redirect()->route('work.index');
     }
 

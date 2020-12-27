@@ -101,8 +101,6 @@ class ContactController extends Controller
         $contact->body    = request('body');
         $contact->user_id = $user->id;
         $results          = $contact->save();
-
-        #例外処理
         if ($results != true){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -118,8 +116,6 @@ class ContactController extends Controller
         $login_rname     = $login_user_name->r_name;
         $slack_body      = request('body');
         $send_result     = $work_new->send_slack($this->url,$this->channel,$this->icon,$login_fname,$login_rname,$slack_body);
-
-        #例外処理
         if ($send_result != 'ok'){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);

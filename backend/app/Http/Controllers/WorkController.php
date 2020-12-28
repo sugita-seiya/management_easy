@@ -46,7 +46,6 @@ class WorkController extends Controller
                             ->where('year', $year)
                             ->where('month', $month)
                             ->get();
-        #レコード取得出来なかった場合の例外処理
         if (count($user_works) == 0){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -55,7 +54,6 @@ class WorkController extends Controller
         #勤怠テーブルの承認フラグを取得
         $work          = new Work;
         $approval_flg  = $work->Login_User_Approvelflg_Get();
-        #レコード取得出来なかった場合の例外処理
         if (count($approval_flg) == 0){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -331,6 +329,7 @@ class WorkController extends Controller
 
     public function workrequest(Request $request)
     {
+        #日付取得
         $contact        = new Contact;
         $today_date     = $contact->date();
         $year           = $today_date[0];

@@ -7,10 +7,10 @@
       <tbody class="table-responsive">
         <tr class="table-bordered">
           <th class="contact-new_label pr-5">日付</th>
-          <td>{{$today_date[0]}}年{{$today_date[1]}}月{{$today_date[2]}}日({{$today_date[3]}})</td>
-            {{Form::hidden('year',$today_date[0])}}
-            {{Form::hidden('month',$today_date[1])}}
-            {{Form::hidden('day',$today_date[2])}}
+          <td>{{ $data_information['year']  }}年{{ $data_information['month'] }}月{{ $data_information['day'] }}日({{ $data_information['week'] }})</td>
+            {{Form::hidden('year',$data_information['year'] )}}
+            {{Form::hidden('month',$data_information['month'])}}
+            {{Form::hidden('day',$data_information['day'])}}
         </tr>
         <tr class="table-bordered">
           <th class="contact-new_label pr-5">件名</th>

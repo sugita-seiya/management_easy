@@ -8,7 +8,7 @@
     <tbody class="table-responsive">
       <tr class="table-bordered">
         <th class="contact-new_label pr-5">日付</th>
-        <td>{{$contact_record->year}}年{{$contact_record->month}}月{{$contact_record->day}}({{$today_date[3]}})</td>
+        <td>{{ $contact_record->year }}年{{ $contact_record->month }}月{{ $contact_record->day }}({{ $data_information['week'] }})</td>
       </tr>
       <tr class="table-bordered">
         <th class="contact-new_label pr-5">件名</th>

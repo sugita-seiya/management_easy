@@ -6,7 +6,7 @@
     <tbody class="table-responsive">
       <tr class="table-bordered">
         <th class="contact-new_label pr-5">日付</th>
-        <td>{{$contact_record->updated_at}}({{$today_date[3]}})</td>
+        <td>{{ $contact_record->updated_at }}({{ $data_information['week'] }})</td>
       </tr>
       <tr class="table-bordered">
         <th class="contact-new_label pr-5">投稿者</th>

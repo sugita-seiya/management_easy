@@ -125,7 +125,7 @@
             '8:00' => '8時間',
             '9:00' => '9時間',
           ], null, ['class' => 'pt-2 pb-2 pr-2 pl-2 '])
-        }}
+        }
       @endif
     </tb>
   </tr>
@@ -138,7 +138,7 @@
   @if($login_user_id === $date_work_record->user_id)
     <tr>
       <th class="pr-5"></th>
-      <td class="text-left">
+      <td class="text-center pr-5 ">
         <a href={{ route('work.index') }}>
           <button type="button" class="btn btn-secondary pr-4 pl-4">戻る</button>
         </a>

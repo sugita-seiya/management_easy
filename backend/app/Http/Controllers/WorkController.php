@@ -29,14 +29,13 @@ class WorkController extends Controller
     }
     /**
      * Display a listing of the resource.
-     *
+     *da
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
         #ログインユーザーを取得
         $login_user_id = Auth::id();
-
         #ログインユーザーの勤怠を全て取得
         $user_works    = Work::with('work_section')
                             ->select('*')
@@ -51,7 +50,7 @@ class WorkController extends Controller
 
         #勤怠テーブルの承認フラグを取得
         $work          = new Work;
-        $approval_flg  = $work->Login_User_Approvelflg_Get();
+        $approval_flg  = $work->Login_User_Approvelflg_Get($this->year,$this->month,$login_user_id);
         if (count($approval_flg) == 0){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -61,7 +60,7 @@ class WorkController extends Controller
 
         #ログインユーザーの当日の勤怠ID取得(共通テンプレートで変数を使うため)
         $work    = new Work;
-        $work_id = $work->Work_Id_Get();
+        $work_id = $work->Work_Id_Get($this->year,$this->month,$this->day,$login_user_id);
         if ($work_id == null) {
             $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -69,7 +68,7 @@ class WorkController extends Controller
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
-        $authortyid_information = $user->Authortyid_Get();
+        $authortyid_information = $user->Authortyid_Get($login_user_id);
         if (count($authortyid_information) == 0){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -157,12 +156,12 @@ class WorkController extends Controller
         $work_new              = new Work;
         $worktimes_format_edit = $work_new->work_time_format($workstart,$workend,$breaktime,$total_worktime);
 
-        ##ログインID取得
+        #ログインID取得
         $login_user_id         = Auth::id();
 
         #ログインユーザーの当日の勤怠ID取得(共通テンプレートで変数を使うため)
         $work    = new Work;
-        $work_id = $work->Work_Id_Get();
+        $work_id = $work->Work_Id_Get($this->year,$this->month,$this->day,$login_user_id);
         if ($work_id == null) {
             $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -170,7 +169,7 @@ class WorkController extends Controller
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
-        $authortyid_information = $user->Authortyid_Get();
+        $authortyid_information = $user->Authortyid_Get($login_user_id);
         if (count($authortyid_information) == 0){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -222,7 +221,7 @@ class WorkController extends Controller
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
-        $authortyid_information = $user->Authortyid_Get();
+        $authortyid_information = $user->Authortyid_Get($login_user_id);
         if (count($authortyid_information) == 0){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -230,7 +229,7 @@ class WorkController extends Controller
 
         #勤怠テーブルの承認フラグを取得
         $work_new          = new Work;
-        $approval_flg      = $work_new->Login_User_Approvelflg_Get();
+        $approval_flg      = $work_new->Login_User_Approvelflg_Get($this->year,$this->month,$login_user_id);
         if (count($approval_flg) == 0){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);

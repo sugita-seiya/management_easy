@@ -55,7 +55,7 @@
 
     @if($approval_flg == '1' or $approval_flg == '4')
       <tr class="text-center work-list">
-        <td colspan="7">
+        <td colspan="8">
           {{ Form::model(['route' =>['work.request']]) }}
             {{ Form::hidden('approval_flg',2 )}}
             {{ Form::hidden('login_user_id',$login_user_id)}}
@@ -65,13 +65,13 @@
       </tr>
     @elseif($approval_flg == '2')
       <tr class="text-center work-list">
-        <td colspan="7">
+        <td colspan="8" >
           <button type="button" class="btn btn-secondary pr-4 pl-4">申請中</button>
         </td>
       </tr>
     @elseif($approval_flg == '3')
       <tr class="text-center work-list">
-        <td colspan="7">
+        <td colspan="8">
           <button type="button" class="btn btn-secondary pr-4 pl-4">承認済</button>
         </td>
       </tr>

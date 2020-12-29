@@ -43,6 +43,5 @@ class AppServiceProvider extends ServiceProvider
             ];
             $view->with('data_information',$data_information);
         });
-        // return $data_information;
     }
 }

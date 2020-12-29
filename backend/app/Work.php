@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;    #ユーザークラス(Auth)の宣言
 use DB;                                 #DBクラスの宣言
 
 
@@ -42,20 +41,15 @@ class Work extends Model
     #----------------------------------------------------------------
     #  勤怠申請したユーザーidを受け取り、当月の勤怠一覧を取得
     #----------------------------------------------------------------
-    public function work_edit($user_id)
+    public function work_edit($user_id,$year,$month)
     {
-        $contact    = new Contact;
-        $today_date = $contact->date();
-        $year       = $today_date[0];
-        $month      = $today_date[1];
-
-        $work       = Work::with('work_section')
-                        ->select('*')
-                        ->where('approval_flg', 2)
-                        ->where('user_id', $user_id)
-                        ->Where('year', '=', $year)
-                        ->Where('month', '=', $month)
-                        ->get();
+        $work = Work::with('work_section')
+                    ->select('*')
+                    ->where('approval_flg', 2)
+                    ->where('user_id', $user_id)
+                    ->Where('year', '=', $year)
+                    ->Where('month', '=', $month)
+                    ->get();
         return $work;
     }
 
@@ -63,13 +57,8 @@ class Work extends Model
     #  当月の勤怠を申請and承認したユーザーレコードを取得(Work_approvelController.indexで使用)
     #  処理順 (Work_approvelController->Work.php->User.php->Work_approvelController
     #----------------------------------------------------------------------------
-    public function works_approvel()
+    public function Works_Approvel($year,$month)
     {
-        $contact    = new Contact;
-        $today_date = $contact->date();
-        $year       = $today_date[0];
-        $month      = $today_date[1];
-
         #勤怠を申請and承認したユーザーIDを取得
         $userid_notflg = DB::table('works')
                             ->select('user_id')
@@ -78,7 +67,6 @@ class Work extends Model
                             ->Where('month', '=', $month)
                             ->groupBy('user_id')
                             ->get();
-
         if (count($userid_notflg) == 0) {
             $userid_notflg = "日付取得に失敗しました。管理者にご連絡ください。";
         } else {
@@ -94,13 +82,8 @@ class Work extends Model
     #----------------------------------------------------------------
     #  #勤怠テーブルの承認フラグを取得
     #----------------------------------------------------------------
-    public function Login_User_Approvelflg_Get()
+    public function Login_User_Approvelflg_Get($year,$month,$login_user_id)
     {
-        $contact    = new Contact;
-        $today_date = $contact->date();
-        $year       = $today_date[0];
-        $month      = $today_date[1];
-        $login_user_id = Auth::id();
         $approval_flg  = DB::table('works')
                             ->select('approval_flg')
                             ->where('user_id', '=', $login_user_id)
@@ -113,13 +96,8 @@ class Work extends Model
     #----------------------------------------------------------------
     #  管理者が承認したらworkテーブルのapproval_flgを承認済に設定
     #----------------------------------------------------------------
-    public function Approvel_Update($user_id,$approval_flg)
+    public function Approvel_Update($user_id,$approval_flg,$year,$month)
     {
-        $contact    = new Contact;
-        $today_date = $contact->date();
-        $year = $today_date[0];
-        $month = $today_date[1];
-
         $results = DB::table('works')
                             ->where('approval_flg', 2)
                             ->where('user_id', $user_id)
@@ -134,16 +112,9 @@ class Work extends Model
     #----------------------------------------------------------------
     #  ログインユーザーの当日の勤怠ID取得
     #----------------------------------------------------------------
-    public function Work_Id_Get()
+    public function Work_Id_Get($year,$month,$day,$login_user_id)
     {
         // #DBからシステム日付のレコード取得
-        $login_user_id = Auth::id();
-        $contact       = new Contact;
-        $today_date    = $contact->date();
-        $year          = $today_date[0];
-        $month         = $today_date[1];
-        $day           = $today_date[2];
-
         $work          = DB::table('works')
                             ->select('*')
                             ->Where('year', '=', $year)
@@ -152,7 +123,6 @@ class Work extends Model
                             ->Where('user_id', '=', $login_user_id)
                             ->get();
         $work_id        = $work[0]->id;
-
         return $work_id;
     }
 

@@ -18,33 +18,6 @@ class InfluenceWorkid
     public function handle($request, Closure $next)
     {
         // #DBからシステム日付のレコード取得
-        // $login_user_id = Auth::id();
-        // $work = Work::where('user_id', $login_user_id)
-        //     ->where(function ($query) {
-        //         $contact    = new Contact;
-        //         $today_date = $contact->date();
-        //         $year = $today_date[0];
-        //         $query
-        //             ->Where('year', '=', $year);
-        //     })
-        //     ->where(function ($query) {
-        //         $contact    = new Contact;
-        //         $today_date = $contact->date();
-        //         $month = $today_date[1];
-        //         $query
-        //             ->Where('month', '=', $month);
-        //     })
-        //     ->where(function ($query) {
-        //         $contact    = new Contact;
-        //         $today_date = $contact->date();
-        //         $day = $today_date[2];
-        //         $query
-        //             ->Where('day', '=', $day);
-        //     })
-        //     ->get();
-
-
-        // #DBからシステム日付のレコード取得
         $login_user_id = Auth::id();
         $contact       = new Contact;
         $today_date    = $contact->date();

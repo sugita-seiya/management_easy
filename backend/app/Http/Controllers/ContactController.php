@@ -39,9 +39,12 @@ class ContactController extends Controller
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
 
+        #ログインID取得
+        $login_user_id         = Auth::id();
+
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
-        $authortyid_information = $user->Authortyid_Get();
+        $authortyid_information = $user->Authortyid_Get($login_user_id);
 
         return view('contacts.index',[
             'contacts'               => $contacts,
@@ -56,9 +59,12 @@ class ContactController extends Controller
      */
     public function create()
     {
+        #ログインID取得
+        $login_user_id         = Auth::id();
+
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
-        $authortyid_information = $user->Authortyid_Get();
+        $authortyid_information = $user->Authortyid_Get($login_user_id);
 
         return view('contacts.new',[
             'authortyid_information' => $authortyid_information
@@ -97,13 +103,13 @@ class ContactController extends Controller
 
 
         #勤怠連絡自動送信
-        $work_new        = new Work;
         $user            = new User;
         $login_user_id   = Auth::id();
         $login_user_name = $user->UserName_Get($login_user_id);     #ログインユーザー名取得
         $login_fname     = $login_user_name->f_name;
         $login_rname     = $login_user_name->r_name;
         $slack_body      = request('body');
+        $work_new        = new Work;
         $send_result     = $work_new->send_slack($this->url,$this->channel,$this->icon,$login_fname,$login_rname,$slack_body);
         if ($send_result != 'ok'){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
@@ -131,7 +137,7 @@ class ContactController extends Controller
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
-        $authortyid_information = $user->authortyid_get();
+        $authortyid_information = $user->Authortyid_Get($login_user_id);
 
         return view('contacts.show',[
             'contact_record'        => $contact_record,
@@ -160,7 +166,7 @@ class ContactController extends Controller
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
-        $authortyid_information = $user->authortyid_get();
+        $authortyid_information = $user->Authortyid_Get($login_user_id);
 
         return view('contacts.edit',[
             'contact_record'         => $contact_record,

@@ -2,7 +2,7 @@
 @include('layouts.header')
 @include('layouts.header_workbar')
 @section('content')
-<h5 class="my-3 text-center">{{$year}}年{{$month}}月</h5>
+<h5 class="my-3 text-center">{{ $data_information['year']  }}年{{ $data_information['month'] }}月</h5>
 @if($approval_flg == 4)
   <h5 class="my-3 text-danger text-center">管理者から差し戻されました。</h5>
 @endif

@@ -25,12 +25,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
-
         View::composer('*', function($view) {
             $year     = date("Y");                                       #現在の年を取得(yyyy)
             $month    = date("n");                                       #現在の月を取得(m)
             $day      = date("j");                                       #現在の日付を取得(d)
+            $time     = date("H:i");                                     #現在の時間を取得(hh:mm)
             $datetime = new DateTime("now");
             $day_week = array("日", "月", "火", "水", "木", "金", "土");
             $week     = $day_week[$datetime->format("w")];               #当日の曜日を取得
@@ -39,6 +38,7 @@ class AppServiceProvider extends ServiceProvider
                 'year'  => $year,
                 'month' => $month,
                 'day'   => $day,
+                'time'  => $time,
                 'week'  => $week,
             ];
             $view->with('data_information',$data_information);

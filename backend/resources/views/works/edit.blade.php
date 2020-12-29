@@ -9,11 +9,11 @@
         <div class="card-header text-center" style="background:#e9e1de;">{{('出退勤') }}</div>
         <div class="card-body text-center">
           <div class="work-day mb-3">
-            {{$today_date[0]}}年{{$today_date[1]}}月{{$today_date[2]}}日({{$today_date[3]}})
+            {{ $data_information['year'] }}年{{ $data_information['month'] }}月{{ $data_information['day'] }}日({{ $data_information['week'] }})
           </div>
           <div class="work-time mb-3">
             <h1>
-              {{$today_date[4]}}
+              {{ $data_information['time'] }}
             </h1>
           </div>
           @if($approval_flg =='1')

@@ -3,7 +3,7 @@
 @include('layouts.header_contactbar')
 @section('content')
   <h5 class="my-3 text-center">本日の連絡一覧</h5>
-  <h5 class="my-3 text-center">{{$today_date[0]}}年{{$today_date[1]}}日{{$today_date[2]}}日({{$today_date[3]}})</h5>
+  <h5 class="my-3 text-center">{{ $data_information['year'] }}年{{ $data_information['month'] }}日{{ $data_information['day'] }}日({{ $data_information['week']  }})</h5>
   <div>
     <table class="contact-index_table table table-hover">
       <thead>
@@ -15,7 +15,7 @@
       </thead>
       <tbody>
         @foreach($contacts as $contact)
-          @if($contact->year.$contact->month.$contact->day == $today)
+          @if($contact->year.$contact->month.$contact->day == $data_information['year'].$data_information['month'].$data_information['day'])
             <tr>
               <td>{{$contact->created_at}}</td>
               <td>

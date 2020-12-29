@@ -10,6 +10,12 @@ use App\Work;                           #勤怠クラスの宣言
 
 class WorkSystemController extends Controller
 {
+    public function __construct()
+    {
+        $this->year    = date("Y");                #当年を取得(yyyy)
+        $this->month   = date("m");                #当月を取得(m)
+        $this->day     = date("j");                #当日を取得(d)
+    }
     /**
      * Display a listing of the resource.
      *
@@ -30,7 +36,7 @@ class WorkSystemController extends Controller
 
         #ログインユーザーの当日の勤怠ID取得(共通テンプレートで勤怠idが使える様にするため)
         $work    = new Work;
-        $work_id = $work->Work_Id_Get();
+        $work_id = $work->Work_Id_Get($this->year,$this->month,$this->day,$login_user_id);
         if ($work_id == null) {
             $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -38,7 +44,7 @@ class WorkSystemController extends Controller
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
-        $authortyid_information = $user->Authortyid_Get();
+        $authortyid_information = $user->Authortyid_Get($login_user_id);
         if (count($authortyid_information) == 0){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -101,9 +107,12 @@ class WorkSystemController extends Controller
         $worksystem    = new Work_system;
         $worktimes     = $worksystem->work_time_format($workstart,$workend,$breaktime);
 
+        #ログインユーザーID取得
+        $login_user_id = Auth::id();
+
         #ログインユーザーの当日の勤怠ID取得(共通テンプレートで勤怠idが使える様にするため)
         $work          = new Work;
-        $work_id       = $work->Work_Id_Get();
+        $work_id       = $work->Work_Id_Get($this->year,$this->month,$this->day,$login_user_id);
         if ($work_id == null) {
             $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -111,7 +120,7 @@ class WorkSystemController extends Controller
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
-        $authortyid_information = $user->Authortyid_Get();
+        $authortyid_information = $user->Authortyid_Get($login_user_id);
         if (count($authortyid_information) == 0){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);

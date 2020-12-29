@@ -33,24 +33,22 @@ class ContactController extends Controller
     public function index()
     {
         #連絡事項を全て取得
-        $contact    = new Contact;
-        $today_date = $contact->date();
-        $today      = date("Ynj");
         $contacts   = Contact::all();
         if (count($contacts) == 0){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
 
+        #ログインID取得
+        $login_user_id         = Auth::id();
+
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
-        $authortyid_information = $user->authortyid_get();
+        $authortyid_information = $user->Authortyid_Get($login_user_id);
 
         return view('contacts.index',[
-            'contacts'              => $contacts,
-            'today'                 => $today,
-            'today_date'            => $today_date,
-            'authortyid_information'=> $authortyid_information
+            'contacts'               => $contacts,
+            'authortyid_information' => $authortyid_information
         ]);
     }
 
@@ -61,16 +59,15 @@ class ContactController extends Controller
      */
     public function create()
     {
-        $contact    = new Contact;
-        $today_date = $contact->date();
+        #ログインID取得
+        $login_user_id         = Auth::id();
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
-        $authortyid_information = $user->Authortyid_Get();
+        $authortyid_information = $user->Authortyid_Get($login_user_id);
 
         return view('contacts.new',[
-            'today_date'            => $today_date,
-            'authortyid_information'=> $authortyid_information
+            'authortyid_information' => $authortyid_information
         ]);
     }
 
@@ -106,13 +103,13 @@ class ContactController extends Controller
 
 
         #勤怠連絡自動送信
-        $work_new        = new Work;
         $user            = new User;
         $login_user_id   = Auth::id();
         $login_user_name = $user->UserName_Get($login_user_id);     #ログインユーザー名取得
         $login_fname     = $login_user_name->f_name;
         $login_rname     = $login_user_name->r_name;
         $slack_body      = request('body');
+        $work_new        = new Work;
         $send_result     = $work_new->send_slack($this->url,$this->channel,$this->icon,$login_fname,$login_rname,$slack_body);
         if ($send_result != 'ok'){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
@@ -130,7 +127,6 @@ class ContactController extends Controller
     public function show($id)
     {
         $contact_record = Contact::find($id);
-        #レコード取得出来なかった場合の例外処理
         if ($contact_record == null){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -138,17 +134,13 @@ class ContactController extends Controller
 
         #ログインID取得
         $login_user_id  = Auth::id();
-        #日付取得
-        $contact        = new Contact;
-        $today_date     = $contact->date();
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
-        $authortyid_information = $user->authortyid_get();
+        $authortyid_information = $user->Authortyid_Get($login_user_id);
 
         return view('contacts.show',[
             'contact_record'        => $contact_record,
-            'today_date'            => $today_date,
             'login_user_id'         => $login_user_id,
             'authortyid_information'=> $authortyid_information
         ]);
@@ -171,17 +163,13 @@ class ContactController extends Controller
 
         #ログインID取得
         $login_user_id          = Auth::id();
-        #日付取得
-        $contact                = new Contact;
-        $today_date             = $contact->date();
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
-        $authortyid_information = $user->authortyid_get();
+        $authortyid_information = $user->Authortyid_Get($login_user_id);
 
         return view('contacts.edit',[
             'contact_record'         => $contact_record,
-            'today_date'             => $today_date,
             'login_user_id'          => $login_user_id,
             'authortyid_information' => $authortyid_information
         ]);

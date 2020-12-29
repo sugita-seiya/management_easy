@@ -42,7 +42,7 @@
             <span class="navbar-toggler-icon"></span>
           </button>
         </div>
-        <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto">
             @guest
               <li class="nav-item">
@@ -63,8 +63,8 @@
               </li>
             @endguest
           </ul>
-        </div> -->
-        <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        </div>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto">
             @guest
               <li class="nav-item">
@@ -77,7 +77,7 @@
               @endif
             @endguest
           </ul>
-        </div> -->
+        </div>
       </div>
     </nav>
 

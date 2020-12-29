@@ -3,7 +3,7 @@
 @include('layouts.header_workbar')
 @section('content')
   <h5 class="my-3 text-center">システム設定</h5>
-  <table class="table work-system">
+  <table class="table table-hover work-system">
     @foreach($loginuser_record as $user)
       <tr class="table-bordered">
         <th scope="row"  class="work-index_title">出勤時間</th>

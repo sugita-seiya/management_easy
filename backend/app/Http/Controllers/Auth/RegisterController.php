@@ -113,15 +113,16 @@ class RegisterController extends Controller
                     $user->id;
                 }
 
+                $null = '';
                 Work::create([
                     'year'            => $year,
                     'month'           => $month,
                     'day'             => $day,
-                    'workstart'       => '00:00:00',
-                    'workend'         => '00:00:00',
-                    'breaktime'       => '00:00:00',
-                    'total_worktime'  => '00:00:00',
-                    'remark'          => 'なし',
+                    'workstart'       => $null,
+                    'workend'         => $null,
+                    'breaktime'       => $null,
+                    'total_worktime'  => $null,
+                    'remark'          => $null,
                     'approval_flg'    => '1',
                     'work_section_id' => $work_section_id,
                     'user_id'         => $user->id,
@@ -131,6 +132,7 @@ class RegisterController extends Controller
             return $user;
         }catch (\Exception $e) {
             DB::rollback();
+            dd('登録失敗');
             return $user;
         }
 

@@ -228,16 +228,16 @@ class Work extends Model
                 }else{
                     $work_section_id = 1;                                          #出勤
                 }
-
+                $null = '';
                 Work::create([
                     'year'            => $next_year,
                     'month'           => $next_month,
                     'day'             => $day,
-                    'workstart'       => '00:00:00',
-                    'workend'         => '00:00:00',
-                    'breaktime'       => '00:00:00',
-                    'total_worktime'  => '00:00:00',
-                    'remark'          => 'なし',
+                    'workstart'       => $null,
+                    'workend'         => $null,
+                    'breaktime'       => $null,
+                    'total_worktime'  => $null,
+                    'remark'          => $null,
                     'approval_flg'    => '1',
                     'work_section_id' => $work_section_id,
                     'user_id'         => $login_user_id,

@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use DB;                                 #DBクラスの宣言
+use DateTime;                           #DataTimeクラスの宣言
 
 
 class Work extends Model
@@ -271,4 +272,61 @@ class Work extends Model
         return $get_next_month;
     }
 
+    #----------------------------------------------------------------
+    #  前日以降の出勤していて、退勤がされていないレコードを取得
+    #----------------------------------------------------------------
+    public function Get_Null_Workend($year,$month,$day,$login_user_id)
+    {
+        #次月のmonthカラム情報を取得
+        $null_workend_record = DB::table('works')
+                                ->select('*')
+                                ->Where('workstart', '!=', "00:00:00")
+                                ->Where('workend', '=', "00:00:00")
+                                ->Where('year', '=', $year)
+                                ->Where('month', '=', $month)
+                                ->Where('day', '<', $day)
+                                ->Where('user_id', '=', $login_user_id)
+                                ->get();
+                                // ->toSql();
+                                // dd(count($get_next_month));
+        return $null_workend_record;
+    }
+
+    #----------------------------------------------------------------
+    #  前日以降の出勤していて、退勤がされていないレコードの更新
+    #----------------------------------------------------------------
+    public function Null_Workend_Update($year,$month,$null_workend_day,$login_user_id,$fixed_workend,$fixed_breaktime,$null_total_worktime)
+    {
+        #退勤がされていないレコードの更新
+        DB::table('works')
+            ->where('user_id', $login_user_id)
+            ->where('year', $year)
+            ->where('month', $month)
+            ->where('day', $null_workend_day)
+            ->update([
+                'workend'        => $fixed_workend,
+                'breaktime'      => $fixed_breaktime,
+                'total_worktime' => $null_total_worktime
+            ]);
+            return;
+    }
+    #----------------------------------------------------------------
+    #  勤怠時間の計算(合計勤務時間 = 終了時間-開始時間-休憩時間)
+    #----------------------------------------------------------------
+    public function Total_WorkTime($fixed_workstart,$fixed_workend,$fixed_breaktime)
+    {
+            #取得した時間をdiffメソッドが使えるフォーマットに変換
+            $fixed_workstart = new DateTime($fixed_workstart);
+            $fixed_workend   = new DateTime($fixed_workend);
+            $fixed_breaktime = new DateTime($fixed_breaktime);
+
+            #働いた時間の計算(時間 = 終了時間-開始時間-休憩時間)
+            $total_time     = $fixed_workend->diff($fixed_workstart);
+            $total_time     = $total_time->h.':00';
+            $total_time     = new DateTime($total_time);
+            $total_worktime = $total_time->diff($fixed_breaktime);
+            $total_worktime = $total_worktime->h.':00';
+
+            return $total_worktime;
+    }
 }

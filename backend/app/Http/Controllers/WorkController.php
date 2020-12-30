@@ -13,7 +13,6 @@ use App\Work;
 use Illuminate\Http\Request;
 use App\User;                           #ユーザーモデルの宣言
 use Illuminate\Support\Facades\Auth;    #ユーザークラス(Auth)の宣言
-use DateTime;                           #DataTimeクラスの宣言
 use DB;                                 #DBクラスの宣言
 
 class WorkController extends Controller
@@ -125,6 +124,13 @@ class WorkController extends Controller
      */
     public function store($id)
     {
+        #備考欄が空の場合は空で更新
+        $remark          = request('remark');
+        // dd($remark);
+        if($remark == null ){
+            $remark = '';
+        }
+
         #勤怠レコードの更新
         $store_work_record                  = Work::find($id);
         if ($store_work_record == null){
@@ -135,7 +141,7 @@ class WorkController extends Controller
         $store_work_record->workend         = request('workend');
         $store_work_record->total_worktime  = request('total_worktime');
         $store_work_record->work_section_id = request('work_section_id');
-        $store_work_record->remark          = request('remark');
+        $store_work_record->remark          = $remark;
         $results                            = $store_work_record->save();
         if ($results != true){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
@@ -216,7 +222,31 @@ class WorkController extends Controller
     public function edit(Work $work)
     {
         #ログインユーザーIDを取得
-        $login_user_id = Auth::id();
+        $login_user_id       = Auth::id();
+        $work_new            = new Work;
+        $user                = new User;
+
+        #前日以降で出勤していて、退勤されていないレコードを取得
+        $null_workend_record = $work_new->Get_Null_Workend($this->year,$this->month,$this->day,$login_user_id);
+        #退勤されていないレコードが存在した場合、レコードの更新
+        if(count($null_workend_record) >= 1 ){
+            #ユーザーテーブルからシステム時間の取得
+            $user_information  = $user->UserSystem_Get($login_user_id);
+            if (count($user_information) == 0){
+                $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+                return view('layouts.errer', ['errer_messege' => $errer_messege]);
+            }else{
+                #勤怠時間の計算(合計勤務時間 = 終了時間-開始時間-休憩時間)
+                $null_fixed_workstart      = $user_information[0]->work_system->fixed_workstart;
+                $null_fixed_workend        = $user_information[0]->work_system->fixed_workend;
+                $null_fixed_breaktime      = $user_information[0]->work_system->fixed_breaktime;
+                $null_total_worktime       = $work_new->Total_WorkTime($null_fixed_workstart,$null_fixed_workend,$null_fixed_breaktime);
+
+                #退勤されていないレコードの更新
+                $null_workend_day = $null_workend_record[0]->day;
+                $work_new->Null_Workend_Update($this->year,$this->month,$null_workend_day,$login_user_id,$null_fixed_workend,$null_fixed_breaktime,$null_total_worktime);
+            }
+        }
 
         #DBから当日日付の勤怠レコード取得
         $today_work_record = DB::table('works')
@@ -243,7 +273,6 @@ class WorkController extends Controller
         }
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
-        $user                   = new User;
         $authortyid_information = $user->Authortyid_Get($login_user_id);
         if (count($authortyid_information) == 0){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
@@ -251,7 +280,6 @@ class WorkController extends Controller
         }
 
         #勤怠テーブルの承認フラグを取得
-        $work_new          = new Work;
         $approval_flg      = $work_new->Login_User_Approvelflg_Get($this->year,$this->month,$login_user_id);
         if (count($approval_flg) == 0){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
@@ -281,7 +309,9 @@ class WorkController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $work = Work::find($id);
+        $work            = Work::find($id);
+        $login_user_id   = Auth::id();
+        $work_new        = new Work;
         if ($request->workstart != null) {                     #出勤時
             $work->workstart = request('workstart');
             $results         = $work->save();
@@ -291,9 +321,7 @@ class WorkController extends Controller
             }
 
             #勤怠連絡自動送信
-            $work_new        = new Work;
             $user            = new User;
-            $login_user_id   = Auth::id();
             $login_user_name = $user->UserName_Get($login_user_id);     #ログインユーザー名取得
             $login_fname     = $login_user_name->f_name;
             $login_rname     = $login_user_name->r_name;
@@ -308,19 +336,14 @@ class WorkController extends Controller
             #システム設定時間の取得
             $user = User::with('work_system')
                         ->select('*')
+                        ->Where('id', '=', $login_user_id)
                         ->get();
 
-            #取得した時間をdiffメソッドが使えるフォーマットに変換
-            $fixed_work_end   = new DateTime($user[0]->work_system->fixed_workend);
-            $fixed_work_start = new DateTime($user[0]->work_system->fixed_workstart);
-            $breaktime        = new DateTime($user[0]->work_system->fixed_breaktime);
-
-            #働いた時間の計算(時間 = 終了時間-開始時間-休憩時間)
-            $total_time     = $fixed_work_end->diff($fixed_work_start);
-            $total_time     = $total_time->h.':00';
-            $total_time     = new DateTime($total_time);
-            $total_worktime = $total_time->diff($breaktime);
-            $total_worktime = $total_worktime->h.':00';
+            #勤怠時間の計算(合計勤務時間 = 終了時間-開始時間-休憩時間)
+            $fixed_workstart = $user[0]->work_system->fixed_workstart;
+            $fixed_workend   = $user[0]->work_system->fixed_workend;
+            $fixed_breaktime = $user[0]->work_system->fixed_breaktime;
+            $total_worktime  = $work_new->Total_WorkTime($fixed_workstart,$fixed_workend,$fixed_breaktime);
 
             #DB更新
             $work->breaktime      = $user[0]->work_system->fixed_breaktime;

@@ -136,4 +136,16 @@ class User extends Authenticatable
 
         return $user_name;
     }
+    #----------------------------------------------------------------------------
+    #  ログインユーザーのシステム情報を取得
+    #----------------------------------------------------------------------------
+    public function UserSystem_Get($login_user_id)
+    {
+        $user_information = User::with('work_system')
+                                ->select('*')
+                                ->where('id', $login_user_id)
+                                ->get();
+
+        return $user_information;
+    }
 }

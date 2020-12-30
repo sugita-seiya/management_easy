@@ -20,12 +20,13 @@ class WorkController extends Controller
 {
     public function __construct()
     {
-        $this->url     = env('SLACK_WEBHOOK_URL'); #slackのURL
-        $this->channel = env('SLACK_CHANNEL');     #slackのチャンネル名
-        $this->icon    = env('FACEICON');          #アイコン
-        $this->year    = date("Y");                #当年を取得(yyyy)
-        $this->month   = date("m");                #当月を取得(m)
-        $this->day     = date("j");                #当日を取得(d)
+        $this->url               = env('SLACK_WEBHOOK_URL');                           #slackのURL
+        $this->channel           = env('SLACK_CHANNEL');                               #slackのチャンネル名
+        $this->icon              = env('FACEICON');                                    #アイコン
+        $this->year              = date("Y");                                          #当年を取得(yyyy)
+        $this->month             = date("m");                                          #当月を取得(m)
+        $this->day               = date("j");                                          #当日を取得(d)
+        $this->this_month_lastday = date('d', strtotime('last day of this month'));     #当月の最後の日付が出力
     }
     /**
      * Display a listing of the resource.
@@ -36,6 +37,31 @@ class WorkController extends Controller
     {
         #ログインユーザーを取得
         $login_user_id = Auth::id();
+
+        #当日を日付をDBから取得
+        $work          = new Work;
+        $today_date    = $work->Today_Date($this->year,$this->month,$this->day,$login_user_id);
+        if (count($today_date) == 0){
+            $errer_messege = "システムエラーが発生しました。管理者にご連絡ください。";
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
+        }else{
+            $today_date = $today_date[0]->day;
+        }
+
+        #当日の最終日チェック(最終日なら次月カレンダー作成)
+        if($today_date  == $this->this_month_lastday){
+            #次月のカレンダーが情報を取得
+            $get_next_month = $work->Get_Next_Month($login_user_id);
+            #次月のカレンダーが作成されていなけれが作成
+            if(count($get_next_month) == 0){
+                $results     = $work->Create_Next_Month($login_user_id);
+                if($results == 'false'){
+                    $errer_messege = "システムエラーが発生しました。管理者にご連絡ください。";
+                    return view('layouts.errer', ['errer_messege' => $errer_messege]);
+                }
+            }
+        }
+
         #ログインユーザーの勤怠を全て取得
         $user_works    = Work::with('work_section')
                             ->select('*')
@@ -44,25 +70,23 @@ class WorkController extends Controller
                             ->where('month', $this->month)
                             ->get();
         if (count($user_works) == 0){
-            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            $errer_messege = "システムエラーが発生しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
 
         #勤怠テーブルの承認フラグを取得
-        $work          = new Work;
         $approval_flg  = $work->Login_User_Approvelflg_Get($this->year,$this->month,$login_user_id);
         if (count($approval_flg) == 0){
-            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            $errer_messege = "システムエラーが発生しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }else{
             $approval_flg = $approval_flg[0]->approval_flg;
         }
 
         #ログインユーザーの当日の勤怠ID取得(共通テンプレートで変数を使うため)
-        $work    = new Work;
         $work_id = $work->Work_Id_Get($this->year,$this->month,$this->day,$login_user_id);
         if ($work_id == null) {
-            $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
+            $errer_messege = "システムエラーが発生しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
 
@@ -70,7 +94,7 @@ class WorkController extends Controller
         $user                   = new User;
         $authortyid_information = $user->Authortyid_Get($login_user_id);
         if (count($authortyid_information) == 0){
-            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            $errer_messege = "システムエラーが発生しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
 
@@ -160,8 +184,7 @@ class WorkController extends Controller
         $login_user_id         = Auth::id();
 
         #ログインユーザーの当日の勤怠ID取得(共通テンプレートで変数を使うため)
-        $work    = new Work;
-        $work_id = $work->Work_Id_Get($this->year,$this->month,$this->day,$login_user_id);
+        $work_id = $work_new->Work_Id_Get($this->year,$this->month,$this->day,$login_user_id);
         if ($work_id == null) {
             $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);

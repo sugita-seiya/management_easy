@@ -66,7 +66,7 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
+    public function create(array $data)
     {
         $year             = date("Y");              #現在の年を出力する
         $month            = date("m");              #現在の月を出力する

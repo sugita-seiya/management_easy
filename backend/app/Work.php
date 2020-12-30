@@ -165,7 +165,7 @@ class Work extends Model
     #  HH:MM:SS->HH時MM分
     #  HH:MM:SS->HH時間
     #----------------------------------------------------------------
-    public function work_time_format($workstart,$workend,$breaktime,$total_worktime)
+    public function Work_Time_Format($workstart,$workend,$breaktime,$total_worktime)
     {
         $workstart_format      = date('G時i分',strtotime($workstart));
         $workend_format        = date('G時i分',strtotime($workend));
@@ -181,4 +181,94 @@ class Work extends Model
         // dd($worktime_format_edit['workstart']);
         return $worktimes_format_edit;
     }
+
+    #----------------------------------------------------------------
+    #  当日の日付をDBから取得
+    #----------------------------------------------------------------
+    public function Today_Date($year,$month,$day,$login_user_id)
+    {
+        $MonthLastDay = DB::table('works')
+                            ->select('day')
+                            ->Where('year', '=', $year)
+                            ->Where('month', '=', $month)
+                            ->Where('day', '=', $day)
+                            ->Where('user_id', '=', $login_user_id)
+                            ->get();
+        return $MonthLastDay;
+    }
+
+    #----------------------------------------------------------------
+    #  次月カレンダーの作成
+    #----------------------------------------------------------------
+    public function Create_Next_Month($login_user_id)
+    {
+        $next_year          = date('Y', strtotime('last day of next month'));   #次月の年を取得
+        $next_month         = date('m', strtotime('last day of next month'));   #次月を取得
+        $next_month_lastday = date('d', strtotime('last day of next month'));   #次月の最後の日付が出力
+        $week               = array( "日", "月", "火", "水", "木", "金", "土" );
+
+        #トランザクション開始
+        DB::beginTransaction();
+        try{
+            for ($i = 1; $i <= $next_month_lastday; $i++){
+                $day     = $i;
+
+                #一桁なら二桁にする。(一桁の場合曜日が取得出来ないため)
+                if(strlen($day) == 1){
+                    $day = '0'.$day;
+                }
+
+                $date    = date('w', strtotime($next_year.$next_month.$day));      #システム日付の曜日番号が出力(0〜6)
+                $day_week= $week[$date];                                           #日〜土の値が出力される
+                if($day_week == "土"){
+                    $work_section_id = 3;                                          #法定外休日
+                }elseif($day_week == "日") {
+                    $work_section_id = 2;                                          #法定休日
+                }else{
+                    $work_section_id = 1;                                          #出勤
+                }
+
+                Work::create([
+                    'year'            => $next_year,
+                    'month'           => $next_month,
+                    'day'             => $day,
+                    'workstart'       => '00:00:00',
+                    'workend'         => '00:00:00',
+                    'breaktime'       => '00:00:00',
+                    'total_worktime'  => '00:00:00',
+                    'remark'          => 'なし',
+                    'approval_flg'    => '1',
+                    'work_section_id' => $work_section_id,
+                    'user_id'         => $login_user_id,
+                ]);
+            }
+            DB::commit();
+            $create_result = 'true';
+            return $create_result;
+        }catch (\Exception $e) {
+            DB::rollback();
+            $create_result = 'false';
+            return $create_result;
+        }
+    }
+
+    #----------------------------------------------------------------
+    #  次月のmonthカラムを取得
+    #----------------------------------------------------------------
+    public function Get_Next_Month($login_user_id)
+    {
+        $next_year          = date('Y', strtotime('last day of next month'));   #次月の年を取得
+        $next_month         = date('m', strtotime('last day of next month'));   #次月を取得
+
+        #次月のmonthカラム情報を取得
+        $get_next_month     = DB::table('works')
+                                ->select('month')
+                                ->Where('year', '=', $next_year)
+                                ->Where('month', '=', $next_month)
+                                ->Where('user_id', '=', $login_user_id)
+                                ->groupBy('month')
+                                ->get();
+        return $get_next_month;
+    }
+
 }

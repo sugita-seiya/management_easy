@@ -43,17 +43,27 @@ html{
   background-color: #ef7709;
 }
 
+
+
+
+
+
+
+
+
 /*
 ---------------------------------------------
 連絡事項.詳細ページ
 ---------------------------------------------
 */
-.show-from .contact-delete{
+.form-table .contact-delete{
   color: #ef7709;
 }
-.show-from  .contact-edit{
-  background-color: #ef7709;
-}
+
+
+
+
+
 
 /*
 ---------------------------------------------
@@ -68,16 +78,6 @@ html{
 .attendance .color-gray{
   background-color: #6c757d;
 }
-
-/*
----------------------------------------------
-勤怠承認画面
----------------------------------------------
-*/
-.work-list .submit-approval{
-  background-color: #ef7709;
-}
-
 
 
 

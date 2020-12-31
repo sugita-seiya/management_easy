@@ -125,8 +125,7 @@ class WorkController extends Controller
     public function store($id)
     {
         #備考欄が空の場合は空で更新
-        $remark          = request('remark');
-        // dd($remark);
+        $remark  = request('remark');
         if($remark == null ){
             $remark = '';
         }
@@ -159,18 +158,8 @@ class WorkController extends Controller
      */
     public function show(Work $work)
     {
-        #勤怠テーブルのID
-        $work_record_id   = $work->id;
-        if ($work_record_id == null){
-            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
-            return view('layouts.errer', ['errer_messege' => $errer_messege]);
-        }
-
-        #勤怠レコードの取得
-        $date_work_record = Work::with('work_section')
-                                ->select('*')
-                                ->where('id', '=', $work_record_id)
-                                ->get();
+        #勤怠のレコード
+        $date_work_record = Work::find($work);
         if (count($date_work_record) == 0){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -183,14 +172,14 @@ class WorkController extends Controller
         $workend               = $date_work_record->workend;
         $breaktime             = $date_work_record->breaktime;
         $total_worktime        = $date_work_record->total_worktime;
-        $work_new              = new Work;
-        $worktimes_format_edit = $work_new->work_time_format($workstart,$workend,$breaktime,$total_worktime);
+        $work                  = new Work;
+        $worktimes_format_edit = $work->work_time_format($workstart,$workend,$breaktime,$total_worktime);
 
         #ログインID取得
         $login_user_id         = Auth::id();
 
         #ログインユーザーの当日の勤怠ID取得(共通テンプレートで変数を使うため)
-        $work_id = $work_new->Work_Id_Get($this->year,$this->month,$this->day,$login_user_id);
+        $work_id               = $work->Work_Id_Get($this->year,$this->month,$this->day,$login_user_id);
         if ($work_id == null) {
             $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -243,7 +232,7 @@ class WorkController extends Controller
                 $null_total_worktime       = $work_new->Total_WorkTime($null_fixed_workstart,$null_fixed_workend,$null_fixed_breaktime);
 
                 #退勤されていないレコードの更新
-                $null_workend_day = $null_workend_record[0]->day;
+                $null_workend_day          = $null_workend_record[0]->day;
                 $work_new->Null_Workend_Update($this->year,$this->month,$null_workend_day,$login_user_id,$null_fixed_workend,$null_fixed_breaktime,$null_total_worktime);
             }
         }

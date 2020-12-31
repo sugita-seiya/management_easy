@@ -5,9 +5,9 @@
 <h5 class="my-3 text-center">システム設定</h5>
 {{ Form::model('$worksystem_id',['route' =>['worksystem.update',$worksystem_id]]) }}
 @method('PUT')
-<table class="table work-system">
+<table class="table table-hover">
     <tr class="table-bordered">
-      <th scope="row"  class="work-index_title">出勤時間</th>
+      <th scope="row"  class="table-title">出勤時間</th>
       <td>
       @if ($worktimes[0] == '9時00分')
         {{ Form::select('fixed_workstart', [
@@ -26,7 +26,7 @@
       </tb>
     </tr>
     <tr class="table-bordered">
-      <th scope="row"  class="work-index_title">退勤時間</th>
+      <th scope="row"  class="table-title">退勤時間</th>
       <td>
       @if ($worktimes[1] == '18時00分')
         {{ Form::select('fixed_workend', [
@@ -45,19 +45,22 @@
       </tb>
     </tr>
     <tr class="table-bordered">
-      <th scope="row"  class="work-index_title">休憩時間</th>
+      <th scope="row"  class="table-title">休憩時間</th>
       <td> {{ $worktimes[2] }} </tb>
     </tr>
-
-  <tr>
-    <th class="pr-5"></th>
-    <td class="text-left">
-      <a href={{ route('worksystem.index') }}>
-        <button type="button" class="btn btn-secondary pr-4 pl-4">戻る</button>
-      </a>
-          {{ Form::submit('更新', ['class' => 'btn text-white pr-4 pl-4 work-system_time']) }}
-    </td>
-  </tr>
 </table>
+
+@if($login_user_record->work_system_id === $worksystem_id->id)
+  <table class="table form-table">
+    <tr>
+      <td class="text-center border-0">
+        <a href={{ route('worksystem.index') }}>
+          <button type="button" class="btn btn-secondary pr-4 pl-4">戻る</button>
+        </a>
+            {{ Form::submit('更新', ['class' => 'btn text-white pr-4 pl-4 form-table_btn']) }}
+      </td>
+    </tr>
+  </table>
+@endif
 {{ Form::close() }}
 @endsection

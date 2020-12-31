@@ -5,9 +5,9 @@
 @section('content')
   <h5 class="my-3 text-center">社員情報</h5>
   <div>
-    <table class="contact-index_table table table-hover">
+    <table class="table table-hover">
       <thead>
-        <tr class="content-index_label">
+        <tr class="table-title">
           <th scope="col">社員番号</th>
           <th scope="col">社員名</th>
           <th scope="col">入社日</th>

@@ -8,7 +8,7 @@
 @endif
 <table class="table table-hover">
   <thead>
-    <tr class="work-index_title table-bordered">
+    <tr class="table-title table-bordered">
       <th scope="col">日付</th>
       <th scope="col">勤怠区分</th>
       <th scope="col">出勤時刻</th>
@@ -52,30 +52,32 @@
         </td>
       </tr>
     @endforeach
+  </tbody>
+</table>
 
-    @if($approval_flg == '1' or $approval_flg == '4')
-      <tr class="text-center work-list">
-        <td colspan="8">
+<table class="table form-table">
+  @if($approval_flg == '1' or $approval_flg == '4')
+    <tr>
+      <td class="text-center border-0">
           {{ Form::model(['route' =>['work.request']]) }}
             {{ Form::hidden('approval_flg',2 )}}
             {{ Form::hidden('login_user_id',$login_user_id)}}
-            {{ Form::submit('勤怠送信', ['class' => 'btn text-white pr-4 pl-4 submit-approval']) }}
+            {{ Form::submit('勤怠送信', ['class' => 'btn text-white pr-4 pl-4 form-table_btn']) }}
           {{ Form::close() }}
         </td>
-      </tr>
-    @elseif($approval_flg == '2')
-      <tr class="text-center work-list">
-        <td colspan="8" >
-          <button type="button" class="btn btn-secondary pr-4 pl-4">申請中</button>
-        </td>
-      </tr>
-    @elseif($approval_flg == '3')
-      <tr class="text-center work-list">
-        <td colspan="8">
-          <button type="button" class="btn btn-secondary pr-4 pl-4">承認済</button>
-        </td>
-      </tr>
-    @endif
-  </tbody>
+    </tr>
+  @elseif($approval_flg == '2')
+    <tr>
+      <td class="text-center border-0">
+        <button type="button" class="btn btn-secondary pr-4 pl-4">申請中</button>
+      </td>
+    </tr>
+  @elseif($approval_flg == '3')
+    <tr>
+      <td class="text-center border-0">
+        <button type="button" class="btn text-white pr-4 pl-4 form-table_btn">承認済</button>
+      </td>
+    </tr>
+  @endif
 </table>
 @endsection

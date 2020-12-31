@@ -7,7 +7,7 @@
   <h5 class="my-3 text-center">{{$user_list->f_name.$user_list->r_name}}の勤怠一覧</h5>
   <table class="table table-hover">
   <thead>
-    <tr class="work-index_title">
+    <tr class="table-title">
       <th scope="col">日付</th>
       <th scope="col">勤怠区分</th>
       <th scope="col">出勤時刻</th>
@@ -45,26 +45,23 @@
         <td >{{$work->remark}}</td>
       </tr>
     @endforeach
-      <tr class="text-center work-list">
-        <td></td>
-        <td></td>
-        <td></td>
-        <td colspan="2">
-          <div class= "row">
-            {{ Form::model(['route' =>['work_approvel.update',$user_list->id]]) }}
-              {{ Form::hidden('approval_flg',4 )}}
-              {{ Form::submit('差し戻し', ['class' => 'btn text-white mr-4 btn-secondary ']) }}
-            {{ Form::close() }}
-            {{ Form::model(['route' =>['work_approvel.update',$user_list->id]]) }}
-              {{ Form::hidden('approval_flg',3 )}}
-              {{ Form::submit('承認', ['class' => 'btn text-white pr-4 pl-4 submit-approval']) }}
-            {{ Form::close() }}
-          </div>
-        </td>
-      <td></td>
-      <td></td>
-      </tr>
   </tbody>
 
+  <table class="table form-table">
+    <tr>
+      <td class="text-center border-0">
+        <div class="d-flex justify-content-center">
+          {{ Form::model(['route' =>['work_approvel.update',$user_list->id]]) }}
+            {{ Form::hidden('approval_flg',4 )}}
+            {{ Form::submit('差し戻し', ['class' => 'btn text-white mr-4 btn-secondary']) }}
+          {{ Form::close() }}
+          {{ Form::model(['route' =>['work_approvel.update',$user_list->id]]) }}
+            {{ Form::hidden('approval_flg',3 )}}
+            {{ Form::submit('承認', ['class' => 'btn text-white pr-4 pl-4 form-table_btn']) }}
+          {{ Form::close() }}
+        </div>
+      </td>
+    </tr>
+  </table>
 </table>
 @endsection

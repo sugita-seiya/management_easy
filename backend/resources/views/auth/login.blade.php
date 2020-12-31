@@ -5,7 +5,7 @@
   <div class="row justify-content-center">
     <div class="col-md-8">
       <div class="card">
-        <div class="card-header" style="background:#e9e1de;">{{ __('ログイン') }}</div>
+        <div class="card-header text-center" style="background:#e9e1de;">{{ __('社員ログイン') }}</div>
 
         <div class="card-body">
           <form method="POST" action="{{ route('login') }}">
@@ -53,13 +53,13 @@
                 </button>
               </div>
 
-              <div class="col-md-8 offset-md-4">
+              <!-- <div class="col-md-8 offset-md-4">
                 @if (Route::has('password.request'))
                   <a class="btn btn-link" href="{{ route('password.request') }}" style="color: #ef7709;">
                     {{ __('パスワードを忘れた方はこちら') }}
                   </a>
                 @endif
-              </div>
+              </div> -->
             </div>
           </form>
         </div>

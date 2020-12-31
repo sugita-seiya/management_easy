@@ -7,7 +7,7 @@
   <div>
     <table class="contact-index_table table table-hover">
       <thead>
-        <tr class="content-index_label">
+        <tr class="table-title">
           <th>時間</th>
           <th>件名</th>
           <th>投稿者</th>

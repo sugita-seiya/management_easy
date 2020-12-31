@@ -8,7 +8,7 @@
 @endif
 <table class="table table-hover">
   <thead>
-    <tr class="work-index_title table-bordered">
+    <tr class="table-title table-bordered">
       <th scope="col">日付</th>
       <th scope="col">勤怠区分</th>
       <th scope="col">出勤時刻</th>

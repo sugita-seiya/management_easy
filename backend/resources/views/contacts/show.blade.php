@@ -4,19 +4,19 @@
 @section('content')
   <table class="table table-hover">
     <tr class="table-bordered">
-      <th class="contact-new_label pr-5">日付</th>
+      <th class="table-title pr-5">日付</th>
       <td>{{ $contact_record->updated_at }}({{ $data_information['week'] }})</td>
     </tr>
     <tr class="table-bordered">
-      <th class="contact-new_label pr-5">投稿者</th>
+      <th class="table-title pr-5">投稿者</th>
       <td>{{$contact_record->user->f_name.$contact_record->user->r_name}}</td>
     </tr>
     <tr class="table-bordered">
-      <th class="contact-new_label pr-5">件名</th>
+      <th class="table-title pr-5">件名</th>
       <td>{{$contact_record->subject}}</td>
     </tr>
     <tr class="table-bordered">
-      <th class="contact-new_label pr-5" >本文</th>
+      <th class="table-title pr-5" >本文</th>
       <td>
         <textarea disabled="disabled" name="mytextarea"  cols="50" rows="10" class="contact-show_body bg-white">{{$contact_record->body}}</textarea>
       </td>

@@ -5,7 +5,7 @@
   {{ Form::open(['route' => 'contact.store']) }}
     <table class="table table-hover">
         <tr class="table-bordered">
-          <th class="contact-new_label">日付</th>
+          <th class="table-title">日付</th>
           <td>
             {{ $data_information['year']  }}年{{ $data_information['month'] }}月{{ $data_information['day'] }}日({{ $data_information['week'] }})
             {{Form::hidden('year',$data_information['year'] )}}
@@ -14,11 +14,11 @@
           </td>
         </tr>
         <tr class="table-bordered">
-          <th class="contact-new_label">件名</th>
+          <th class="table-title">件名</th>
           <td>{{ Form::text('subject', null) }}</td>
         </tr>
         <tr class="table-bordered">
-          <th class="contact-new_label">本文</th>
+          <th class="table-title">本文</th>
           <td >
             {{Form::textarea('body', null, ['rows' => 10,'cols' => 50])}}
           </td>

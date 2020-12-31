@@ -6,15 +6,15 @@
   @method('PUT')
   <table class="table table-hover">
       <tr class="table-bordered">
-        <th class="contact-new_label pr-5">日付</th>
+        <th class="table-title pr-5">日付</th>
         <td>{{ $contact_record->year }}年{{ $contact_record->month }}月{{ $contact_record->day }}({{ $data_information['week'] }})</td>
       </tr>
       <tr class="table-bordered">
-        <th class="contact-new_label pr-5">件名</th>
+        <th class="table-title pr-5">件名</th>
         <td>{{ Form::text('subject', $contact_record->subject) }}</td>
       </tr>
       <tr class="table-bordered">
-        <th class="contact-new_label pr-5">本文</th>
+        <th class="table-title pr-5">本文</th>
         <td >
         {{Form::textarea('body', $contact_record->body, ['rows' => 10,'cols' => 50])}}
         </td>

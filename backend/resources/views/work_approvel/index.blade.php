@@ -7,7 +7,7 @@
   <div>
     <table class="contact-index_table table table-hover">
       <thead>
-        <tr class="content-index_label">
+        <tr class="table-title">
           <th scope="col">社員一覧</th>
           <th scope="col">承認状況</th>
         </tr>

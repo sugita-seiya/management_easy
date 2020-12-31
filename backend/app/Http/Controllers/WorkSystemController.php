@@ -97,7 +97,6 @@ class WorkSystemController extends Controller
      */
     public function edit($id)
     {
-        // $worksystem = new Work_system;
         $worksystem_id = Work_system::find($id);
         $workstart     = $worksystem_id->fixed_workstart;
         $workend       = $worksystem_id->fixed_workend;
@@ -128,6 +127,7 @@ class WorkSystemController extends Controller
 
         return view('worksystems.edit',[
             'worksystem_id'         => $worksystem_id,
+            'login_user_id'         => $login_user_id,
             'worktimes'             => $worktimes,
             'work'                  => $work_id,
             'authortyid_information'=> $authortyid_information

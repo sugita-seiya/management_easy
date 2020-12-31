@@ -5,11 +5,11 @@
 <table class="table table-hover">
 {{ Form::model('$date_work_record ',['route' =>['work.store',$date_work_record->id ]]) }}
   <tr class="table-bordered">
-    <th scope="row"  class="work-index_title">日付</th>
+    <th scope="row"  class="table-title">日付</th>
     <td>{{ $date_work_record->day }}日</tb>
   </tr>
   <tr class="table-bordered">
-    <th scope="row"  class="work-index_title">勤怠区分</th>
+    <th scope="row"  class="table-title">勤怠区分</th>
     <td>
       @if($date_work_record->work_section->section_name == '出勤')
         {{ Form::select('work_section_id', [
@@ -36,7 +36,7 @@
     </tb>
   </tr>
   <tr class="table-bordered">
-    <th scope="row"  class="work-index_title ">出勤時刻</th>
+    <th scope="row"  class="table-title">出勤時刻</th>
     <td>
       @if($worktimes_format_edit['workstart'] == '0時00分')
         @if($worktimes_format_edit['workstart'] == '0時00分')
@@ -61,7 +61,7 @@
     </tb>
   </tr>
   <tr class="table-bordered">
-    <th scope="row"  class="work-index_title ">退勤時刻</th>
+    <th scope="row"  class="table-title">退勤時刻</th>
     <td>
       @if($worktimes_format_edit['workend'] == '0時00分')
         @if($worktimes_format_edit['workstart'] == '0時00分')
@@ -86,7 +86,7 @@
     </tb>
   </tr>
   <tr class="table-bordered">
-    <th scope="row"  class="work-index_title ">休憩時刻</th>
+    <th scope="row"  class="table-title">休憩時刻</th>
     <td>
       @if($worktimes_format_edit['workstart'] == '0時00分')
         出勤していません。
@@ -96,7 +96,7 @@
     </tb>
   </tr>
   <tr class="table-bordered">
-    <th scope="row"  class="work-index_title ">合計勤務時刻</th>
+    <th scope="row"  class="table-title">合計勤務時刻</th>
     <td>
       @if($worktimes_format_edit['total_worktime'] == '0時間')
         @if($worktimes_format_edit['workstart'] == '0時00分')
@@ -130,7 +130,7 @@
     </tb>
   </tr>
   <tr class="table-bordered">
-    <th scope="row"  class="work-index_title ">備考</th>
+    <th scope="row"  class="table-title">備考</th>
     <td>
       {{ Form::text('remark',$date_work_record->remark)}}
     </tb>

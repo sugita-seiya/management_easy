@@ -39,9 +39,8 @@
     <th scope="row"  class="table-title">出勤時刻</th>
     <td>
       @if($worktimes_format_edit['workstart'] == '0時00分')
-        @if($worktimes_format_edit['workstart'] == '0時00分')
           出勤していません。
-        @else
+        @if($worktimes_format_edit['workstart'] != '0時00分')
           出勤中
         @endif
         {{ Form::hidden('workstart','0:00')}}

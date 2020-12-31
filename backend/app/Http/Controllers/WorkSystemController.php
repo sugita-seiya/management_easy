@@ -97,28 +97,35 @@ class WorkSystemController extends Controller
      */
     public function edit($id)
     {
-        $worksystem_id = Work_system::find($id);
-        $workstart     = $worksystem_id->fixed_workstart;
-        $workend       = $worksystem_id->fixed_workend;
-        $breaktime     = $worksystem_id->fixed_breaktime;
+        $worksystem_id     = Work_system::find($id);
+        $workstart         = $worksystem_id->fixed_workstart;
+        $workend           = $worksystem_id->fixed_workend;
+        $breaktime         = $worksystem_id->fixed_breaktime;
 
         #勤怠時間のフォーマット変更(HH:MM:SS->HH時MM分)
-        $worksystem    = new Work_system;
-        $worktimes     = $worksystem->work_time_format($workstart,$workend,$breaktime);
+        $worksystem        = new Work_system;
+        $worktimes         = $worksystem->work_time_format($workstart,$workend,$breaktime);
 
-        #ログインユーザーID取得
-        $login_user_id = Auth::id();
+        #ログインユーザーのレコード取得
+        $login_user_id     = Auth::id();
+        $user              = new User;
+        $login_user_record = $user->User_All($login_user_id);
+        if (count($login_user_record) == 0){
+            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            return view('layouts.errer', ['errer_messege' => $errer_messege]);
+        }else{
+            $login_user_record = $login_user_record[0];
+        }
 
         #ログインユーザーの当日の勤怠ID取得(共通テンプレートで勤怠idが使える様にするため)
-        $work          = new Work;
-        $work_id       = $work->Work_Id_Get($this->year,$this->month,$this->day,$login_user_id);
+        $work              = new Work;
+        $work_id           = $work->Work_Id_Get($this->year,$this->month,$this->day,$login_user_id);
         if ($work_id == null) {
             $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
-        $user                   = new User;
         $authortyid_information = $user->Authortyid_Get($login_user_id);
         if (count($authortyid_information) == 0){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
@@ -127,7 +134,7 @@ class WorkSystemController extends Controller
 
         return view('worksystems.edit',[
             'worksystem_id'         => $worksystem_id,
-            'login_user_id'         => $login_user_id,
+            'login_user_record'     => $login_user_record,
             'worktimes'             => $worktimes,
             'work'                  => $work_id,
             'authortyid_information'=> $authortyid_information

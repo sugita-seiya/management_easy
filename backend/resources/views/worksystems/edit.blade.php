@@ -50,6 +50,7 @@
     </tr>
 </table>
 
+@if($login_user_record->work_system_id === $worksystem_id->id)
   <table class="table form-table">
     <tr>
       <td class="text-center border-0">
@@ -60,5 +61,6 @@
       </td>
     </tr>
   </table>
+@endif
 {{ Form::close() }}
 @endsection

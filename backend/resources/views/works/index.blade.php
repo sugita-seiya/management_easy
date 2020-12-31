@@ -23,7 +23,7 @@
     @foreach($user_works as $work)
       <tr class="table-bordered">
         <td>{{$work->day}}</tb>
-        <td id="work-section">{{$work->work_section->section_name}}</td>
+        <td>{{$work->work_section->section_name}}</td>
         @if($work->workstart == '00:00:00')
           <td></td>
         @else

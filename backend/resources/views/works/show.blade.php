@@ -132,13 +132,13 @@
   <tr class="table-bordered">
     <th scope="row"  class="work-index_title ">備考</th>
     <td>
-      {{ Form::textarea('remark',$date_work_record->remark)}}
+      {{ Form::text('remark',$date_work_record->remark)}}
     </tb>
   </tr>
   @if($login_user_id === $date_work_record->user_id)
     <tr>
       <th class="pr-5"></th>
-      <td class="text-center pr-5 ">
+      <td class="text-left pr-5 ">
         <a href={{ route('work.index') }}>
           <button type="button" class="btn btn-secondary pr-4 pl-4">戻る</button>
         </a>

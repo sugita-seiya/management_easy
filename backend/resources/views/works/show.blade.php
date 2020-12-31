@@ -2,7 +2,7 @@
 @include('layouts.header')
 @include('layouts.header_workbar')
 @section('content')
-<table class="table work-system table-hover">
+<table class="table table-hover">
 {{ Form::model('$date_work_record ',['route' =>['work.store',$date_work_record->id ]]) }}
   <tr class="table-bordered">
     <th scope="row"  class="work-index_title">日付</th>
@@ -135,17 +135,19 @@
       {{ Form::text('remark',$date_work_record->remark)}}
     </tb>
   </tr>
-  @if($login_user_id === $date_work_record->user_id)
-    <tr>
-      <th class="pr-5"></th>
-      <td class="text-left pr-5 ">
-        <a href={{ route('work.index') }}>
-          <button type="button" class="btn btn-secondary pr-4 pl-4">戻る</button>
-        </a>
-        {{ Form::submit('更新', ['class' => 'btn text-white pr-4 pl-4 work-system_time']) }}
-      </td>
-    </tr>
-  @endif
   </table>
+
+  @if($login_user_id === $date_work_record->user_id)
+    <table class="table form-table">
+      <tr>
+        <td class="text-center border-0">
+          <a href={{ route('work.index') }}>
+            <button type="button" class="btn btn-secondary pr-4 pl-4">戻る</button>
+          </a>
+          {{ Form::submit('更新', ['class' => 'btn text-white pr-4 pl-4 form-table_btn']) }}
+        </td>
+      </tr>
+    </table>
+  @endif
 {{ Form::close() }}
 @endsection

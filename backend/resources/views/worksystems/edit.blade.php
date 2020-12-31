@@ -5,7 +5,7 @@
 <h5 class="my-3 text-center">システム設定</h5>
 {{ Form::model('$worksystem_id',['route' =>['worksystem.update',$worksystem_id]]) }}
 @method('PUT')
-<table class="table work-system">
+<table class="table table-hover">
     <tr class="table-bordered">
       <th scope="row"  class="work-index_title">出勤時間</th>
       <td>
@@ -48,14 +48,14 @@
       <th scope="row"  class="work-index_title">休憩時間</th>
       <td> {{ $worktimes[2] }} </tb>
     </tr>
-
+</table>
+<table class="table form-table">
   <tr>
-    <th class="pr-5"></th>
-    <td class="text-left">
+    <td class="text-center border-0">
       <a href={{ route('worksystem.index') }}>
         <button type="button" class="btn btn-secondary pr-4 pl-4">戻る</button>
       </a>
-          {{ Form::submit('更新', ['class' => 'btn text-white pr-4 pl-4 work-system_time']) }}
+          {{ Form::submit('更新', ['class' => 'btn text-white pr-4 pl-4 form-table_btn']) }}
     </td>
   </tr>
 </table>

@@ -159,14 +159,15 @@ class WorkController extends Controller
     public function show(Work $work)
     {
         #勤怠のレコード
-        $date_work_record = Work::find($work);
-        if (count($date_work_record) == 0){
-            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
-            return view('layouts.errer', ['errer_messege' => $errer_messege]);
-        }else{
-            $date_work_record = $date_work_record[0];
-        }
-        dd($work,$date_work_record);
+        // $date_work_record = Work::find($work);
+        // if (count($date_work_record) == 0){
+        //     $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+        //     return view('layouts.errer', ['errer_messege' => $errer_messege]);
+        // }else{
+        //     $date_work_record = $date_work_record[0];
+        // }
+        $date_work_record = $work;
+        // dd($work);
         #勤怠時間を任意のフォーマットに変更
         $workstart             = $date_work_record->workstart;
         $workend               = $date_work_record->workend;

@@ -15,7 +15,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('work', 'WorkController')->only(['index','edit','update','show']);
     Route::post('work', 'WorkController@workrequest')->name('work.request');
     Route::post('work/{work}', 'WorkController@store')->name('work.store');
-    Route::resource('worksystem', 'WorksystemController')->only(['index','edit','update']);
+    Route::resource('worksystem', 'WorkSystemController')->only(['index','edit','update']);
     #管理者専用ページ
     Route::get('approvel', 'Work_approvelController@index')->name('user_approvel.index')->middleware('check_approvel');
     Route::get('userall', 'Work_approvelController@userindex')->name('user_all.index')->middleware('check_approvel');

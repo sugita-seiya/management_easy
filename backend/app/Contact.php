@@ -25,35 +25,4 @@ class Contact extends Model
     {
         return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('m月d日');
     }
-
-    #本日システム日付の取得(YYMMDD(曜日))
-    // public function date()
-    // {
-    //     $year     = date("Y");              #現在の年を出力する
-    //     $month    = date("n");              #現在の月を出力する
-    //     $day      = date("j");              #現在の日付を出力する
-
-    //     $datetime = new DateTime("now");
-    //     $day_week = array("日", "月", "火", "水", "木", "金", "土");
-    //     $week     = $day_week[$datetime->format("w")];
-
-
-    //     $time     = date("H:i");
-    //     $array    = [$year, $month, $day, $week, $time];
-    //     return $array;
-    // }
-
-    #共通テンプレートに渡すworkデータの変数
-    // public function layout_data()
-    // {
-    //     $year     = date("Y");              #現在の年を出力する
-    //     $month    = date("m");              #現在の月を出力する
-    //     $day      = date("d");              #現在の日付を出力する
-    //     $datetime = new DateTime("now");
-    //     $day_week = array("日", "月", "火", "水", "木", "金", "土");
-    //     $week     = $day_week[$datetime->format("w")];
-    //     $time     = date("H:i");
-    //     $array    = [$year, $month, $day, $week, $time];
-    //     return $array;
-    // }
 }

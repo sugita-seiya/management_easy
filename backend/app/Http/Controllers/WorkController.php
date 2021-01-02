@@ -166,7 +166,7 @@ class WorkController extends Controller
         }else{
             $date_work_record = $date_work_record[0];
         }
-
+        dd($work,$date_work_record);
         #勤怠時間を任意のフォーマットに変更
         $workstart             = $date_work_record->workstart;
         $workend               = $date_work_record->workend;

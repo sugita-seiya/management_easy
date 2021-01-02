@@ -35,8 +35,7 @@ class ContactController extends Controller
         #連絡事項を全て取得
         $contacts   = Contact::all();
         if (count($contacts) == 0){
-            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
-            return view('layouts.errer', ['errer_messege' => $errer_messege]);
+            $contacts = 'null';
         }
 
         #ログインID取得

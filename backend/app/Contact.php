@@ -4,7 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model; #モデルクラスの宣言
 use Carbon\Carbon;                      #日時操作ライブラリの宣言
-use DateTime;                           #DataTimeクラスの宣言
 
 class Contact extends Model
 {

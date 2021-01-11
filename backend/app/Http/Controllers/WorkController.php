@@ -19,13 +19,13 @@ class WorkController extends Controller
 {
     public function __construct()
     {
-        $this->url               = env('SLACK_WEBHOOK_URL');                           #slackのURL
-        $this->channel           = env('SLACK_CHANNEL');                               #slackのチャンネル名
-        $this->icon              = env('FACEICON');                                    #アイコン
+        $this->url               = config('app.SLACK_WEBHOOK_URL');                    #slackのURL
+        $this->channel           = config('app.SLACK_CHANNEL');                        #slackのチャンネル名
+        $this->icon              = config('app.FACEICON');                             #アイコン
         $this->year              = date("Y");                                          #当年を取得(yyyy)
         $this->month             = date("m");                                          #当月を取得(m)
         $this->day               = date("j");                                          #当日を取得(d)
-        $this->this_month_lastday = date('d', strtotime('last day of this month'));     #当月の最後の日付が出力
+        $this->this_month_lastday = date('d', strtotime('last day of this month'));    #当月の最後の日付が出力
     }
     /**
      * Display a listing of the resource.
@@ -316,6 +316,8 @@ class WorkController extends Controller
             $login_fname     = $login_user_name->f_name;
             $login_rname     = $login_user_name->r_name;
             $slack_boby      = "出勤しました。";
+            // dd(env('SLACK_WEBHOOK_URL'));
+            // dd($this->url,$this->channel,$this->icon,$login_fname,$login_rname,$slack_boby);
             $send_result     = $work_new->send_slack($this->url,$this->channel,$this->icon,$login_fname,$login_rname,$slack_boby);
             #送信結果取得
             if($send_result != 'ok'){

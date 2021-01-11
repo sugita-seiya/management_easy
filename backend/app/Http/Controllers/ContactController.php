@@ -20,9 +20,9 @@ class ContactController extends Controller
 {
     public function __construct()
     {
-        $this->url     = env('SLACK_WEBHOOK_URL');
-        $this->channel = env('SLACK_CHANNEL');
-        $this->icon    = env('FACEICON');
+        $this->url     = config('app.SLACK_WEBHOOK_URL'); #slackのURL
+        $this->channel = config('app.SLACK_CHANNEL');     #slackのチャンネル名
+        $this->icon    = config('app.FACEICON');          #アイコン
     }
     /**
      * Display a listing of the resource.
@@ -44,7 +44,6 @@ class ContactController extends Controller
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
         $user                   = new User;
         $authortyid_information = $user->Authortyid_Get($login_user_id);
-
         return view('contacts.index',[
             'contacts'               => $contacts,
             'authortyid_information' => $authortyid_information
@@ -109,9 +108,11 @@ class ContactController extends Controller
         $login_rname     = $login_user_name->r_name;
         $slack_body      = request('body');
         $work_new        = new Work;
+        // dd($this->url,$this->channel,$this->icon,$login_fname,$login_rname,$slack_body);
         $send_result     = $work_new->send_slack($this->url,$this->channel,$this->icon,$login_fname,$login_rname,$slack_body);
+        // dd($send_result);
         if ($send_result != 'ok'){
-            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            $errer_messege = "エラーが発生しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
         return redirect()->route('contact.index');

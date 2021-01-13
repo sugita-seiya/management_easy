@@ -16,7 +16,7 @@ class WorkTest extends TestCase
      * @return void
      */
 
-    # 時刻のフォーマットが以下の内容に変更されているか確認
+    # 時刻のフォーマットが以下の内容に変更されている事
     # HH:MM:SS->HH時間
     # HH:MM:SS->HH時MM分
     public function test_Work_Time_Format()
@@ -31,7 +31,8 @@ class WorkTest extends TestCase
         $this->assertEquals($worktimes_format_edit['total_worktime'],'8時間');
     }
 
-    #  勤怠の合計時間が8時間であることを確認
+    #  勤怠の合計時間が以下の内容で計算されている事
+    #  合計勤務時間 = 勤怠終了時刻 - 勤怠開始時刻
     public function test_Total_WorkTime()
     {
         #  勤怠時間の計算(合計勤務時間 = 終了時間-開始時間-休憩時間)

@@ -17,9 +17,11 @@ class WorkSystemController extends Controller
 {
     public function __construct()
     {
-        $this->year    = date("Y");                #当年を取得(yyyy)
-        $this->month   = date("m");                #当月を取得(m)
-        $this->day     = date("j");                #当日を取得(d)
+        $this->year    = date("Y");     #当年を取得(yyyy)
+        $this->month   = date("m");     #当月を取得(m)
+        $this->day     = date("j");     #当日を取得(d)
+        $this->work    = new work;      #勤怠クラスのインスタンス
+        $this->user    = new User;      #ユーザークラスのインスタンス
     }
     /**
      * Display a listing of the resource.
@@ -40,16 +42,14 @@ class WorkSystemController extends Controller
         }
 
         #ログインユーザーの当日の勤怠ID取得(共通テンプレートで勤怠idが使える様にするため)
-        $work    = new Work;
-        $work_id = $work->Work_Id_Get($this->year,$this->month,$this->day,$login_user_id);
+        $work_id = $this->work->Work_Id_Get($this->year,$this->month,$this->day,$login_user_id);
         if ($work_id == null) {
             $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
-        $user                   = new User;
-        $authortyid_information = $user->Authortyid_Get($login_user_id);
+        $authortyid_information = $this->user->Authortyid_Get($login_user_id);
         if (count($authortyid_information) == 0){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -100,9 +100,9 @@ class WorkSystemController extends Controller
      * @param  \App\Work_system  $work_system
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($work_system)
     {
-        $worksystem_id     = Work_system::find($id);
+        $worksystem_id     = Work_system::find($work_system);
         $workstart         = $worksystem_id->fixed_workstart;
         $workend           = $worksystem_id->fixed_workend;
         $breaktime         = $worksystem_id->fixed_breaktime;
@@ -113,8 +113,7 @@ class WorkSystemController extends Controller
 
         #ログインユーザーのレコード取得
         $login_user_id     = Auth::id();
-        $user              = new User;
-        $login_user_record = $user->User_All($login_user_id);
+        $login_user_record = $this->user->User_All($login_user_id);
         if (count($login_user_record) == 0){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -123,15 +122,14 @@ class WorkSystemController extends Controller
         }
 
         #ログインユーザーの当日の勤怠ID取得(共通テンプレートで勤怠idが使える様にするため)
-        $work              = new Work;
-        $work_id           = $work->Work_Id_Get($this->year,$this->month,$this->day,$login_user_id);
+        $work_id           = $this->work->Work_Id_Get($this->year,$this->month,$this->day,$login_user_id);
         if ($work_id == null) {
             $errer_messege = "日付取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
-        $authortyid_information = $user->Authortyid_Get($login_user_id);
+        $authortyid_information = $this->user->Authortyid_Get($login_user_id);
         if (count($authortyid_information) == 0){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -153,9 +151,9 @@ class WorkSystemController extends Controller
      * @param  \App\Work_system  $work_system
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$id)
+    public function update($work_system)
     {
-        $worksystem                  = Work_system::find($id);
+        $worksystem                  = Work_system::find($work_system);
         $worksystem->fixed_workstart = request('fixed_workstart');
         $worksystem->fixed_workend   = request('fixed_workend');
         $results                     = $worksystem->save();

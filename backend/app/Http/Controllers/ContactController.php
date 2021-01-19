@@ -23,6 +23,7 @@ class ContactController extends Controller
         $this->url     = config('app.SLACK_WEBHOOK_URL'); #slackのURL
         $this->channel = config('app.SLACK_CHANNEL');     #slackのチャンネル名
         $this->icon    = config('app.FACEICON');          #アイコン
+        $this->user    = new User;                        #ユーザークラスのインスタンス
     }
     /**
      * Display a listing of the resource.
@@ -42,8 +43,7 @@ class ContactController extends Controller
         $login_user_id         = Auth::id();
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
-        $user                   = new User;
-        $authortyid_information = $user->Authortyid_Get($login_user_id);
+        $authortyid_information = $this->user->Authortyid_Get($login_user_id);
         return view('contacts.index',[
             'contacts'               => $contacts,
             'authortyid_information' => $authortyid_information
@@ -61,8 +61,7 @@ class ContactController extends Controller
         $login_user_id         = Auth::id();
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
-        $user                   = new User;
-        $authortyid_information = $user->Authortyid_Get($login_user_id);
+        $authortyid_information = $this->user->Authortyid_Get($login_user_id);
 
         return view('contacts.new',[
             'authortyid_information' => $authortyid_information
@@ -101,9 +100,8 @@ class ContactController extends Controller
 
 
         #勤怠連絡自動送信
-        $user            = new User;
         $login_user_id   = Auth::id();
-        $login_user_name = $user->UserName_Get($login_user_id);     #ログインユーザー名取得
+        $login_user_name = $this->user->UserName_Get($login_user_id);     #ログインユーザー名取得
         $login_fname     = $login_user_name->f_name;
         $login_rname     = $login_user_name->r_name;
         $slack_body      = request('body');
@@ -124,9 +122,9 @@ class ContactController extends Controller
      * @param  \App\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($contact)
     {
-        $contact_record = Contact::find($id);
+        $contact_record = Contact::find($contact);
         if ($contact_record == null){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -136,8 +134,7 @@ class ContactController extends Controller
         $login_user_id  = Auth::id();
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
-        $user                   = new User;
-        $authortyid_information = $user->Authortyid_Get($login_user_id);
+        $authortyid_information = $this->user->Authortyid_Get($login_user_id);
 
         return view('contacts.show',[
             'contact_record'        => $contact_record,
@@ -152,9 +149,9 @@ class ContactController extends Controller
      * @param  \App\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($contact)
     {
-        $contact_record = Contact::find($id);
+        $contact_record = Contact::find($contact);
         #レコード取得出来なかった場合の例外処理
         if ($contact_record == null){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
@@ -165,8 +162,7 @@ class ContactController extends Controller
         $login_user_id          = Auth::id();
 
         #ログインユーザーの権限情報を取得(共通テンプレートで変数を使うため)
-        $user                   = new User;
-        $authortyid_information = $user->Authortyid_Get($login_user_id);
+        $authortyid_information = $this->user->Authortyid_Get($login_user_id);
 
         return view('contacts.edit',[
             'contact_record'         => $contact_record,
@@ -182,9 +178,9 @@ class ContactController extends Controller
      * @param  \App\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$id)
+    public function update($contact)
     {
-        $contact          = Contact::find($id);
+        $contact          = Contact::find($contact);
         if ($contact == null){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
@@ -206,9 +202,9 @@ class ContactController extends Controller
      * @param  \App\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($contact)
     {
-        $contact_id = Contact::find($id);
+        $contact_id = Contact::find($contact);
         if ($contact_id == null){
             $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);

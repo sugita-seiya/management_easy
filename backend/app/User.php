@@ -99,8 +99,7 @@ class User extends Authenticatable
     #----------------------------------------------------------------
     public function Authortyid_Get($login_user_id)
     {
-        // #userテーブルからログインユーザーの権限情報を取得
-        // $login_user_id          = Auth::id();
+        #userテーブルからログインユーザーの権限情報を取得
         $dbget_authortyid       = DB::table('users')
                                     ->select('authorty_id')
                                     ->Where('id', '=', $login_user_id)

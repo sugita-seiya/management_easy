@@ -94,7 +94,7 @@ class ContactController extends Controller
         $contact->user_id = $user->id;
         $results          = $contact->save();
         if ($results != true){
-            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            $errer_messege = "システムエラーが発生しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
 
@@ -106,11 +106,9 @@ class ContactController extends Controller
         $login_rname     = $login_user_name->r_name;
         $slack_body      = request('body');
         $work_new        = new Work;
-        // dd($this->url,$this->channel,$this->icon,$login_fname,$login_rname,$slack_body);
         $send_result     = $work_new->send_slack($this->url,$this->channel,$this->icon,$login_fname,$login_rname,$slack_body);
-        // dd($send_result);
         if ($send_result != 'ok'){
-            $errer_messege = "エラーが発生しました。管理者にご連絡ください。";
+            $errer_messege = "システムエラーが発生しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
         return redirect()->route('contact.index');
@@ -126,7 +124,7 @@ class ContactController extends Controller
     {
         $contact_record = Contact::find($contact);
         if ($contact_record == null){
-            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            $errer_messege = "システムエラーが発生しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
 
@@ -154,7 +152,7 @@ class ContactController extends Controller
         $contact_record = Contact::find($contact);
         #レコード取得出来なかった場合の例外処理
         if ($contact_record == null){
-            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            $errer_messege = "システムエラーが発生しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
 
@@ -182,14 +180,14 @@ class ContactController extends Controller
     {
         $contact          = Contact::find($contact);
         if ($contact == null){
-            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            $errer_messege = "システムエラーが発生しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
         $contact->subject = request('subject');
         $contact->body    = request('body');
         $results          = $contact->save();
         if ($results != true){
-            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            $errer_messege = "システムエラーが発生しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
 
@@ -206,12 +204,12 @@ class ContactController extends Controller
     {
         $contact_id = Contact::find($contact);
         if ($contact_id == null){
-            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            $errer_messege = "システムエラーが発生しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
         $results    = $contact_id->delete();
         if ($results != true){
-            $errer_messege = "レコード取得に失敗しました。管理者にご連絡ください。";
+            $errer_messege = "システムエラーが発生しました。管理者にご連絡ください。";
             return view('layouts.errer', ['errer_messege' => $errer_messege]);
         }
 

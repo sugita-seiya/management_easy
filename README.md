@@ -11,3 +11,10 @@
 - 設計書</br>
 - DB設計書</br>
 - テスト仕様書(一部)</br>
+
+## technology(使用技術)
+- PHP 7.2.4
+- Laravel 6.2.4
+- javaScript
+- docker
+- AWS EC2

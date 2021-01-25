@@ -26,8 +26,7 @@
 <img width="1461" alt="スクリーンショット 2021-01-26 4 35 51" src="https://user-images.githubusercontent.com/58096254/105756925-9a161580-5f90-11eb-89b6-2fdce8ffd1e5.png">
 
 
-https://gyazo.com/094e0e85cf10d3c5285e22c3150f7021
+
 ![demo](https://gyazo.com/094e0e85cf10d3c5285e22c3150f7021/raw)
 
-![demo](https://gyazo.com/094e0e85cf10d3c5285e22c3150f7021)
-https://user-images.githubusercontent.com/58096254/105764737-b5861e00-5f9a-11eb-8beb-d1e81652c498.mp4
+![result](https://user-images.githubusercontent.com/58096254/105766057-9d170300-5f9c-11eb-8a46-d9a8c7bd1f30.gif)

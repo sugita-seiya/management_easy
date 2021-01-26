@@ -19,6 +19,9 @@
 - docker
 - AWS EC2
 
+
+![勤怠送信](https://user-images.githubusercontent.com/58096254/105898295-99e34c00-605c-11eb-87f4-c63c4aab87a3.gif)
+
 <div align="center">
   <img src="https://user-images.githubusercontent.com/58096254/105756925-9a161580-5f90-11eb-89b6-2fdce8ffd1e5.png" width=40%>  
   <img src="https://user-images.githubusercontent.com/58096254/105756925-9a161580-5f90-11eb-89b6-2fdce8ffd1e5.png" width=40%>

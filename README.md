@@ -25,14 +25,5 @@
 </div>
 <img width="1461" alt="スクリーンショット 2021-01-26 4 35 51" src="https://user-images.githubusercontent.com/58096254/105756925-9a161580-5f90-11eb-89b6-2fdce8ffd1e5.png">
 
-
-
-![demo](https://gyazo.com/094e0e85cf10d3c5285e22c3150f7021/raw)
-
-![result](https://user-images.githubusercontent.com/58096254/105766057-9d170300-5f9c-11eb-8a46-d9a8c7bd1f30.gif)
-
-![result](https://user-images.githubusercontent.com/58096254/105895106-6ef6f900-6058-11eb-9123-3fc4b1f9f415.gif)
-
-
 ![result](https://user-images.githubusercontent.com/58096254/105898295-99e34c00-605c-11eb-87f4-c63c4aab87a3.gif)
 

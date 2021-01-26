@@ -20,7 +20,7 @@
 - AWS EC2
 
 
-### 勤怠一覧画面
+## 勤怠一覧画面
 
 <div align="center">
   <img src="https://user-images.githubusercontent.com/58096254/105756925-9a161580-5f90-11eb-89b6-2fdce8ffd1e5.png" width=40%>  

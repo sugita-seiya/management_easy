@@ -8,7 +8,7 @@
   2.退社時に退勤ボタンを押下(ボタンを押し忘れた時は次の日に自動で押下してくれる)</br>
   3.遅刻 or その他の連絡事項があれば連絡(Slackに連絡内容が連携される)</br>
   4.月末に管理者へ勤怠を送信</br>
-  5.送信された勤怠を承認 or 再提出を選択する(管理者用)</br>
+  5.送信された勤怠を承認 or 差し戻しを選択する(管理者用)</br>
 
 ## 作成目的
 　①「勤務時間手打ち入力＋出社報告メールを送信する」作業に5分かかっている。</br>
@@ -59,7 +59,7 @@
 ![FireShot Capture 037 - 勤怠管理システム - localhost](https://user-images.githubusercontent.com/58096254/106053897-aa63f700-612e-11eb-9188-0a3882e38cb8.png)
 
 ## 2-8.承認機能(管理者ユーザーのみ)
-承認 or 再提出が選択出来る
+承認 or 差し戻しが選択出来る
 ![FireShot Capture 040 - 勤怠管理システム - localhost](https://user-images.githubusercontent.com/58096254/106054806-e186d800-612f-11eb-8308-3ff8526e98f9.png)
 
 
@@ -77,7 +77,9 @@
 
 
 <div align="center">
+  画像1
   <img src="https://user-images.githubusercontent.com/58096254/105756925-9a161580-5f90-11eb-89b6-2fdce8ffd1e5.png" width=40%>  
+  画像1
   <img src="https://user-images.githubusercontent.com/58096254/105756925-9a161580-5f90-11eb-89b6-2fdce8ffd1e5.png" width=40%>
 </div>
 <img width="1461" alt="スクリーンショット 2021-01-26 4 35 51" src="https://user-images.githubusercontent.com/58096254/105756925-9a161580-5f90-11eb-89b6-2fdce8ffd1e5.png">

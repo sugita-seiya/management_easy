@@ -61,7 +61,10 @@
 ## 2-8.承認機能(管理者ユーザーのみ)
 承認 or 差し戻しが選択出来る
 ![FireShot Capture 040 - 勤怠管理システム - localhost](https://user-images.githubusercontent.com/58096254/106054806-e186d800-612f-11eb-8308-3ff8526e98f9.png)
-
+<div align="center">
+  <img src="https://user-images.githubusercontent.com/58096254/106055974-70e0bb00-6131-11eb-94a3-2f923f741126.png" width=40%>  
+  <img src="https://user-images.githubusercontent.com/58096254/105756925-9a161580-5f90-11eb-89b6-2fdce8ffd1e5.png" width=40%>
+</div>
 
 
 
@@ -74,8 +77,6 @@
 ## 管理者専用ページ
 
 ## 連絡事項登録(slack連携)
-
-         画像1　　　　　　　　　　　　　　　　　　　　　　画像2　</br>
 <div align="center">
   <img src="https://user-images.githubusercontent.com/58096254/105756925-9a161580-5f90-11eb-89b6-2fdce8ffd1e5.png" width=40%>  
   <img src="https://user-images.githubusercontent.com/58096254/105756925-9a161580-5f90-11eb-89b6-2fdce8ffd1e5.png" width=40%>

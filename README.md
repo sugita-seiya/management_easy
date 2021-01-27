@@ -1,8 +1,8 @@
 # management_easy(勤怠管理システム)
 - アプリ URL</br>
   http://18.180.240.234
-
-  当月分の勤怠を管理出来るアプリ。</br>
+  
+- 当月分の勤怠を管理出来るアプリ。</br>
   <使い方></br>
   1.出社後、出勤ボタンを押下(押下時にSlackに出勤連絡が通知される)</br>
   2.退社時に退勤ボタンを押下(ボタンを押し忘れた時は次の日に自動で押下してくれる)</br>
@@ -47,13 +47,17 @@
   - 3-2.連絡事項登録(Slack連携)</br>
   - 3-3.連絡事項一覧表示</br>
   - 3-4.連絡事項編集、削除</br>
+  
+  
+## 勤怠打刻(slack連携)
+![result](https://user-images.githubusercontent.com/58096254/105898295-99e34c00-605c-11eb-87f4-c63c4aab87a3.gif)
 
 ## 勤怠一覧
+![FireShot Capture 037 - 勤怠管理システム - localhost](https://user-images.githubusercontent.com/58096254/106049024-fc098300-6128-11eb-890f-1850dd842019.png)
 
 ## 勤怠を管理者へ送信
 
-## 勤怠打刻(slack連携)
-![result](https://user-images.githubusercontent.com/58096254/105898295-99e34c00-605c-11eb-87f4-c63c4aab87a3.gif)
+
 
 ## 連絡事項一覧
 

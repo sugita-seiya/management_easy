@@ -17,8 +17,12 @@
 - Laravel 6.2.4
 - javaScript
 - docker
-- AWS EC2
+- AWS (VPC、EC2)
 
+##Features(機能)
+### ログイン機能
+  - 一般ユーザー用ログイン
+  -　管理者用ログイン
 ## 勤怠一覧
 
 ## 勤怠を管理者へ送信

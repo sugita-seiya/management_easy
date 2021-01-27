@@ -55,7 +55,8 @@
 ![result](https://user-images.githubusercontent.com/58096254/105898295-99e34c00-605c-11eb-87f4-c63c4aab87a3.gif)
 
 ## 2-3.勤怠一覧表示
-![FireShot Capture 037 - 勤怠管理システム - localhost](https://user-images.githubusercontent.com/58096254/106049024-fc098300-6128-11eb-890f-1850dd842019.png)
+![FireShot Capture 037 - 勤怠管理システム - localhost](https://user-images.githubusercontent.com/58096254/106053897-aa63f700-612e-11eb-9188-0a3882e38cb8.png)
+
 
 ## 勤怠を管理者へ送信
 

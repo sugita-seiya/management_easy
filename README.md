@@ -75,7 +75,7 @@
 
 ## 連絡事項登録(slack連携)
 
-画像1　　　　　　　　　　　　　　　　　　　　　　画像2　</br>
+         画像1　　　　　　　　　　　　　　　　　　　　　　画像2　</br>
 <div align="center">
   <img src="https://user-images.githubusercontent.com/58096254/105756925-9a161580-5f90-11eb-89b6-2fdce8ffd1e5.png" width=40%>  
   <img src="https://user-images.githubusercontent.com/58096254/105756925-9a161580-5f90-11eb-89b6-2fdce8ffd1e5.png" width=40%>

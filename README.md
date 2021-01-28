@@ -67,8 +67,7 @@
 <説明></br>
 申請中 or差し戻しされた場合、勤怠が更新出来ないように実装
 <div align="center">
-<img src="https://user-images.githubusercontent.com/58096254/106055974-70e0bb00-6131-11eb-94a3-2f923f741126.png" width=50%>
-<img src="https://user-images.githubusercontent.com/58096254/106056461-0aa86800-6132-11eb-8fc7-c87523fc4f6f.png" width=50%>
+<img src="https://user-images.githubusercontent.com/58096254/106055974-70e0bb00-6131-11eb-94a3-2f923f741126.png" width=50%><img src="https://user-images.githubusercontent.com/58096254/106056461-0aa86800-6132-11eb-8fc7-c87523fc4f6f.png" width=50%>
 </div>
 
 ## 3.連絡事項機能
@@ -80,11 +79,3 @@
 
 - 3-2.連絡事項登録(Slack連携)
 ![result](https://user-images.githubusercontent.com/58096254/105904470-84722000-6064-11eb-9e05-30f32b8e47ee.gif)
-
-## 3.連絡事項機能
--　3-2.連絡事項登録(Slack連携)
-<div align="center">
-  <img src="https://user-images.githubusercontent.com/58096254/105756925-9a161580-5f90-11eb-89b6-2fdce8ffd1e5.png" width=40%>  
-  <img src="https://user-images.githubusercontent.com/58096254/105756925-9a161580-5f90-11eb-89b6-2fdce8ffd1e5.png" width=40%>
-</div>
-<img width="1461" alt="スクリーンショット 2021-01-26 4 35 51" src="https://user-images.githubusercontent.com/58096254/105756925-9a161580-5f90-11eb-89b6-2fdce8ffd1e5.png">

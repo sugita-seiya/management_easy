@@ -50,6 +50,11 @@
 
 ## 2.勤怠管理機能 
 - 2-1.勤怠登録(slack連携)</br>
+
+<div align="center">
+  <img width=95% alt="47bd7b89f243fa22aa11e003739b69cf" src="https://user-images.githubusercontent.com/58096254/105898295-99e34c00-605c-11eb-87f4-c63c4aab87a3.gif">
+</div>
+
 ![result](https://user-images.githubusercontent.com/58096254/105898295-99e34c00-605c-11eb-87f4-c63c4aab87a3.gif)
 
 - 2-3.勤怠一覧表示</br>

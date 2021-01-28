@@ -63,6 +63,11 @@
 ![FireShot Capture 040 - 勤怠管理システム - localhost](https://user-images.githubusercontent.com/58096254/106054806-e186d800-612f-11eb-8308-3ff8526e98f9.png)
 - 勤怠申請時</br>
   申請中 or 差し戻し時の勤怠登録画面
+
+![FireShot Capture 037 - 勤怠管理システム - localhost](https://user-images.githubusercontent.com/58096254/106190025-69cab300-61ec-11eb-97f1-80afefdd5cbd.png)
+![FireShot Capture 037 - 勤怠管理システム - localhost](https://user-images.githubusercontent.com/58096254/106190828-85828900-61ed-11eb-8830-aa7409f6bb6b.png)
+
+
 <div align="center">
   <img src="https://user-images.githubusercontent.com/58096254/106190025-69cab300-61ec-11eb-97f1-80afefdd5cbd.png" width=100%>
   <img src="https://user-images.githubusercontent.com/58096254/106190828-85828900-61ed-11eb-8830-aa7409f6bb6b.png" width=100%>
@@ -73,6 +78,9 @@
 - 3-1.連絡一覧機能
 <説明></br>
   当日日付のみ表示
+  
+![FireShot Capture 037 - 勤怠管理システム - localhost](https://user-images.githubusercontent.com/58096254/106189002-0d1ac880-61eb-11eb-8477-6f838895dc53.png)
+
 <div align="center">
   <img width=100% alt="cd5b40c18d852124741edb8ea0847334" src="https://user-images.githubusercontent.com/58096254/106189002-0d1ac880-61eb-11eb-8477-6f838895dc53.png">
 </div>

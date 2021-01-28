@@ -48,6 +48,7 @@
   - 3-4.連絡事項編集、削除</br>
 
 ## 1.ログイン機能
+<説明></br>
 簡易ログインが出来るように実装
 <img width="878" alt="47bd7b89f243fa22aa11e003739b69cf" src="https://user-images.githubusercontent.com/58096254/106054192-03338f80-612f-11eb-8bea-7c5dc352288c.png">
 
@@ -67,7 +68,7 @@
 <説明></br>
 申請中 or差し戻しされた場合、勤怠が更新出来ないように実装
 <div align="center">
-<img src="https://user-images.githubusercontent.com/58096254/106055974-70e0bb00-6131-11eb-94a3-2f923f741126.png" width=50%><img src="https://user-images.githubusercontent.com/58096254/106056461-0aa86800-6132-11eb-8fc7-c87523fc4f6f.png" width=50%>
+<img src="https://user-images.githubusercontent.com/58096254/106190025-69cab300-61ec-11eb-97f1-80afefdd5cbd.png" width=50%><img src="https://user-images.githubusercontent.com/58096254/106056461-0aa86800-6132-11eb-8fc7-c87523fc4f6f.png" width=50%>
 </div>
 
 ## 3.連絡事項機能

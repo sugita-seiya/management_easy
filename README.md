@@ -44,7 +44,9 @@
 ## 1.ログイン機能
 <説明></br>
   簡易ログインが出来るように実装
-<img width=100% alt="47bd7b89f243fa22aa11e003739b69cf" src="https://user-images.githubusercontent.com/58096254/106054192-03338f80-612f-11eb-8bea-7c5dc352288c.png">
+<div align="center">
+  <img width=95% alt="47bd7b89f243fa22aa11e003739b69cf" src="https://user-images.githubusercontent.com/58096254/106054192-03338f80-612f-11eb-8bea-7c5dc352288c.png">
+</div>
 
 ## 2.勤怠管理機能 
 - 2-1.勤怠登録(slack連携)</br>

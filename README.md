@@ -74,5 +74,6 @@
 <div align="center">
   <img width=95% alt="cd5b40c18d852124741edb8ea0847334" src="https://user-images.githubusercontent.com/58096254/106189002-0d1ac880-61eb-11eb-8477-6f838895dc53.png">
 </div>
+
 - 3-2.連絡事項登録(Slack連携)
 ![result](https://user-images.githubusercontent.com/58096254/105904470-84722000-6064-11eb-9e05-30f32b8e47ee.gif)

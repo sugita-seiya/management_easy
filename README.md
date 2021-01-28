@@ -55,8 +55,6 @@
   <img width=95% alt="47bd7b89f243fa22aa11e003739b69cf" src="https://user-images.githubusercontent.com/58096254/105898295-99e34c00-605c-11eb-87f4-c63c4aab87a3.gif">
 </div>
 
-![result](https://user-images.githubusercontent.com/58096254/105898295-99e34c00-605c-11eb-87f4-c63c4aab87a3.gif)
-
 - 2-3.勤怠一覧表示</br>
 <説明></br>
   月末に管理者へ送信
@@ -88,4 +86,6 @@
 </div>
 
 - 3-2.連絡事項登録(Slack連携)
-![result](https://user-images.githubusercontent.com/58096254/105904470-84722000-6064-11eb-9e05-30f32b8e47ee.gif)
+<div align="center">
+  <img width=95% alt="47bd7b89f243fa22aa11e003739b69cf" src="https://user-images.githubusercontent.com/58096254/105904470-84722000-6064-11eb-9e05-30f32b8e47ee.gif">
+</div>

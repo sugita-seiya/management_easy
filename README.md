@@ -56,30 +56,33 @@
 ![result](https://user-images.githubusercontent.com/58096254/105898295-99e34c00-605c-11eb-87f4-c63c4aab87a3.gif)
 
 - 2-3.勤怠一覧表示</br>
+<説明></br>
 月末に管理者へ送信
 ![FireShot Capture 037 - 勤怠管理システム - localhost](https://user-images.githubusercontent.com/58096254/106053897-aa63f700-612e-11eb-9188-0a3882e38cb8.png)
 
-## 2-8.承認機能(管理者ユーザーのみ)
+- 2-8.承認機能(管理者ユーザーのみ)
+<説明></br>
 承認 or 差し戻しが選択出来る
 ![FireShot Capture 040 - 勤怠管理システム - localhost](https://user-images.githubusercontent.com/58096254/106054806-e186d800-612f-11eb-8308-3ff8526e98f9.png)
-
+<説明></br>
 申請中 or差し戻しされた場合、勤怠が更新出来ないように実装
 <div align="center">
-  <img src="https://user-images.githubusercontent.com/58096254/106055974-70e0bb00-6131-11eb-94a3-2f923f741126.png" width=50%>
-  <img src="https://user-images.githubusercontent.com/58096254/106056461-0aa86800-6132-11eb-8fc7-c87523fc4f6f.png" width=50%>
+<img src="https://user-images.githubusercontent.com/58096254/106055974-70e0bb00-6131-11eb-94a3-2f923f741126.png" width=50%>
+<img src="https://user-images.githubusercontent.com/58096254/106056461-0aa86800-6132-11eb-8fc7-c87523fc4f6f.png" width=50%>
 </div>
 
+## 3.連絡事項機能
 
+- 3-1.連絡一覧機能
+<説明></br>
+当日日付のみ表示
+<img width="1672" alt="cd5b40c18d852124741edb8ea0847334" src="https://user-images.githubusercontent.com/58096254/106189002-0d1ac880-61eb-11eb-8477-6f838895dc53.png">
 
-
-## 連絡事項一覧
-
-## 連絡事項登録(slack連携)
+- 3-2.連絡事項登録(Slack連携)
 ![result](https://user-images.githubusercontent.com/58096254/105904470-84722000-6064-11eb-9e05-30f32b8e47ee.gif)
 
-## 管理者専用ページ
-
-## 連絡事項登録(slack連携)
+## 3.連絡事項機能
+-　3-2.連絡事項登録(Slack連携)
 <div align="center">
   <img src="https://user-images.githubusercontent.com/58096254/105756925-9a161580-5f90-11eb-89b6-2fdce8ffd1e5.png" width=40%>  
   <img src="https://user-images.githubusercontent.com/58096254/105756925-9a161580-5f90-11eb-89b6-2fdce8ffd1e5.png" width=40%>

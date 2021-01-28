@@ -45,7 +45,7 @@
 <説明></br>
   簡易ログインが出来るように実装
 <div align="center">
-  <img width=100% alt="47bd7b89f243fa22aa11e003739b69cf" src="https://user-images.githubusercontent.com/58096254/106054192-03338f80-612f-11eb-8bea-7c5dc352288c.png">
+  <img width=95% alt="47bd7b89f243fa22aa11e003739b69cf" src="https://user-images.githubusercontent.com/58096254/106054192-03338f80-612f-11eb-8bea-7c5dc352288c.png">
 </div>
 
 ## 2.勤怠管理機能 
@@ -56,23 +56,21 @@
 <説明></br>
   月末に管理者へ送信
 <div align="center">
-    <img src="https://user-images.githubusercontent.com/58096254/106053897-aa63f700-612e-11eb-9188-0a3882e38cb8.png" width=100%>
+    <img src="https://user-images.githubusercontent.com/58096254/106053897-aa63f700-612e-11eb-9188-0a3882e38cb8.png" width=95%>
 </div>
-![FireShot Capture 037 - 勤怠管理システム - localhost](https://user-images.githubusercontent.com/58096254/106053897-aa63f700-612e-11eb-9188-0a3882e38cb8.png)
 
 - 2-8.承認機能(管理者ユーザーのみ)</br>
 <説明></br>
   承認 or 差し戻しが選択出来る
 <div align="center">
-    <img src="https://user-images.githubusercontent.com/58096254/106054806-e186d800-612f-11eb-8308-3ff8526e98f9.png" width=100%>
+    <img src="https://user-images.githubusercontent.com/58096254/106054806-e186d800-612f-11eb-8308-3ff8526e98f9.png" width=95%>
 </div>
-![FireShot Capture 040 - 勤怠管理システム - localhost](https://user-images.githubusercontent.com/58096254/106054806-e186d800-612f-11eb-8308-3ff8526e98f9.png)
 - 勤怠申請時</br>
   申請中 or 差し戻し時の勤怠登録画面
 
 <div align="center">
-  <img src="https://user-images.githubusercontent.com/58096254/106190025-69cab300-61ec-11eb-97f1-80afefdd5cbd.png" width=100%>
-  <img src="https://user-images.githubusercontent.com/58096254/106190828-85828900-61ed-11eb-8830-aa7409f6bb6b.png" width=100%>
+  <img src="https://user-images.githubusercontent.com/58096254/106190025-69cab300-61ec-11eb-97f1-80afefdd5cbd.png" width=95%>
+  <img src="https://user-images.githubusercontent.com/58096254/106190828-85828900-61ed-11eb-8830-aa7409f6bb6b.png" width=95%>
 </div>
 
 ## 3.連絡事項機能
@@ -81,7 +79,7 @@
 <説明></br>
   当日日付のみ表示
 <div align="center">
-  <img width=100% alt="cd5b40c18d852124741edb8ea0847334" src="https://user-images.githubusercontent.com/58096254/106189002-0d1ac880-61eb-11eb-8477-6f838895dc53.png">
+  <img width=95% alt="cd5b40c18d852124741edb8ea0847334" src="https://user-images.githubusercontent.com/58096254/106189002-0d1ac880-61eb-11eb-8477-6f838895dc53.png">
 </div>
 
 - 3-2.連絡事項登録(Slack連携)

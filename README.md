@@ -50,7 +50,7 @@
 ## 1.ログイン機能
 <説明></br>
   簡易ログインが出来るように実装
-<img width="878" alt="47bd7b89f243fa22aa11e003739b69cf" src="https://user-images.githubusercontent.com/58096254/106054192-03338f80-612f-11eb-8bea-7c5dc352288c.png">
+<img width=100% alt="47bd7b89f243fa22aa11e003739b69cf" src="https://user-images.githubusercontent.com/58096254/106054192-03338f80-612f-11eb-8bea-7c5dc352288c.png">
 
 ## 2.勤怠管理機能 
 - 2-1.勤怠登録(slack連携)</br>
@@ -68,8 +68,8 @@
 - 勤怠申請時</br>
   申請中 or 差し戻し時の勤怠登録画面
 <div align="center">
-  <img src="https://user-images.githubusercontent.com/58096254/106190025-69cab300-61ec-11eb-97f1-80afefdd5cbd.png" width="878">
-  <img src="https://user-images.githubusercontent.com/58096254/106190828-85828900-61ed-11eb-8830-aa7409f6bb6b.png" width="878">
+  <img src="https://user-images.githubusercontent.com/58096254/106190025-69cab300-61ec-11eb-97f1-80afefdd5cbd.png" width=100%>
+  <img src="https://user-images.githubusercontent.com/58096254/106190828-85828900-61ed-11eb-8830-aa7409f6bb6b.png" width=100%>
 </div>
 
 ## 3.連絡事項機能
@@ -77,7 +77,7 @@
 - 3-1.連絡一覧機能
 <説明></br>
   当日日付のみ表示
-<img width="1672" alt="cd5b40c18d852124741edb8ea0847334" src="https://user-images.githubusercontent.com/58096254/106189002-0d1ac880-61eb-11eb-8477-6f838895dc53.png">
+<img width=100% alt="cd5b40c18d852124741edb8ea0847334" src="https://user-images.githubusercontent.com/58096254/106189002-0d1ac880-61eb-11eb-8477-6f838895dc53.png">
 
 - 3-2.連絡事項登録(Slack連携)
 ![result](https://user-images.githubusercontent.com/58096254/105904470-84722000-6064-11eb-9e05-30f32b8e47ee.gif)

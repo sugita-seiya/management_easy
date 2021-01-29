@@ -83,6 +83,11 @@
 </div>
 
 ### 4.管理者機能
+  - 4-1.申請者の一覧表示
+<div align="center">
+    <img src="https://user-images.githubusercontent.com/58096254/106339043-c3a8a700-62d8-11eb-880c-75ba847fd8ba.png" width=95%>
+</div>
+  
   - 4-2.申請者の勤怠詳細
   - 4-3.勤怠の承認
   - 4-4.勤怠の差し戻し

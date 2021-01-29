@@ -94,7 +94,9 @@
 </div>
 
 ### 4.管理者機能
-  - 4-2.申請者の勤怠詳細 or 4-3.勤怠の承認 or 4-4.勤怠の差し戻し
+  - 4-2.申請者の勤怠詳細
+  - 4-3.勤怠の承認
+  - 4-4.勤怠の差し戻し
 <div align="center">
     <img src="https://user-images.githubusercontent.com/58096254/106054806-e186d800-612f-11eb-8308-3ff8526e98f9.png" width=95%>
 </div>

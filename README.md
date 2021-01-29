@@ -94,9 +94,14 @@
 </div>
 
 ### 4.管理者機能
-  - 4-3.勤怠の承認 or 4-4.勤怠の差し戻し
-  <説明></br>
-  承認 or 差し戻しが選択出来る
+  - 4-2.申請者の勤怠詳細 or 4-3.勤怠の承認 or 4-4.勤怠の差し戻し
 <div align="center">
     <img src="https://user-images.githubusercontent.com/58096254/106054806-e186d800-612f-11eb-8308-3ff8526e98f9.png" width=95%>
+</div>
+
+- 勤怠申請時</br>
+  申請中 or 差し戻し時の勤怠登録画面
+<div align="center">
+  <img src="https://user-images.githubusercontent.com/58096254/106190025-69cab300-61ec-11eb-97f1-80afefdd5cbd.png" width=95%>
+  <img src="https://user-images.githubusercontent.com/58096254/106190828-85828900-61ed-11eb-8830-aa7409f6bb6b.png" width=95%>
 </div>

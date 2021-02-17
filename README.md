@@ -87,6 +87,7 @@
   <img width=95% alt="47bd7b89f243fa22aa11e003739b69cf" src="https://user-images.githubusercontent.com/58096254/105904470-84722000-6064-11eb-9e05-30f32b8e47ee.gif">
 </div>
 
+
 ### 4.管理者機能
   - 4-1.申請者の一覧表示
 <div align="center">

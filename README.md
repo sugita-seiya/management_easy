@@ -101,7 +101,6 @@
     <img src="https://user-images.githubusercontent.com/58096254/106054806-e186d800-612f-11eb-8308-3ff8526e98f9.png" width=95%>
 </div>
 
-
 - <勤怠申請時></br>
   申請中 or　差し戻しされた場合、勤怠が更新出来ないように対応
 <div align="center">

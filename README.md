@@ -14,7 +14,6 @@
  Slackの連携部分を確認したい方は下記のURLから入ってください。</br>
  https://join.slack.com/t/pf-wll1848/shared_invite/zt-kxigp2c1-ewxILvTN5q_UXkEVcCRMLw
  
-  
 ## 作成目的
 　①「勤務時間手打ち入力＋出社報告メールを送信する」作業に5分かかっている。</br>
 　②手入力する箇所が多くて、始めて使う時は分かりにくい。</br>

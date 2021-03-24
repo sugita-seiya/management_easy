@@ -10,6 +10,7 @@
   4.月末に管理者へ勤怠を送信</br>
   5.送信された勤怠を承認 or 差し戻しを選択する(管理者用)</br>
   
+  
  - ポートフォリオ用Slackのご案内</br>
  Slackの連携部分を確認したい方は下記のURLから入ってください。</br>
  https://join.slack.com/t/pf-wll1848/shared_invite/zt-kxigp2c1-ewxILvTN5q_UXkEVcCRMLw

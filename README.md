@@ -9,7 +9,12 @@
   3.遅刻 or その他の連絡事項があれば連絡(Slackに連絡内容が連携される)</br>
   4.月末に管理者へ勤怠を送信</br>
   5.送信された勤怠を承認 or 差し戻しを選択する(管理者用)</br>
-
+  
+  
+ - ポートフォリオ用Slackのご案内</br>
+ Slackの連携部分を確認したい方は下記のURLから入ってください。</br>
+ https://join.slack.com/t/pf-wll1848/shared_invite/zt-kxigp2c1-ewxILvTN5q_UXkEVcCRMLw
+ 
 ## 作成目的
 　①「勤務時間手打ち入力＋出社報告メールを送信する」作業に5分かかっている。</br>
 　②手入力する箇所が多くて、始めて使う時は分かりにくい。</br>
@@ -45,6 +50,7 @@
   - 4-4.勤怠の差し戻し
   - 4-5.社員の一覧表示
 
+
 ## 1.ログイン機能
   - 1-1.一般ユーザー用ログイン
   - 1-2.管理者用ログイン</br>
@@ -62,7 +68,7 @@
 </div>
 
 - 2-3.勤怠一覧表示
-- 2-4.勤怠送信機能
+- 2-4.勤怠送信機能</br>
 <説明></br>
   月末に管理者へ送信
 <div align="center">
@@ -81,6 +87,7 @@
 <div align="center">
   <img width=95% alt="47bd7b89f243fa22aa11e003739b69cf" src="https://user-images.githubusercontent.com/58096254/105904470-84722000-6064-11eb-9e05-30f32b8e47ee.gif">
 </div>
+
 
 ### 4.管理者機能
   - 4-1.申請者の一覧表示
@@ -101,4 +108,3 @@
   <img src="https://user-images.githubusercontent.com/58096254/106190025-69cab300-61ec-11eb-97f1-80afefdd5cbd.png" width=95%>
   <img src="https://user-images.githubusercontent.com/58096254/106190828-85828900-61ed-11eb-8830-aa7409f6bb6b.png" width=95%>
 </div>
-

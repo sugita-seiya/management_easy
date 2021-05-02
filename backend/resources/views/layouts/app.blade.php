@@ -28,13 +28,13 @@
         <div class="d-flex justify-content-center mx-auto">
           <form method="post" action="{{ route('login') }}">
             @csrf
-            <input type="hidden" name="email" value="a@a">
+            <input type="hidden" name="email" value="b@b">
             <input type="hidden" name="password" value="aaaaaaaa">
             <button type="submit" class="btn text-white nav-link">管理者用ログイン</button>
           </form>
           <form method="post" action="{{ route('login') }}">
             @csrf
-            <input type="hidden" name="email" value="aa@aa">
+            <input type="hidden" name="email" value="bb@bb">
             <input type="hidden" name="password" value="aaaaaaaa">
             <button type="submit" class="btn text-white nav-link">一般社員用ログイン</button>
           </form>
